@@ -1,0 +1,240 @@
+\RequirePackage{amsmath}
+\documentclass[envcountsame,runningheads,a4paper]{llncs}
+
+\usepackage{cmap}
+\usepackage{makeidx}
+\usepackage{breakurl}
+\usepackage{underscore}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage{a4wide}
+\usepackage{enumerate}
+%\usepackage{palatino}
+\usepackage[usenames, dvipsnames]{color}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{verbatim}
+\usepackage{cite}
+
+
+\usepackage{amssymb,amsfonts,mathrsfs}
+\usepackage{stmaryrd} 
+\usepackage{marvosym}
+\usepackage{bussproofs}
+
+%\usepackage[left=2cm,right=2cm]{geometry}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,positioning,decorations.pathreplacing,automata,shadows}
+\usepackage{tikz-cd}
+
+%\usepackage{parskip}
+%\usepackage{\parintent}{15pt}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                      %
+%         Commandes persos             %
+%                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Syntax 
+\newcommand{\Nat}{\textnormal{Nat}}
+\newcommand{\Tree}{\textnormal{Tree}}
+\newcommand{\Succ}{\operatorname{S}}
+\newcommand{\Zero}{\textnormal{Z}}
+\newcommand{\Fix}{\operatorname{fix}}
+\newcommand{\Unroll}{\operatorname{unroll}}
+\newcommand{\Pos}{\operatorname{Pos}}
+\newcommand{\In}{\operatorname{in}}
+\newcommand{\Inr}{\operatorname{inl}}
+\newcommand{\Inl}{\operatorname{inr}}
+\newcommand{\Out}{\operatorname{out}}
+\newcommand{\Ret}{\operatorname{return}}
+\newcommand{\Bind}[3]{\operatorname{let} #2 \Leftarrow #1 \operatorname{in} #3}
+\newcommand{\lcase}[3]{\operatorname{case} #1 \operatorname{of} \, \Zero \Rightarrow #2; \Succ(x) \Rightarrow #3}
+\newcommand{\scase}[3]{\operatorname{case} #1 \operatorname{of} \, \Inl(x) \Rightarrow #2; \Inr (x) \Rightarrow #3}
+\newcommand{\pcase}[2]{\operatorname{case} #1 \operatorname{of} \, (x,y) \Rightarrow #2}
+
+% Arrows 
+\makeatletter
+\newcommand\twoheaduparrow{%
+\mathrel{\mathchoice
+  {\raise2pt\hbox{%
+  \ooalign{\hss$\uparrow$\hss\cr\lower2pt\hbox{%
+  $\uparrow$}}}}
+  {\raise2pt\hbox{%
+  \ooalign{\hss$\uparrow$\hss\cr\lower2pt\hbox{%
+  $\uparrow$}}}}
+  {\raise1.5pt\hbox{%
+  \ooalign{\hss$\scriptstyle\uparrow$\hss\cr\lower1.5pt\hbox{%
+  $\scriptstyle\uparrow$}}}}
+  {\raise1.1pt\hbox{%
+  \ooalign{\hss$\scriptscriptstyle\uparrow$\hss\cr\lower1.1pt\hbox{%
+  $\scriptscriptstyle\uparrow$}}}}
+}}
+\makeatletter
+\newcommand\twoheaddownarrow{%
+\mathrel{\mathchoice
+  {\raise2pt\hbox{%
+  \ooalign{\hss$\downarrow$\hss\cr\lower2pt\hbox{%
+  $\downarrow$}}}}
+  {\raise2pt\hbox{%
+  \ooalign{\hss$\downarrow$\hss\cr\lower2pt\hbox{%
+  $\downarrow$}}}}
+  {\raise1.5pt\hbox{%
+  \ooalign{\hss$\scriptstyle\downarrow$\hss\cr\lower1.5pt\hbox{%
+  $\scriptstyle\downarrow$}}}}
+  {\raise1.1pt\hbox{%
+  \ooalign{\hss$\scriptscriptstyle\downarrow$\hss\cr\lower1.1pt\hbox{%
+  $\scriptscriptstyle\downarrow$}}}}
+}}
+
+
+% Results
+\newcommand{\res}{\operatorname{results}}
+
+% Effects 
+\newcommand{\prEff}{\operatorname{pr}}
+\newcommand{\orEff}{\operatorname{or}}
+\newcommand{\exEff}{\operatorname{raise}}
+
+% Reduction
+\newcommand{\reduces}{\rightarrowtail}
+\newcommand{\reductionPair}[2]{#1 \leadsto #2}
+\newcommand{\sqeq}{\sqsubseteq}
+
+
+% Mixed non-determinism
+\newcommand{\drop}{\operatorname{drop}}
+\newcommand{\odd}{\operatorname{odd}}
+\newcommand{\even}{\operatorname{even}}
+
+
+%%%%% ---- THEOREMS ----- 
+
+\newenvironment{atheorem}[1][]{\begin{theorem}[#1]\em}{\end{theorem}}
+\newenvironment{alemma}[1][]{\begin{lemma}[#1]\em}{\end{lemma}}
+\newenvironment{acorollary}[1][]{\begin{corollary}[#1]\em}{\end{corollary}}
+\newenvironment{adefinition}[1][]{\begin{definition}[#1]\em}{\end{definition}}
+
+
+% Hide-if-not-ENS
+\newenvironment{ensps}
+{ } 
+{ }
+%{ \rule{1ex}{1ex} }
+%{ \rule{1ex}{1ex} }
+%{ \comment} 
+%{ \endcomment }
+
+\title{Generic Operational Metatheory for Call-by-value languages}
+\author{Aliaume Lopez \institute{École Normale Supérieure Paris-Saclay,
+    \\ Université Paris-Saclay, France }
+\email{aliaume.lopez@ens-paris-saclay.fr}}
+
+\titlerunning{Generic Operational Metatheory}
+\authorrunning{Aliaume Lopez}
+
+\providecommand{\event}{Fossacs 2018} 
+
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract} 
+The goal of this paper is to give a systematic study of contextual equivalence
+in the presence of algebraic effects in a uniform, compact and syntactic way,
+in the continuation of preexisting work \cite{gom}. To reach 
+this objective, we extend a call-by-value PCF with a signature of algebraic effects, 
+and give an abstract equality between the contextual equivalence for this language and a
+usable logical relation, independently of the signature itself. Generic meta
+theorems are then proven using this abstract equivalence. To justify the
+usefulness of this approach, a direct link with denotational semantics
+and the work of Plotkin and Power \cite{plotkin2001adequacy} is
+developed, and signature of mixed non-determinism and probabilities is studied
+in-depth.
+\end{abstract}
+
+
+%\begin{ensps}
+    %\tableofcontents
+%\end{ensps}
+
+%\newpage
+
+\begin{ensps}
+    \input{parts/ljubljana}
+    %\newpage 
+\end{ensps}
+
+
+\input{parts/intro}
+
+%\newpage
+
+\input{parts/pcf}
+
+%\newpage
+
+\input{parts/rewriting}
+
+%\newpage
+
+\input{parts/contextual}
+
+%\newpage
+
+\input{parts/logical}
+
+%\newpage
+
+\input{parts/domains}
+
+%\newpage
+
+\input{parts/free}
+
+%\newpage
+
+\input{parts/mixed}
+
+%\newpage
+
+\input{parts/conclusion}
+
+\appendix
+
+%\newpage 
+
+\nocite{*}
+\bibliographystyle{splncs03}
+\bibliography{bibliographie}
+
+
+%\begin{ensps}
+%\newpage 
+
+%\input{annexes/domaintheory}
+
+%\newpage 
+
+%\input{annexes/powerdomains}
+
+%\newpage
+
+%\input{annexes/powercones}
+
+%\newpage
+
+%\input{annexes/toptop}
+
+%\newpage
+
+%\input{annexes/obser}
+%\end{ensps}
+
+\end{document}

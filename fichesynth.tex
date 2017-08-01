@@ -1,0 +1,194 @@
+
+\documentclass{article}
+
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage{a4wide} %
+\usepackage{palatino} %
+\usepackage{paralist}
+
+\usepackage{multicol}
+
+\let\bfseriesbis=\bfseries \def\bfseries{\sffamily\bfseriesbis}
+
+
+\newenvironment{point}[1]%
+{\subsection*{#1}}%
+{}
+
+\setlength{\parskip}{0.3\baselineskip}
+
+\begin{document}
+
+\title{Generic Operational Metatheory \\ for Call-By-Value Languages}
+
+\author{\textsc{Lopez} Aliaume \\
+{\small Under the supervision of Alex K. Simpson} \\
+{\small University of Ljubljana, FMF}}
+
+\date{\today}
+
+\maketitle
+
+\pagestyle{empty} %
+\thispagestyle{empty}
+
+%% Attention: pas plus d'un recto-verso!
+
+
+\begin{point}{General context}
+
+    We study contextual equivalence of programs in the presence of 
+    effects. Contextual equivalence (Morris Style) is a fundamental 
+    tool to study a language and a necessary step before doing
+    program optimisation or proving program behaviour.
+    
+    Unfortunately, the way contextual equivalence is formulated 
+    gives it strength but also an incredible asymmetry between 
+    proving non-equivalence (easy) and proving equivalence (hard). 
+    A first step towards a balance is use a co-inductive 
+    reformulation \cite{lassen1998relational} but it is 
+    not always enough. This fact is easily observed by 
+    looking at the number of competing equivalence relations:
+    logical relations, interpretation in domains, game semantics,
+    higher order program logics and all variants of bisimulations.
+
+    For each of them
+    the soundness property of the relation requires a new proof 
+    when modifying the language. The general idea is to use logical relations
+    and have an abstract equality with contextual equivalence, 
+    once and for all,
+    for a wide class of languages.
+
+    The use of logical relations is motivated by their ability
+    to capture contextual equivalence 
+    \cite{pitts1997operationally}. They are adapted to all sorts 
+    of higher order reasoning \cite{Pitts2000} and are well suited 
+    to polymorphism \cite{wadler1989theorems}. Moreover 
+    some computational interpretation of proofs using logical relations
+    have been discovered recently \cite{dagand2015normalization}.
+
+    The abstract goal is to study behaviour of programs with arbitrary 
+    effects. A first work from Plotkin and Power was suggesting 
+    it was possible to have a generic adequacy result  
+    for a restricted class of effects (algebraic effects) \cite{plotkin2001adequacy}.
+    Later on, a meta-theory for a call-by-name language was 
+    proposed \cite{gom}. This year (2017) a paper 
+    was published about a meta-proof for bisimulations 
+    in the same kind of setting \cite{Ugo2017}.
+
+\end{point}
+
+\begin{point}{The problem studied}
+
+    The main question of this internship was
+    how to adapt the results from Alex Simpson \cite{gom} 
+    to a call-by-value setting. 
+    Answering this question led to several smaller ones:
+    \begin{inparaenum}[(a)]
+        \item How does our method relate to denotational interpretations? 
+        \item How does the method apply  to non-trivial examples?
+    \end{inparaenum}
+
+    The adaptation to call-by-value was needed because 
+    combining call-by-name and effects is a very 
+    unnatural thing to do: there is little or 
+    no control over when, an how many times 
+    the effects are going to be produced. Moreover,
+    a call-by-value calculus imposes a more precise 
+    separation between value and computation that 
+    clarifies the key points in proofs. 
+
+\end{point}
+
+\begin{point}{Personal contribution}
+
+    The first contribution is an adaptation of 
+    the generic method already existing in call-by-name 
+    \cite{gom} to a call-by-value setting. By doing 
+    so, several small but interesting properties have 
+    been found to clarify the importance and 
+    behaviour of the hypotheses to our main theorem.
+
+    Several specific signatures have been studied: non-determinism,
+    probabilities, and the combination of both. For all of them, 
+    operational, denotational and equational preorders 
+    are considered separately and then proven equal. 
+    The combination of non-determinism and probability is 
+    a non-trivial example, and the denotational properties 
+    have been studied extensively by Regina Tix \cite{tix2009semantic},
+    Michael Mislove \cite{mislove2004axioms}, Klaus Keimel  \cite{KeimelP2016}
+    and Jean-Goubault Larrecq \cite{JGL-mscs16}. This complexity 
+    is partially avoided when considering an operational semantics 
+    (using Markov Decision Processes) and the equality of all preorders proves the robustness of 
+    our method.
+
+    From a more abstract point of view, the link 
+    with Plotkin and Power's work \cite{plotkin2001adequacy} 
+    has been included in the relationship with the denotational setting.
+\end{point}
+
+\begin{point}{« Validity of the method »}
+    
+    Abstractly, the method is very robust because 
+    it can adapt to small variations in the base language 
+    (adding sum and product types, recursive types, 
+    polymorphism ...). 
+    Concretely, the hypotheses, while not allowing to use 
+    every algebraic effect, is still covering a huge part of it,
+    such as~: input-output, state, non-determinism, probabilities,
+    and combination of them. 
+    
+    Even more concrete, the actual proofs in the call-by-value 
+    setting are very modular in the sense that  by nature
+    effect evaluation only occurs in a small and contained part 
+    of the language. This explains why adding new constructions 
+    is simply requiring to \emph{add} a new \emph{independent} case
+    in some proofs. Moreover some 
+    results suggest that our working hypotheses are minimal in some 
+    sense. 
+
+    When linking our method to the denotational setting, 
+    natural hypothesis are assumed, and a counter example 
+    is given when some of them are not satisfied.
+
+    Finally, concrete examples are suggesting that our 
+    method captures exactly the common properties of 
+    the different interpretations of effects.
+\end{point}
+
+
+\begin{point}{Conclusion and future work}
+
+    A first step was made towards a practical 
+    meta-theory by allowing call-by-value. It appears that polymorphism 
+    and recursive types can be added without too much 
+    hassle. However, the restricted class of effects 
+    is quite limiting and could be extended in several 
+    ways~: allowing parametrized effects, 
+    trying to capture every algebraic effect, 
+    include blatantly non-algebraic effects by extending 
+    the base language. The last part could perhaps be done using 
+    effect handlers as done in the Eff language \cite{eff2012}.
+    
+    Another thing to study is the connection of 
+    our work to the one done with bisimulations by Ugo Dal Lago \cite{Ugo2017}.
+    
+    In another direction, concrete generation of preorders 
+    has to be studied in the abstract and not only on specific 
+    cases as it has been done. 
+
+    Finally as seen in CALCO and MFPS 2017, the notion of distance 
+    or quantitative relation \cite{mardare2016quantitative}
+    is a very important tool when 
+    comparing probabilistic programs \cite{crubille2017metric}, and it would be 
+    a good topic to adapt our work to distances rather than preorders.
+
+\end{point}
+
+\bibliographystyle{splncs03}
+\bibliography{bibliographie}
+
+
+\end{document}

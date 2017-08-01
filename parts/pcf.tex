@@ -1,0 +1,143 @@
+\section{Parametrized class of languages}
+
+The studied class of languages is based on PCF \cite{plotkin1977lcf} in a call-by-value setting 
+parametrized by extra operations called \emph{effects}, which is a setting very similar to 
+the one studied by Plotikn and Power \cite{plotkin2001adequacy}. 
+The main motivation is to find result similar to the ones 
+we already have in a call-by-name setting \cite{gom}.
+
+The parameter for this class of languages is $\Sigma$,  
+a set of symbols with a finite arity.
+Refined call-by-value \cite{Ugo2017} is used instead of regular call-by-value 
+to help separating effect evaluation and regular term 
+evaluation in the language. However the results apply equally to both 
+languages because there is a direct translation from one to
+the other that can be seen in Figure \ref{fig:refinedNormal}.
+
+The type system is fairly simple, with only 
+natural numbers and functions from one 
+type to another type as it can be seen in Figure \ref{fig:language}.
+The type inference rules for this language can be seen in Figure
+\ref{fig:inference:typing}, no rule should be surprising
+but it is worth mentioning that already the inference 
+rules are making a distinction between \emph{computations}
+and \emph{values}.
+
+This setting is purposely restricted, and several improvements can 
+be added without technical issue. For instance, more complex types 
+such as sum, products and even type polymorphism can be studied 
+in this context. In fact, logical relations excel in proving parametricity 
+results \cite{wadler1989theorems}.
+In the spirit of simplicity 
+and to allow comparison with the work on bisimulations by
+Ugo Dal Lago, Francesco Gavazzo and Paul Blain Lévi 
+\cite{Ugo2017} we take the same kind of effect signature 
+as they do. Technically, it means that compared to 
+the paper from Johann et al. \cite{gom} it lacks 
+three of the four effect constructions, but as noticed 
+in the said paper, all of the constructions share the
+same pattern of proof, so that they actually treated 
+only one of the four cases in their proofs.
+
+
+\begin{figure}[h!]
+    \begin{align*}
+        \tau :=& ~\Nat ~|~ \tau \to \tau \\
+        V :=& ~x ~|~ \lambda x:\tau. M ~|~ \Zero ~|~ \Succ V \\
+        M :=& ~\Ret V ~|~ V V ~|~ \Fix V \\
+                    &|~ \lcase{V}{M}{M} \\
+                    &|~ \Bind{M}{x:\tau}{M} \\
+                    &|~ \sigma(\underbrace{M, \dots, M}_n ) \quad \text{ where } (\sigma,n)  \in \Sigma
+    \end{align*}
+    \caption{Refined Call-By-Value PCF with effects}
+    \label{fig:language}
+\end{figure}
+
+\begin{figure}[h!]
+    \begin{equation*}
+        \begin{array}{rl}
+            (\lambda x:\tau. N)M &\leftarrow \Bind{M}{x:\tau}{N} \\
+            M N &\rightarrow \Bind{M}{f:\sigma \to \tau}{\Bind{N}{x:\sigma}{ f x }} 
+        \end{array}
+    \end{equation*}
+    \caption{Translation between refined and regular call-by-value}
+    \label{fig:refinedNormal}
+\end{figure}
+
+
+\begin{figure}[h]
+    \begin{center}
+        % Identity on variables 
+            \AxiomC{}
+            \UnaryInfC{$\Gamma, x:\tau \vdash_V x : \tau$}
+            \DisplayProof 
+        \hskip 1.5em
+        % Return a value 
+            \AxiomC{$\Gamma \vdash_V V : \tau$}
+            \UnaryInfC{$\Gamma \vdash_C \Ret V : \tau$}
+            \DisplayProof 
+        \hskip 1.5em
+        % Lambda abstraction 
+            \AxiomC{$\Gamma, x : \tau \vdash_C M : \tau'$}
+            \UnaryInfC{$\Gamma \vdash_V \lambda x:\tau. M : \tau \to \tau'$}
+            \DisplayProof 
+        \hskip 1.5em
+        % Zero 
+            \AxiomC{}
+            \UnaryInfC{$\Gamma \vdash_V \Zero : \Nat$}
+            \DisplayProof
+        \hskip 1.5em
+        \vskip 1em
+        % Succ 
+            \AxiomC{$\Gamma \vdash_V V : \Nat$}
+            \UnaryInfC{$\Gamma \vdash_V \Succ V : \Nat$}
+            \DisplayProof
+        \hskip 1.5em
+        % Fixed point 
+            \AxiomC{$\Gamma \vdash_V V : (\tau \to \tau') \to \tau \to \tau'$}
+            \UnaryInfC{$\Gamma \vdash_C \Fix V : \tau \to \tau'$}
+            \DisplayProof
+        \hskip 1.5em
+        % Application  
+            \AxiomC{$\Gamma \vdash_V V : \tau \to \tau'$} 
+            \AxiomC{$\Gamma \vdash_V W : \tau$}
+            \BinaryInfC{$\Gamma \vdash_C V W : \tau'$}
+            \DisplayProof
+        \hskip 1.5em
+        \vskip 1em
+        % Case   
+            \AxiomC{$\Gamma \vdash_V V : \Nat$} 
+            \AxiomC{$\Gamma \vdash_C M_1 : \tau$}
+            \AxiomC{$\Gamma, x:\Nat \vdash_C M_2 : \tau$}
+            \TrinaryInfC{$\Gamma \vdash_C \lcase{V}{M_1}{M_2} : \tau$}
+            \DisplayProof
+        \hskip 1.5em
+        % Bind 
+            \AxiomC{$\Gamma \vdash_C M : \tau$} 
+            \AxiomC{$\Gamma, x:\tau \vdash_C N : \tau'$}
+            \BinaryInfC{$\Gamma \vdash_C \Bind{M}{x:\tau}{N} : \tau'$}
+            \DisplayProof
+        \hskip 1.5em
+        \vskip 1em
+        % Effect 
+            \AxiomC{$(\sigma,n) \in \Sigma$}
+            \AxiomC{$\forall 1 \leq i \leq n, \quad \Gamma \vdash_C M_i : \tau$}
+            \BinaryInfC{$\Gamma \vdash_C \sigma(M_1, \dots, M_n) : \tau$}
+            \DisplayProof
+    \end{center}
+    \caption{Inference rules for typing}
+    \label{fig:inference:typing}
+\end{figure}
+
+
+\begin{example}[Signature for combined probabilities and non-determinism]
+    In the case of combining non-determinism and probabilities, one can
+    consider a fair coin toss $\prEff$ of arity two, with a demonic 
+    choice operator $\orEff$ of arity two. The signature of the language 
+    is therefore $\Sigma = \{ (\prEff,2), (\orEff,2) \}$.
+\end{example}
+
+
+It can be shown that the set of values of type $\Nat$ is isomorphic to $\mathbb{N}$
+and therefore we will identify the two sets using $\underline{n}$ to denote 
+the value corresponding to $n$.

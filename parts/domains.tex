@@ -1,0 +1,367 @@
+
+\section{Domain theoretic preorders}
+
+The goal of this section is to link the domain theoretic semantics 
+with our setting. The first remark is that if 
+$\llbracket \cdot \rrbracket$ is a semantic map from $\Tree_\Nat$ to 
+a domain $D$, one can define:
+
+\begin{equation*}
+    t \sqeq_b t' \iff \llbracket t \rrbracket \leq \llbracket t' \rrbracket 
+\end{equation*}
+
+This preorder is not necessarily admissible or compositional, therefore 
+we can ask ourselves what conditions on the semantic map $\llbracket \cdot
+\rrbracket$ are sufficient to obtain the desired properties.
+
+\begin{ensps}
+\subsection{Admissibility}
+\end{ensps}
+
+One natural requirement for a semantic map is to be scott-continuous, and 
+it turns out that it automatically gives an admissible preorder.
+
+\begin{alemma}[Admissibility]
+    \label{lem:continuousadm}
+    If the function is scott-continuous, then the relation defined 
+    is admissible.
+\end{alemma}
+
+\begin{ensps}
+\begin{proof}
+    Let $(t_i)_i$ and $(t_i')_i$ be two ascending chains for $\sqeq$
+    with least upper bounds $t$ and $t'$ such that $\llbracket t_i \rrbracket
+    \leq \llbracket t_i' \rrbracket$ for every $i$.
+
+    \begin{align*}
+        \left\llbracket \bigsqcup_i t_i \right\rrbracket &= \bigsqcup_i \llbracket t_i
+        \rrbracket & \text{ scott-continuity } \\
+                   &\leq \bigsqcup_i \llbracket t_i' \rrbracket & 
+                    \text{ hypothesis } \\
+                   &= \left\llbracket \bigsqcup_i t_i' \right\rrbracket &
+                    \text{ scott-continuity } \\
+    \end{align*}
+
+\end{proof}
+\end{ensps}
+
+\begin{ensps}
+\subsection{Compositionality}
+\end{ensps}
+
+A natural assumption for compositionality is asking for 
+the interpretation to be a homomorphism and for $D$ 
+to be a $\Sigma$-continuous algebra. Indeed, we are 
+trying to interpret effects and it seems obvious 
+that it is a good way to do so: in Plotkin and Power's work
+algebraic effects are the one that are preserved 
+under some homomorphisms [TODO cite].
+
+\begin{alemma}[First half of compositionality]
+    Assume $D$ is a $\Sigma$-continuous algebra
+    and $\llbracket \cdot \rrbracket$ is a homomorphism,
+    then for every tree $t$ and pair of substitutions 
+    $(\sigma_1,\sigma_2)$ such that $\sigma_1(n) \sqeq_b \sigma_2 (n)$
+    for every $n$, we have:
+
+    \begin{equation*}
+        t \sigma_1 \sqeq_b t \sigma_2
+    \end{equation*}
+\end{alemma}
+
+\begin{ensps}
+\begin{proof}
+    For $i \in \{ 1, 2\}$ we have the following commutation diagram 
+    obtained using the universal property of $\Tree_\Nat$ on 
+    $\sigma_i$ and $\llbracket \cdot \rrbracket \circ \sigma_i$:
+
+    \begin{center}
+        \begin{tikzcd}
+            \Nat \arrow[r, "\sigma_i"] \arrow[d, hook, "i"] & 
+            \Tree_\Nat \arrow[r, "\llbracket \cdot \rrbracket"] & D \\
+            \Tree_\Nat \arrow[ru, "\hat{\sigma_i}"]
+                       \arrow[rru, bend right, "\widehat{\llbracket \cdot
+                               \rrbracket \circ \sigma_i}"] 
+        \end{tikzcd}
+    \end{center}
+
+    By definition, $t \sigma_1 = \hat{\sigma_1} (t)$, 
+    and therefore $\llbracket t \sigma_1 \rrbracket = \llbracket \hat{\sigma_1}
+    (t) \rrbracket$.
+
+    Using the unicity of the homomorphism in the universal property of
+    $\Tree_\Nat$ it is easy to show that $\llbracket \cdot \rrbracket 
+    \circ \hat{\sigma_i} = \widehat{ \llbracket \cdot \rrbracket \circ \sigma_i
+    }$
+
+    But the hypothesis specifically states that $\llbracket \cdot \rrbracket 
+    \circ \sigma_1$ is a function pointwise lower than $\llbracket \cdot
+    \rrbracket \circ \sigma_2$. Therefore using the lemma about 
+    lifting functions (lemma \ref{lem:orderpreservinglift})
+    we know that the inequality is still true for the lifting 
+    of both functions. Therefore:
+
+    \begin{align*}
+        \llbracket t \sigma_1 \rrbracket &= 
+        (\llbracket \cdot \rrbracket \circ \hat{\sigma_1}) (t) \\
+        &= \widehat{ \llbracket \cdot \rrbracket \circ \sigma_1} (t) \\
+        &\leq \widehat{ \llbracket \cdot \rrbracket \circ \sigma_2} (t) \\
+        &= 
+        (\llbracket \cdot \rrbracket \circ \hat{\sigma_2}) (t) \\
+        &= \llbracket t \sigma_2 \rrbracket
+    \end{align*}
+    
+    And we have the conclusion: $t \sigma_1 \sqeq_b t \sigma_2$.
+\end{proof}
+\end{ensps}
+
+But it is not enough to  guarantee compositionality of the preorder,
+as it can be seen in the example \ref{ex:supercounterexample}.
+
+\begin{example}[Simple counter example]
+    \label{ex:supercounterexample}
+
+    Let $\Sigma = \{ (+,2), (\times,2) \}$ be a signature.
+    Let $D$ be extended natural numbers 
+    with the usual ordering and the usual $\Sigma$-algebra
+    structure. It is a continuous $\Sigma$-algebra 
+    and the homomorphism that arises from identity 
+    on natural numbers is just the regular interpretation 
+    of tree of operations.
+
+    But if $t_1 = 1 + 2$ and $t_2 = 1 \times 3$, we can 
+    take $\sigma$ defined as follows to break compositionality:
+
+    \begin{equation*}
+        \sigma(k) = \begin{cases}
+            0 & \text{ if } k = 1 \\
+            k & \text{ otherwise } 
+        \end{cases}
+    \end{equation*}
+
+    We have $t_1 \sqeq_b t_2$ but 
+    not $t_1 \sigma \sqeq_b t_2$ because $2 \not \leq 0$.
+\end{example}
+
+It is therefore natural to ask for the interpretation 
+to respect effects in a deeper way, related to 
+the definition of \emph{algebraic} effects.
+
+\begin{adefinition}[Factorisation of homomorphism]
+    The interpretation $\llbracket \cdot \rrbracket$
+    factors homomorphisms when for every function 
+    $\sigma : \Nat \to D$ there exists a 
+    homomorphism $h_\sigma : D \to D$ such that $\sigma = h_\sigma \circ \llbracket
+    \cdot \rrbracket$. 
+    
+    Equivalently, when the following diagram commutes:
+
+    \begin{center}
+        \begin{tikzcd}
+            \Nat \arrow[r, "\llbracket \cdot \rrbracket"] 
+                 \arrow[rr, bend right, "\sigma"] &
+            D \arrow[r, "h_\sigma", dashed] & 
+            D  
+        \end{tikzcd}
+    \end{center}
+\end{adefinition}
+
+\begin{acorollary}[Factorisation of tree homomorphisms]
+    If $\tau : \Tree_\Nat \to D$ is a homomorphism 
+    then there exists $h_\tau$ a homomorphism
+    from $D$ to $D$ such that $\tau = h_\tau \circ \llbracket \cdot \rrbracket$.
+\end{acorollary}
+
+\begin{ensps}
+\begin{proof}
+    It suffices to use the universal property of $\Tree_\Nat$ 
+    and the fact that $\tau$ can be restricted to a function 
+    on $\Nat$. Note that it is crucial that $h_\tau$ is a 
+    homomorphism of $\Sigma$-continuous algebras, 
+    otherwise the universal property cannot be used.
+\end{proof}
+\end{ensps}
+
+\begin{alemma}[Second half of compositionality]
+    If $\llbracket \cdot \rrbracket$ is a homomorphism 
+    that factors functions from $\Nat$ to $D$ then 
+    the preorder is compositional.
+\end{alemma}
+
+\begin{ensps}
+\begin{proof}
+    The only thing to prove is that given two trees $t_1$ and 
+    $t_2$ such that $\llbracket t_1 \rrbracket \leq \llbracket t_2 \rrbracket$
+    and a substitution $\sigma : \Nat \to \Tree_\Nat$ 
+    we have $\llbracket t_1 \sigma \rrbracket \leq \llbracket t_2 \sigma
+    \rrbracket$. 
+    Then using the first half of compositionality we can conclude.
+
+    The idea is then to use the factorisation and 
+    the monotonicity of $h_\sigma$ to prove that:
+
+    \begin{equation*}
+        \llbracket t_1 \sigma \rrbracket 
+        = h_\sigma (\llbracket t_1 \rrbracket) 
+        \leq h_\sigma (\llbracket t_2 \rrbracket)
+        = \llbracket t_2 \sigma \rrbracket 
+    \end{equation*}
+
+    This result is obtained using a technique similar 
+    to the first part of compositionality proof: using 
+    the universal property several times and prove 
+    equality of the different ways of writing 
+    the same homomorphism.
+
+\end{proof}
+\end{ensps}
+
+\subsection{Examples}
+
+We now list examples where the previous results can be used 
+to reuse work done on denotational semantics.
+
+The first example is when $D$ is a free structure. That 
+can happen in cases such as Powerdomains 
+\cite{abramsky1994}, Powercones \cite{tix2009semantic}, 
+or Powerkegelspitze \cite{KeimelP2016}.
+
+\begin{example}[Free structures]
+    Assume that $D$ is a free structure 
+    over $\Nat$ such that the structure 
+    is a $\Sigma$-continuous algebra.
+    Then the preorder defined using the embedding 
+    of $\Nat$ into the free structure gives 
+    an admissible and compositional preorder.
+\end{example}
+
+\begin{ensps}
+    \begin{proof}
+        Use the freeness property.
+    \end{proof}
+\end{ensps}
+
+The second possibility is to already have a denotational semantics 
+for the language defined in a monadic way on the category of $\omega$CPPOs.
+
+\begin{example}[Monadic interpretation]
+    If the language is interpreted in a $\omega$CPPO with 
+    interpretations for effect that are \emph{natural}
+    with respect to the EM-morphisms then the
+    preorder obtained is admissible and compositional.
+\end{example}
+
+\begin{ensps}
+\begin{proof}
+    In a full interpretation with a monad $T$, for every effect $\sigma$
+    there is a family of morphisms $(\sigma_X) : \mathbb{N} \times (T X)^\mathbb{N} \to T X$
+    such that $\sigma_X$ is natural in $T X$ with respect to EM-morphisms, meaning that for 
+    every $g : X \to T Y$ we have:
+
+    \begin{center}
+        \begin{tikzcd}
+            \mathbb{N} \times (T X)^\mathbb{N} 
+            \arrow[d, "\pi_0 \times (g^\dagger \circ \pi_i)_{i \geq 1}" left] 
+            \arrow[r, "\sigma_X"] & T
+            X \arrow[d, "g^\dagger"] \\
+            \mathbb{N} \times (T Y)^\mathbb{N} \arrow[r, "\sigma_Y"] & T Y
+        \end{tikzcd}
+    \end{center}
+
+    Therefore when there is a morphism 
+    $f : \mathbb{N}_\bot \to T \mathbb{N}_\bot$
+    we have the following diagram:
+
+    \begin{center}
+        \begin{tikzcd}
+            \mathbb{N} \times (T \mathbb{N}_\bot )^\mathbb{N} 
+            \arrow[d, "\pi_0 \times (f^\dagger \circ \pi_i)_{i \geq 1}" left] 
+            \arrow[r, "\sigma_X"] & T \mathbb{N}_\bot\arrow[d, "f^\dagger"] \\
+            \mathbb{N} \times (T \mathbb{N}_\bot)^\mathbb{N} 
+            \arrow[r, "\sigma_Y"] & T \mathbb{N}_\bot
+        \end{tikzcd}
+    \end{center}
+
+    Therefore, $f^\dagger$ is a homomorphism of $\Sigma$-continuous algebras,
+    and we have 
+    $f = f^\dagger \circ \eta_{\mathbb{N}_\bot}$.
+\end{proof}
+\end{ensps}
+
+This result can be used to show that given an interpretation,
+the contextual preorder we can define is the same as 
+the contextual preorder defined using first the tree
+calculation and then the monadic interpretation. This 
+result comes from \cite{plotkin2001adequacy}.
+
+\begin{acorollary}[Adequacy with the interpretation]
+    \em
+    Assume the interpretation $\llbracket \cdot \rrbracket$ 
+    is obtained using a strong monad on $\omega$CPPO that 
+    respects the order structure, then for closed ground 
+    type terms:
+
+    \begin{equation*}
+        |M| \sqeq_b |M'| \iff \llbracket M \rrbracket \leq \llbracket M' \rrbracket
+    \end{equation*}
+
+    Therefore the contextual preorder defined using $\sqeq_b$
+    is the same as the one defined using the interpretations, and 
+    we can apply all theorems to the contextual preorder defined 
+    using the interpretation.
+\end{acorollary}
+
+\begin{ensps}
+\begin{proof}
+    On closed ground type terms $|M| \sqeq_b |M'|$ is equivalent 
+    to $\llbracket |M| \rrbracket \leq \llbracket |M'| \rrbracket$.
+    Using the adequacy result from \cite{plotkin2001adequacy} 
+    it is equivalent to $\llbracket M \rrbracket \leq \llbracket M' \rrbracket$.
+\end{proof}
+\end{ensps}
+
+An interesting lemma can be used to prove compositionality 
+and admissibility of a preorder. The idea is to find a 
+bigger domain where the properties are clear, and 
+an embedding-projection pair of $\Sigma$-continuous 
+algebras between the two domains. 
+
+\begin{alemma}[Embedding-Projection pair]
+    If $f : \Nat \to E$ gives an admissible and 
+    compositional preorder,
+    $e : D \to E$  and $p : E \to D$ forms 
+    an embedding-projection pair of homomorphisms,
+    then $g = p \circ e$ gives an admissible 
+    and compositional preorder.
+\end{alemma}
+
+\begin{proof}
+    They define the same preorder.
+\end{proof}
+
+Using free structures in the category 
+of $\omega$CPPO it is possible to define 
+a free preorder in an abstract way.
+
+\begin{alemma}[Free interpretational preorder]
+    \label{lem:freedomainpreorder}
+    Given an inequational theory $\mathcal{T}$
+    there exists a preorder $\sqeq_{\llbracket \mathcal{T} \rrbracket}$
+    that is obtnained using a denotational 
+    intepretation and contains any preorder 
+    given by such interpretation.
+\end{alemma}
+
+\begin{ensps}
+\begin{proof}
+    There is a free $\omega$CPPO for this inequational 
+    theory. As seen before, this gives an interpretation
+    and a preorder that is admissible and compositional.
+    
+    Let $D$ be another domain satisfying the formulas from $\mathcal{T}$,
+    and an interpretaiton in this domain. Because of the 
+    freeness property we know that this interpretation 
+    can be factored out, and therefore we have 
+    inclusion of preorders.
+\end{proof}
+\end{ensps}
