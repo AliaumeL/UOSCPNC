@@ -72,7 +72,7 @@ available online at \url{http://coalg.org/mfps-calco2017/}.
 
 Even before it started, the internship 
 was tied to an article published in 2010 
-by Alex K. Simpson and two other authors \cite{gom}.
+by Alex Simpson and two other authors \cite{gom}.
 The paper itself was a step towards having a 
 "General Operational Metatheory" for calculi 
 with effects, a project that can be linked 
@@ -86,7 +86,7 @@ as much as possible the results from the last paper.
 The first imperative improvement was to adapt the theory 
 from a call-by-name to a call-by-value setting:
 it is indeed very unnatural to consider effects in 
-a programming language where the evaluation of said 
+a programming language where the evaluation order of said 
 effects cannot be determined easily. For instance, consider 
 the two programs:
 
@@ -131,12 +131,11 @@ After this several ways to improve
 the understanding of the method and technical but insightful 
 constructions were developed. 
 
-Another crucial point in extending the paper was to provide 
-a real-life example calculus with effects for which 
-the method can be applied. Indeed, even if basic effects
-were covered in the paper (non-determinism, probabilities,
-input-output), combining theses effects is not trivial
-and there is no known canonical approach to it.
+Another crucial point was the study of a non-trivial and 
+well-studied combination of two effects: non-determinism and probability.
+This combination is known to be challenging \cite{Mislove2000} and
+being able to consider it inside our restricted setting is a concrete 
+proof of its expressive power. // TODO
 
 
 
