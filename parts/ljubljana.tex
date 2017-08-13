@@ -105,7 +105,10 @@ two functions that give the same result $\prEff (x, 1)$ when
 applied to the same input $x$. There exists a metatheorem 
 for the call-by-name evaluation strategy, stating that this is 
 enough to conclude that the two terms are contextually equivalent
-\cite{gom}. However, it is clear that the two programs are fundamentally 
+\cite{gom}. Contextual equivalence has to be understood
+informally as the fact that 
+the two programs cannot be distinguished when placed into 
+different contexts. However, it is clear that the two programs are fundamentally 
 different in call-by-value: one is going to "evaluate" the probability 
 only once, and the other one every time the function is called. An example 
 of context that can distinguish this behaviour is the following one:
@@ -121,7 +124,9 @@ of context that can distinguish this behaviour is the following one:
 If the first function is passed, then the result is \texttt{"It is the first
 function"} with probability
 $3/4$, and if the second function is passed, then the result is \texttt{"It is
-not the first function"} with probability one.
+not the first function"} with probability one. The context is actually
+here to distinguish between a function that is constant and a function 
+that is not.
 
 A second very 
 natural goal was to tie the results to the denotational 
@@ -135,9 +140,10 @@ Another crucial point was the study of a non-trivial and
 well-studied combination of two effects: non-determinism and probability.
 This combination is known to be challenging \cite{Mislove2000} and
 being able to consider it inside our restricted setting is a concrete 
-proof of its expressive power. // TODO
+proof of its expressive power. 
 
 
-
-
-
+This internship has been the occasion to prepare a paper that is going to be 
+submitted to FOSSACS in 2018. For the moment, this is still a draft, but most 
+of the content is present, and the draft can be found in appendix of this
+report. 
