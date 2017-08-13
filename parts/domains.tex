@@ -4,7 +4,7 @@
 The goal of this section is to link the domain theoretic semantics 
 with our setting. The first remark is that if 
 $\llbracket \cdot \rrbracket$ is a semantic map from $\Tree_\Nat$ to 
-a domain $D$, one can define:
+an $\omega$CPPO $(D,\leq)$, one can define:
 
 \begin{equation*}
     t \sqeq_b t' \iff \llbracket t \rrbracket \leq \llbracket t' \rrbracket 
@@ -41,8 +41,7 @@ it turns out that it automatically gives an admissible preorder.
                    &= \left\llbracket \bigsqcup_i t_i' \right\rrbracket &
                     \text{ scott-continuity } \\
     \end{align*}
-
-\end{proof}
+\qed\end{proof}
 \end{ensps}
 
 \begin{ensps}
@@ -85,8 +84,8 @@ under some homomorphisms [TODO cite].
         \end{tikzcd}
     \end{center}
 
-    By definition, $t \sigma_1 = \hat{\sigma_1} (t)$, 
-    and therefore $\llbracket t \sigma_1 \rrbracket = \llbracket \hat{\sigma_1}
+    By definition, $t \sigma_i = \hat{\sigma_i} (t)$, 
+    and therefore $\llbracket t \sigma_i \rrbracket = \llbracket \hat{\sigma_i}
     (t) \rrbracket$.
 
     Using the unicity of the homomorphism in the universal property of
@@ -97,7 +96,7 @@ under some homomorphisms [TODO cite].
     But the hypothesis specifically states that $\llbracket \cdot \rrbracket 
     \circ \sigma_1$ is a function pointwise lower than $\llbracket \cdot
     \rrbracket \circ \sigma_2$. Therefore using the lemma about 
-    lifting functions (lemma \ref{lem:orderpreservinglift})
+    lifting functions (Lemma \ref{lem:orderpreservinglift})
     we know that the inequality is still true for the lifting 
     of both functions. Therefore:
 
@@ -112,7 +111,8 @@ under some homomorphisms [TODO cite].
     \end{align*}
     
     And we have the conclusion: $t \sigma_1 \sqeq_b t \sigma_2$.
-\end{proof}
+
+\qed\end{proof}
 \end{ensps}
 
 But it is not enough to  guarantee compositionality of the preorder,
@@ -122,7 +122,7 @@ as it can be seen in the example \ref{ex:supercounterexample}.
     \label{ex:supercounterexample}
 
     Let $\Sigma = \{ (+,2), (\times,2) \}$ be a signature.
-    Let $D$ be extended natural numbers 
+    Let $D$ be $\bar{\mathbb{N}}$
     with the usual ordering and the usual $\Sigma$-algebra
     structure. It is a continuous $\Sigma$-algebra 
     and the homomorphism that arises from identity 
@@ -143,7 +143,7 @@ as it can be seen in the example \ref{ex:supercounterexample}.
     not $t_1 \sigma \sqeq_b t_2$ because $2 \not \leq 0$.
 \end{example}
 
-It is therefore natural to ask for the interpretation 
+It is therefore necessary to ask for the interpretation 
 to respect effects in a deeper way, related to 
 the definition of \emph{algebraic} effects.
 
@@ -154,8 +154,6 @@ the definition of \emph{algebraic} effects.
     homomorphism $h_\sigma : D \to D$ such that $\sigma = h_\sigma \circ \llbracket
     \cdot \rrbracket$. 
     
-    Equivalently, when the following diagram commutes:
-
     \begin{center}
         \begin{tikzcd}
             \Nat \arrow[r, "\llbracket \cdot \rrbracket"] 
@@ -166,11 +164,12 @@ the definition of \emph{algebraic} effects.
     \end{center}
 \end{adefinition}
 
-\begin{acorollary}[Factorisation of tree homomorphisms]
+\begin{alemma}[Factorisation of tree homomorphisms]
+    Assume that $\llbracket \cdot \rrbracket$ factors homomorphisms. 
     If $\tau : \Tree_\Nat \to D$ is a homomorphism 
     then there exists $h_\tau$ a homomorphism
     from $D$ to $D$ such that $\tau = h_\tau \circ \llbracket \cdot \rrbracket$.
-\end{acorollary}
+\end{alemma}
 
 \begin{ensps}
 \begin{proof}
@@ -179,13 +178,13 @@ the definition of \emph{algebraic} effects.
     on $\Nat$. Note that it is crucial that $h_\tau$ is a 
     homomorphism of $\Sigma$-continuous algebras, 
     otherwise the universal property cannot be used.
-\end{proof}
+\qed\end{proof}
 \end{ensps}
 
 \begin{alemma}[Second half of compositionality]
     If $\llbracket \cdot \rrbracket$ is a homomorphism 
     that factors functions from $\Nat$ to $D$ then 
-    the preorder is compositional.
+    the preorder $\sqeq_b$ is compositional.
 \end{alemma}
 
 \begin{ensps}
@@ -212,8 +211,7 @@ the definition of \emph{algebraic} effects.
     the universal property several times and prove 
     equality of the different ways of writing 
     the same homomorphism.
-
-\end{proof}
+\qed\end{proof}
 \end{ensps}
 
 \subsection{Examples}
@@ -221,14 +219,15 @@ the definition of \emph{algebraic} effects.
 We now list examples where the previous results can be used 
 to reuse work done on denotational semantics.
 
-The first example is when $D$ is a free structure. That 
+The first example is when $D$ is a free algebra. That 
 can happen in cases such as Powerdomains 
 \cite{abramsky1994}, Powercones \cite{tix2009semantic}, 
 or Powerkegelspitze \cite{KeimelP2016}.
 
-\begin{example}[Free structures]
-    Assume that $D$ is a free structure 
-    over $\Nat$ such that the structure 
+\begin{example}[Free algebras]
+    \label{lem:freealgebra}
+    Assume that $D$ is a free algebra
+    over $\Nat$ and it holds that it 
     is a $\Sigma$-continuous algebra.
     Then the preorder defined using the embedding 
     of $\Nat$ into the free structure gives 
@@ -238,7 +237,7 @@ or Powerkegelspitze \cite{KeimelP2016}.
 \begin{ensps}
     \begin{proof}
         Use the freeness property.
-    \end{proof}
+    \qed\end{proof}
 \end{ensps}
 
 The second possibility is to already have a denotational semantics 
@@ -260,11 +259,11 @@ for the language defined in a monadic way on the category of $\omega$CPPOs.
 
     \begin{center}
         \begin{tikzcd}
-            \mathbb{N} \times (T X)^\mathbb{N} 
+            \mathbb{N}_\bot \times (T X)^\mathbb{N} 
             \arrow[d, "\pi_0 \times (g^\dagger \circ \pi_i)_{i \geq 1}" left] 
             \arrow[r, "\sigma_X"] & T
             X \arrow[d, "g^\dagger"] \\
-            \mathbb{N} \times (T Y)^\mathbb{N} \arrow[r, "\sigma_Y"] & T Y
+            \mathbb{N}_\bot \times (T Y)^\mathbb{N} \arrow[r, "\sigma_Y"] & T Y
         \end{tikzcd}
     \end{center}
 
@@ -274,10 +273,10 @@ for the language defined in a monadic way on the category of $\omega$CPPOs.
 
     \begin{center}
         \begin{tikzcd}
-            \mathbb{N} \times (T \mathbb{N}_\bot )^\mathbb{N} 
+            \mathbb{N}_\bot \times (T \mathbb{N}_\bot )^\mathbb{N} 
             \arrow[d, "\pi_0 \times (f^\dagger \circ \pi_i)_{i \geq 1}" left] 
             \arrow[r, "\sigma_X"] & T \mathbb{N}_\bot\arrow[d, "f^\dagger"] \\
-            \mathbb{N} \times (T \mathbb{N}_\bot)^\mathbb{N} 
+            \mathbb{N}_\bot \times (T \mathbb{N}_\bot)^\mathbb{N} 
             \arrow[r, "\sigma_Y"] & T \mathbb{N}_\bot
         \end{tikzcd}
     \end{center}
@@ -285,7 +284,7 @@ for the language defined in a monadic way on the category of $\omega$CPPOs.
     Therefore, $f^\dagger$ is a homomorphism of $\Sigma$-continuous algebras,
     and we have 
     $f = f^\dagger \circ \eta_{\mathbb{N}_\bot}$.
-\end{proof}
+\qed\end{proof}
 \end{ensps}
 
 This result can be used to show that given an interpretation,
@@ -317,27 +316,40 @@ result comes from \cite{plotkin2001adequacy}.
     to $\llbracket |M| \rrbracket \leq \llbracket |M'| \rrbracket$.
     Using the adequacy result from \cite{plotkin2001adequacy} 
     it is equivalent to $\llbracket M \rrbracket \leq \llbracket M' \rrbracket$.
-\end{proof}
+\qed\end{proof}
 \end{ensps}
 
 An interesting lemma can be used to prove compositionality 
 and admissibility of a preorder. The idea is to find a 
-bigger domain where the properties are clear, and 
+bigger $\omega$CPPO where the properties are clear, and 
 an embedding-projection pair of $\Sigma$-continuous 
 algebras between the two domains. 
 
 \begin{alemma}[Embedding-Projection pair]
-    If $f : \Nat \to E$ gives an admissible and 
-    compositional preorder,
-    $e : D \to E$  and $p : E \to D$ forms 
-    an embedding-projection pair of homomorphisms,
-    then $g = p \circ e$ gives an admissible 
-    and compositional preorder.
+    Let $E$ and $D$ be $\omega$CPPOS with a $\Sigma$-continuous
+    algebra structure. Assume that 
+    the interpretation $\llbracket \cdot \rrbracket$ from $\Tree_\Nat$ to $E$
+    gives an admissible and compositional preorder. 
+    Assume moreover that there exists
+    an embedding projection pair from $D$ to $E$,
+    meaning two homomorphisims of $\Sigma$-continuous algebra 
+    $e$ and $p$ such that $p \circ e = id$, $e \circ p \leq id$, 
+    $e: D \to E$ and $p : E \to D$.
+
+    If $\llbracket \cdot \rrbracket = e \circ [ \cdot ]$ on natural 
+    numbers, then both preorders are equal and therefore share all 
+    the required properties.
 \end{alemma}
 
 \begin{proof}
-    They define the same preorder.
-\end{proof}
+    If $\llbracket \cdot \rrbracket = e \circ [ \cdot ]$ then 
+    by applying the projection we have $p \circ \llbracket \cdot \rrbracket
+     = [\cdot]$ because $p \circ e = id$. Therefore 
+     it is easy to see that $t$ is less than $t'$ for one preorders 
+     implies that it is the same for the other one, using the 
+     monotonicity properties of $p$ and $e$. The homomorphism 
+     allows to lift the equalities on $\Nat$ to equalities on $\Tree_\Nat$.
+\qed\end{proof}
 
 Using free structures in the category 
 of $\omega$CPPO it is possible to define 
@@ -347,21 +359,21 @@ a free preorder in an abstract way.
     \label{lem:freedomainpreorder}
     Given an inequational theory $\mathcal{T}$
     there exists a preorder $\sqeq_{\llbracket \mathcal{T} \rrbracket}$
-    that is obtnained using a denotational 
-    intepretation and contains any preorder 
-    given by such interpretation.
+    arising from an interpretation into a $\Sigma$-continuous algebra satisfying the 
+    inequational theory $\mathcal{T}$, and containing 
+    any preorder constructed using the same pattern.
 \end{alemma}
 
 \begin{ensps}
 \begin{proof}
     There is a free $\omega$CPPO for this inequational 
-    theory. As seen before, this gives an interpretation
-    and a preorder that is admissible and compositional.
+    theory \cite{abramsky1994}. Using Lemma \ref{lem:freealgebra}
+    we have an associated preorder that is admissible and compositional.
     
     Let $D$ be another domain satisfying the formulas from $\mathcal{T}$,
-    and an interpretaiton in this domain. Because of the 
+    and an interpretation in this domain. Because of the 
     freeness property we know that this interpretation 
-    can be factored out, and therefore we have 
-    inclusion of preorders.
-\end{proof}
+    can be factored out, which can be translated back into 
+    an inclusion between the two preorders.
+\qed\end{proof}
 \end{ensps}
