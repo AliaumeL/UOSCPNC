@@ -63,38 +63,30 @@ The goal of this subsection is to formalise strategies and
 to build a \emph{continuous} function from $\Tree_\Nat \times \mathcal{S}$
 to $\Tree_\Nat$ (without $\orEff$ nodes) corresponding to the 
 application of a strategy to a tree.
-First of all, because we know the shape of the trees, we can 
-clearly define the set of strategies and recognise the Cantor 
-Set, which has nice topological properties such as compactness.
+The first step to define strategies is to define the space 
+$\{ L; R\}$ of directions that can be taken in the tree (left and right).
+Using this set, one can define the set of paths as $\{ L; R \}^*$. A 
+strategy can be seen as a function that takes a path as input (position 
+in a tree) and outputs the direction to choose.
 
 \begin{adefinition}[Strategies]
      The set of strategies is 
-     defined by $\mathcal{S} = \{ 0, 1 \}^\mathbb{N}$
-     with the topology of the Cantor space.
+     defined by $\mathcal{S} = \{ L;R\}^* \to \{ L; R\}$.
+     This set is compact for the topology induced by the 
+     following distance on strategies:
+
+     \begin{equation*}
+         d(s_1,s_2) = \inf_{n \geq 1} \left\{ \frac{1}{n} ~|~ \forall p \in \{ L;R\}^*,
+                                         |p| \leq n, s_1(p) = s_2(p) \right\}
+     \end{equation*}
 \end{adefinition}
 
-To define the probability following a strategy, we 
-will first define how to modify a tree by applying a 
-strategy to it. This corresponds to the intuitive 
-idea that the strategy chooses a direction for every 
-$\orEff$ node and leaves untouched any $\prEff$ node.
-After such a transformation, the expectancy is going 
-to be defined in a very easy and familiar way because 
-we will end up with a binary tree where each choice
-has a probability one half.
-
-Before defining application of a strategy to a tree,
-lets first see a few functions over strategies 
-that are continuous.
-
-\begin{alemma}[Continuous functions over strategies]
-    The following functions are continuous 
-    \begin{enumerate}[(i)]
-        \item $\drop : \mathcal{S} \to \mathcal{S}$ defined by $\drop(\alpha s) = s$
-        \item $\odd : \mathcal{S} \to \mathcal{S}$ defined by $\odd((s_i)_i) = (s_{2i + 1})_i$
-        \item $\even : \mathcal{S} \to \mathcal{S}$ defined by $\even((s_i)_i) = (s_{2i})_i$
-    \end{enumerate}
-\end{alemma}
+\begin{proof}
+    The function $d$ is clearly a distance and a converging sequence 
+    of strategies can be extracted from any other one by the usual argument 
+    (looking at the output on the empty sequence, and then extracting
+    infinitly many elements from the sequence outputting the same thing etc.).
+\end{proof}
 
 Now that we have theses functions, we can define the space 
 of strategies evaluations that are \emph{continuous}
@@ -107,11 +99,22 @@ way to get continuity of strategy application to a tree.
     The space $\mathcal{C}(S,\Tree_\Nat)$ is a $\Sigma$-continuous 
     algebra where:
 
-    \begin{enumerate}
-        \item $\prEff (f,g) (s) = \prEff (f (\even(s)), g(\odd (s)))$ 
-        \item $\orEff (f,g) (1 s)      = g(s)$
-        \item $\orEff (f,g) (0 s)      = f(s)$
-    \end{enumerate}
+    \begin{equation*}
+        \orEff (e_1,e_2) (s) = 
+        \begin{cases}
+            e_1 (s \circ L) & \text{when } s(\varepsilon) = L \\
+            e_1 (s \circ R) & \text{when } s(\varepsilon) = R 
+        \end{cases}
+    \end{equation*}
+
+    And where:
+    \begin{equation*}
+        \prEff (e_1,e_2) (s) = \prEff (e_1 (s \circ L), e_2 (s \circ R)) 
+    \end{equation*}
+
+    With $L$ and $R$ being considered interpreted as the function 
+    from paths to paths that appends the corresponding letter in front of 
+    the path.
 \end{adefinition}
 
 Now that we have this space of function, we can define the 
@@ -141,7 +144,6 @@ application works as expected.
     from $\Tree_\Nat \times \mathcal{S}$ to $\Tree_\Nat$.
 \end{alemma}
 
-\begin{ensps}
 \begin{proof}
     It is clear that $(t*s)$ is continuous in each of it's 
     arguments. Using the fact that $\Tree_\Nat$ is a 
@@ -149,7 +151,6 @@ application works as expected.
     \cite{battenfeld2009two} (Lemma A.1) that allows us to conclude.
     \qed
 \end{proof}
-\end{ensps}
 
 
 \subsection{Formalisation of probabilities}
