@@ -186,7 +186,7 @@ which is a consequence of the stack reflexivity at ground type $\Nat$.
         \| \Nat \|_C^\top = \left\{ (\Ret V, \Ret V') ~|~ (V,V') \in \| \Nat \|_V
         \right\}^\top
     \end{equation*}
-\end{proof}
+\qed\end{proof}
 
 Now in order to compare the logical relation to the contextual preorder,
 it is needed to be able to relate \emph{open} terms. The usual 
@@ -239,7 +239,7 @@ to extend a stack.
     by definition of the open extension of the relation. This proves 
     that $|S, M[x:= V]| \sqeq_b |S', M'[x:= V']|$ and therefore 
     that the two stacks are indeed related for $\| \sigma \|_C^\top$.
-\end{proof}
+\qed\end{proof}
 
 \subsection{Inclusion in contextual preorder}
 
@@ -266,7 +266,7 @@ with the constructions of the language.
 
     Therefore it suffices to show that $(Id,Id) \in \| \Nat \|_C^\top$ 
     to conclude, but this is a direct consequence of lemma \ref{lem:stackrefl}.
-\end{proof}
+\qed\end{proof}
 \end{ensps}
 
 We are now going to prove compatibility of the logical relation with 
@@ -284,7 +284,7 @@ substitutions.
 
 \begin{proof}
     The compatibility property holds by definition of the open extension
-\end{proof}
+\qed\end{proof}
 
 \begin{alemma}[Compatibility for $\Ret$]
     If $\Gamma$ is a typing context and $\Gamma \vdash V \| \tau \|_V V'$ then:
@@ -296,7 +296,7 @@ substitutions.
 \begin{proof}
     The compatibility property holds because the $\top\top$ closure 
     is a monotone operator
-\end{proof}
+\qed\end{proof}
 
 \begin{alemma}[Compatibility for function application]
     If $\Gamma$ is a typing context,
@@ -310,7 +310,7 @@ substitutions.
 
 \begin{proof}
     The compatibility property holds by defintion of the arrow relation.
-\end{proof}
+\qed\end{proof}
 
 \begin{alemma}[Compatibility for $\Zero$]
     If $\Gamma$ is a typing context then:
@@ -322,7 +322,7 @@ substitutions.
 \begin{proof}
 The compatibility property holds 
 because $\sqeq_b$ is reflexive. 
-\end{proof}
+\qed\end{proof}
 
 \begin{alemma}[Compatibility for $\Succ$]
     If $\Gamma$ is a typing context and $\Gamma \vdash V \| \Nat \|_V V'$. 
@@ -339,7 +339,7 @@ are equal, and then their successors are also related
 because $\sqeq_b$ is reflexive, or they are not 
 equal and every number is equated by $\sqeq_b$ 
 making the property trivial. 
-\end{proof}
+\qed\end{proof}
 
 \begin{alemma}[Compatibility for $\lambda$-abstraction]
     If $\Gamma$ is a tying context and 
@@ -379,7 +379,7 @@ V|$ by definition of $|-,-|$ to have the conclusion:
 
 Therefore we do have $(\lambda x:\sigma. M, \lambda x:\sigma. M')
 \in \| \sigma \to \tau \|_V$.
-\end{proof}
+\qed\end{proof}
 
 \begin{alemma}[Compatibility for computation binding]
     If $\Gamma$ is a typing context,
@@ -436,7 +436,7 @@ are related and that $(S,S') \in \| \tau \|_C^\top$.
 \end{align*}
 
 Therefore we have the expected conclusion.
-\end{proof}
+\qed\end{proof}
 
 \begin{alemma}[Compatibility for the case distinction]
     If $\Gamma$ is a typing context, 
@@ -475,7 +475,7 @@ We can make a case distinction on $V_1$:
         the same conclusion, except that we use 
         the open closure.
 \end{itemize}
-\end{proof}
+\qed\end{proof}
 
 
 
@@ -554,7 +554,7 @@ which will give the expected conclusion.
         \end{equation*}
 
 \end{itemize}
-\end{proof}
+\qed\end{proof}
 
 \begin{alemma}[Compatibility for the effect construction]
     If $\Gamma$ is a typing context, $(\sigma,n) \in \Sigma$
@@ -609,7 +609,7 @@ which will give the expected conclusion.
             =
             \sigma (|S',M_1'|, \dots, |S',M_n'|)
         \end{equation*}
-\end{proof}
+\qed\end{proof}
 
 We therefore have the compatibility with respect to the language constructions, 
 allowing us to state the inclusion of the logical relation inside the contextual
@@ -624,7 +624,7 @@ preorder.
     The logical relation is adequate and compatible, and 
     therefore is included in the largest relation that 
     is adequate and compatible.
-\end{proof}
+\qed\end{proof}
 
 \subsection{Equality with contextual preorder}
 
@@ -689,7 +689,7 @@ or product types.
             Which after reduction gives exactly the expected inequality.
 
     \end{itemize}
-\end{proof}
+\qed\end{proof}
 \end{ensps}
 
 
@@ -775,7 +775,7 @@ or product types.
     using lemma \ref{lem:valuerelation} we can deduce that $\Gamma \vdash V \|
     \tau \|_V V'$.
 
-\end{proof}
+\qed\end{proof}
 \end{ensps}
 
 \begin{figure}[h]
@@ -807,7 +807,7 @@ or product types.
     But we have already seen that this equivalence is true for the logical 
     relation, and we know that the logical relation is included in 
     the contextual preorder, allowing us to conclude.
-\end{proof}
+\qed\end{proof}
 \end{ensps}
 
 
@@ -819,7 +819,7 @@ or product types.
     and the second one is given because 
     contextual preorder is an adequate, compatible and substitutive relation,
     therefore included into the largest one (the logical relation).
-\end{proof}
+\qed\end{proof}
 
 \subsection{Meta properties}
 
@@ -883,8 +883,7 @@ justifies the fact that we only ask for a preorder on $\Tree_\Nat$.
     \begin{equation*}
         |S, M[(M_i)]| \sqeq_b |S', M'[(M_i')] |
     \end{equation*}
-
-\end{proof}
+\qed\end{proof}
 \end{ensps}
 
 
@@ -990,5 +989,5 @@ of $\sqeq_b$.
             simultaneous approximaton on $k,M,N_i$.
     \end{itemize} 
 
-\end{proof}
+\qed\end{proof}
 \end{ensps}

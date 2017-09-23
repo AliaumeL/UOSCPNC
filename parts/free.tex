@@ -2,20 +2,39 @@
 \section{Free preorders}
 
 Given an inequational theory $\mathcal{T}$ one can always 
-build some preorder $\sqeq_b$ corresponding to it \ref{lem:freedomainpreorder}.
+build some preorder $\sqeq_b$ corresponding to it as in Lemma 
+\ref{lem:freedomainpreorder}.
 This uses the previous part about denotational semantics 
 and preorders built using them. However we saw 
 that one could naturally build the smallest admissible,
 compositional preorder extending $\sqeq$ without 
-requiring such machinery \ref{lem:freepreo}. 
+requiring such machinery by using Lemma \ref{lem:freepreo}. 
 It is not known (yet) if the two constructions coincide,
-but for all the signature in this paper, they will.
+however one inclusion is clear: the free preorder obtained 
+using a denotational interpretation always contains 
+the other one, defined as the intersection of all preorders 
+satisfying admissibilty, compositionality and pointedness properties.
+The difficulty is going to prove the equality between the free preorder 
+(obtained via Lemma \ref{lem:freepreo}) and the other ones 
+either obtained operationally or using the denotational free preorder.
+
 
 \begin{alemma}[Angelic preorder]
+    Let $\mathcal{T}_A$ be the following theory:
+    \begin{equation*}
+        \begin{array}{rl}
+            a \orEff a &= a \\
+            a \orEff b &= b \orEff a \\
+            a \orEff (b \orEff c) &= (a \orEff b) \orEff c \\
+            a \orEff b &\geq a
+        \end{array}
+    \end{equation*}
+
+
     The free preorder for the theory 
     $\mathcal{T}_A$ coincides 
     with the preorder $\sqeq_A$ defined 
-    using~:
+    operationally by:
 
     \begin{equation*}
         t \sqeq_A t' 
@@ -26,20 +45,12 @@ but for all the signature in this paper, they will.
     And $\sqeq_A$ itself coincides with the denotational
     iterpretation in the Hoare powerdomain for $\Nat$
     (the free join-semilattice over $\Nat$).
-
-    \begin{equation*}
-        \begin{array}{rl}
-            a \orEff a &= a \\
-            a \orEff b &= b \orEff a \\
-            a \orEff (b \orEff c) &= (a \orEff b) \orEff c \\
-            a \orEff b &\geq a
-        \end{array}
-    \end{equation*}
 \end{alemma}
 
 \begin{proof}
     First, it is easy to see that indeed the denotational
-    and the operational part are giving the same preorders.
+    and the operational preorders are equal using 
+    a characterisation of the Hoare powerdomain \cite{abramsky1994}.
 
     Thus, $\sqeq_A$ is admissible and compositional. Moreover,
     $\sqeq_A$ satisfies the inequational 
@@ -47,9 +58,9 @@ but for all the signature in this paper, they will.
 
     Therefore, $(\sqeq_{\mathcal{T}_A}) \subseteq (\sqeq_A)$.
 
-    The other inclusion is done it two steps, following the 
+    The other inclusion is done in two steps, following the 
     idea that the free preorder on $\mathcal{T}$ is
-    the «~admissible extension~» of the free preorder on finite 
+    the "admissible extension" of the free preorder on finite 
     trees.
     
     Let $t$ and $t'$ be two finite trees, we can use 
@@ -71,12 +82,23 @@ but for all the signature in this paper, they will.
     approximation of the second. With this and the result 
     on finite tree, admissibilty can be applied to 
     show that $t \sqeq_{\mathcal{T}_A} t'$. 
-\end{proof}
+\qed\end{proof}
 
 
 \begin{alemma}[Demonic preorder]
+    \label{lem:demopreo}
+    Let $\mathcal{T}_D$ be the following theory:
+    \begin{equation*}
+        \begin{array}{rl}
+            a \orEff a &= a \\
+            a \orEff b &= b \orEff a \\
+            a \orEff (b \orEff c) &= (a \orEff b) \orEff c \\
+            a \orEff b &\leq a
+        \end{array}
+    \end{equation*}
+
     The free preorder for the theory $\mathcal{T}_D$ coincides with 
-    the preorder $\sqeq_D$ given by (TODO)~:
+    the preorder $\sqeq_D$ given by:
 
     \begin{equation*}
         t \sqeq_D t' \iff 
@@ -90,15 +112,6 @@ but for all the signature in this paper, they will.
     And $\sqeq_D$ itself coincides with the denotational
     iterpretation in the Smyth powerdomain for $\Nat$
     (the free meet-semilattice over $\Nat$).
-
-    \begin{equation*}
-        \begin{array}{rl}
-            a \orEff a &= a \\
-            a \orEff b &= b \orEff a \\
-            a \orEff (b \orEff c) &= (a \orEff b) \orEff c \\
-            a \orEff b &\leq a
-        \end{array}
-    \end{equation*}
 \end{alemma}
 
 \begin{proof}
@@ -106,26 +119,16 @@ but for all the signature in this paper, they will.
     except that infinite trees are all equivalent to $\bot$ 
     in this theory, and therefore the infinite case is even 
     simpler.
-\end{proof}
+\qed\end{proof}
 
 
 \begin{alemma}[Probabilistic preorder]
+    \label{lem:probpreo}
     We use the notation $\oplus$ for the infix notation 
     of $\prEff$ to ease lecture.
+    Let $\mathcal{T}_P$ be the following probabilistic theory 
+    \cite{heckmann1994probabilistic}:
 
-    The free preorder for the theory $\mathcal{T}_P$
-    coincides with the preorder defined by~:
-    
-    \begin{equation*}
-        t \sqeq_P t' \iff 
-        \forall n \in \Nat, \nu (t) \leq \nu (t')
-    \end{equation*}
-
-    And $\sqeq_P$ itself coincides with the denotational
-    iterpretation in the probabilistic powerdomain for $\Nat$
-    (the free full kegelspitze over $\Nat$).
-
-    The axiomatisation can be found in \cite{heckmann1994probabilistic}.
     \begin{equation*}
         \begin{array}{rl}
             a \oplus a &= a \\
@@ -134,23 +137,40 @@ but for all the signature in this paper, they will.
             a \oplus b \leq b &\implies a \leq b
         \end{array}
     \end{equation*}
+
+    The free preorder for the theory $\mathcal{T}_P$
+    coincides with the preorder defined by:
+    
+    \begin{equation*}
+        t \sqeq_P t' \iff 
+        \forall n \in \Nat, \nu (t) \leq \nu (t')
+    \end{equation*}
+
+    Where $\nu(t)$ corresponds to the probability distribution 
+    over $\Nat$ encoded by the tree $t$.
+
+    And $\sqeq_P$ itself coincides with the denotational
+    iterpretation in the probabilistic powerdomain for $\Nat$
+    (the free full kegelspitze over $\Nat$ \cite{KeimelP2016}).
+
 \end{alemma}
 
 \begin{proof}
     As before, the first inclusion is not a problem, and on finite 
     trees transforming into a complete binary tree with 
     an ordering on leafs is 
-    possible to prove the inequality (normal form).
+    possible to prove the inequality using some normal form.
 
     Let $t$ and $t'$ be two possibly infinite trees 
-    having only a \emph{finite} support. We can make
-    a case distinction~:
+    of natural numbers such that the leaves are bounded by
+    a constant $C$ and assume that $\nu(t) \leq \nu(t')$.
+    We can make a case distinction:
 
     \begin{enumerate}
-        \item There exists a finite approximation $t_i'$ of $t'$ 
-            such that $\nu (t_i') = \nu (t')$.
+        \item There exists a finite tree $t_i'$
+            such that $\nu (t_i') = \nu (t')$ and $t_i' \sqeq t'$.
 
-        \item For any finite approximation $t_i'$, there exists 
+        \item For any finite tree $t_i'$ such that $t_i' \sqeq t'$, there exists 
             an $n$ such that $\nu (t_i')(n) < \nu (t')(n)$.
     \end{enumerate}
 
@@ -161,7 +181,7 @@ but for all the signature in this paper, they will.
     some simple calculation. Now, assume we are in the first 
     case, then we have a finite approximating tree $t_j'$ with $j > i$ such that 
     $\nu (t_i \oplus t_i') \leq \nu (t_j')$. In the second case,
-    we know that there is an $n$ such that the inequality is strict~: 
+    we know that there is an $n$ such that the inequality is strict: 
     but because $\nu$ is scott-continuous, there is a $j > i$ such that 
     $\nu (t_i \oplus t_i') (n) < \nu (t_j')$. Because the support 
     is finite, we know that we can take the maximum of such $j$'s 
@@ -176,7 +196,7 @@ but for all the signature in this paper, they will.
         t_i \oplus t_i' \sqeq_{\mathcal{T}_P} t_j'
     \end{equation*}
 
-    Using admissibility, we can now conclude~:
+    Using admissibility, we can now conclude:
 
     \begin{equation*}
         t \oplus t' \sqeq_{\mathcal{T}_P} t'
@@ -187,7 +207,7 @@ but for all the signature in this paper, they will.
 
 
     To extend this result to infinite support, it suffices to 
-    use the family of substitutions~:
+    use the family of substitutions:
 
     \begin{equation*}
         \sigma_k (i) = \begin{cases}
@@ -203,4 +223,4 @@ but for all the signature in this paper, they will.
     To conclude it suffices to see that $t = \sqcup_k t\sigma_k$
     and use admissibility.
 
-\end{proof}
+\qed\end{proof}
