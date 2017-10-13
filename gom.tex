@@ -131,15 +131,15 @@
 %{ \comment} 
 %{ \endcomment }
 
-\title{Call-by-value contextual equivalence for combined  probabilistic and nondeterministic choice}
+\title{Contextual equivalence for algebraic effects under call-by-value, with combined  probability and nondeterminism as a worked example}
 \author{Aliaume Lopez\inst{1} 
   \and Alex Simpson \inst{2}}
 \institute{École Normale Supérieure Paris-Saclay,
     \\ Université Paris-Saclay, France \\ \email{aliaume.lopez@ens-paris-saclay.fr} \\ \;  \and
     Faculty of Mathematics and Physics \\ University of Ljubljana, Slovenia \\ \email{Alex.Simpson@fmf.uni-lj.si} }
 %
-\titlerunning{Generic Operational Metatheory}
-\authorrunning{Aliaume Lopez}
+\titlerunning{Contextual equivalence, algebraic effects, probability and nondeterminism}
+\authorrunning{A.\ Lopez and A.\ Simpson}
 
 %\providecommand{\event}{Fossacs 2018} 
 
@@ -149,17 +149,21 @@
 \maketitle
 
 \begin{abstract} 
-The goal of this paper is to give a systematic study of contextual equivalence
-in the presence of algebraic effects in a uniform, compact and syntactic way,
-in the continuation of preexisting work \cite{gom}. To reach 
-this objective, we extend a call-by-value PCF with a signature of algebraic effects, 
-and give an abstract equality between the contextual equivalence for this language and a
-usable logical relation, independently of the signature itself. Generic meta
-theorems are then proven using this abstract equivalence. To justify the
-usefulness of this approach, a direct link with denotational semantics
-and the work of Plotkin and Power \cite{plotkin2001adequacy} is
-developed, and signature of mixed non-determinism and probabilities is studied
-in-depth.
+We present a systematic study of contextual equivalence
+in the presence of algebraic effects, adapting previous work of Johann, Simpson and Voigtl\"{a}nder
+from its original call-by-name setting to call-by-value. As in the previous work, the central idea is to specify a
+basic operational preorder on ground-type effect trees. We consider three main approaches to 
+defining such preorders: using direct operational considerations, 
+via denotational semantics, and via (in)equational axiomatisations. To illustrate the utility of our methodology, we present a nontrivial case study: the combination of probabilistic choice with (either angelic or demonic) nondeterminism. In this case, the three methods of specifying the basic preorder (operationally in terms of Markov decision processes, denotationally using  a suitable powerdomain, and axiomatically) all lead to the same contextual equivalence.
+%in the continuation of preexisting work \cite{gom}. To reach 
+%this objective, we extend a call-by-value PCF with a signature of algebraic effects, 
+%and give an abstract equality between the contextual equivalence for this language and a
+%usable logical relation, independently of the signature itself. Generic meta
+%theorems are then proven using this abstract equivalence. To justify the
+%usefulness of this approach, a direct link with denotational semantics
+%and the work of Plotkin and Power \cite{plotkin2001adequacy} is
+%developed, and signature of mixed non-determinism and probabilities is studied
+%in-depth.
 \end{abstract}
 
 
