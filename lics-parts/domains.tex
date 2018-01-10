@@ -14,9 +14,9 @@ This preorder is not necessarily admissible or compositional, therefore
 we can ask ourselves what conditions on the semantic map $\llbracket \cdot
 \rrbracket$ are sufficient to obtain the desired properties.
 
-\begin{ensps}
+
 \subsection{Admissibility}
-\end{ensps}
+
 
 One natural requirement for a semantic map is to be scott-continuous, and 
 it turns out that it automatically gives an admissible preorder.
@@ -27,7 +27,7 @@ it turns out that it automatically gives an admissible preorder.
     is admissible.
 \end{alemma}
 
-\begin{ensps}
+
 \begin{proof}
     Let $(t_i)_i$ and $(t_i')_i$ be two ascending chains for $\sqeq$
     with least upper bounds $t$ and $t'$ such that $\llbracket t_i \rrbracket
@@ -42,11 +42,11 @@ it turns out that it automatically gives an admissible preorder.
                     \text{ scott-continuity } \\
     \end{align*}
 \qed\end{proof}
-\end{ensps}
 
-\begin{ensps}
+
+
 \subsection{Compositionality}
-\end{ensps}
+
 
 A natural assumption for compositionality is asking for 
 the interpretation to be a homomorphism and for $D$ 
@@ -68,7 +68,7 @@ under some homomorphisms [TODO cite].
     \end{equation*}
 \end{alemma}
 
-\begin{ensps}
+
 \begin{proof}
     For $i \in \{ 1, 2\}$ we have the following commutation diagram 
     obtained using the universal property of $\Tree_\Nat$ on 
@@ -113,7 +113,7 @@ under some homomorphisms [TODO cite].
     And we have the conclusion: $t \sigma_1 \sqeq_b t \sigma_2$.
 
 \qed\end{proof}
-\end{ensps}
+
 
 But it is not enough to  guarantee compositionality of the preorder,
 as it can be seen in the example \ref{ex:supercounterexample}.
@@ -171,7 +171,7 @@ the definition of \emph{algebraic} effects.
     from $D$ to $D$ such that $\tau = h_\tau \circ \llbracket \cdot \rrbracket$.
 \end{alemma}
 
-\begin{ensps}
+
 \begin{proof}
     It suffices to use the universal property of $\Tree_\Nat$ 
     and the fact that $\tau$ can be restricted to a function 
@@ -179,7 +179,7 @@ the definition of \emph{algebraic} effects.
     homomorphism of $\Sigma$-continuous algebras, 
     otherwise the universal property cannot be used.
 \qed\end{proof}
-\end{ensps}
+
 
 \begin{alemma}[Second half of compositionality]
     If $\llbracket \cdot \rrbracket$ is a homomorphism 
@@ -187,7 +187,7 @@ the definition of \emph{algebraic} effects.
     the preorder $\sqeq_b$ is compositional.
 \end{alemma}
 
-\begin{ensps}
+
 \begin{proof}
     The only thing to prove is that given two trees $t_1$ and 
     $t_2$ such that $\llbracket t_1 \rrbracket \leq \llbracket t_2 \rrbracket$
@@ -212,7 +212,7 @@ the definition of \emph{algebraic} effects.
     equality of the different ways of writing 
     the same homomorphism.
 \qed\end{proof}
-\end{ensps}
+
 
 \subsection{Examples}
 
@@ -234,11 +234,11 @@ or Powerkegelspitze \cite{KeimelP2016}.
     an admissible and compositional preorder.
 \end{example}
 
-\begin{ensps}
+
     \begin{proof}
         Use the freeness property.
     \qed\end{proof}
-\end{ensps}
+
 
 The second possibility is to already have a denotational semantics 
 for the language defined in a monadic way on the category of $\omega$CPPOs.
@@ -250,7 +250,7 @@ for the language defined in a monadic way on the category of $\omega$CPPOs.
     preorder obtained is admissible and compositional.
 \end{example}
 
-\begin{ensps}
+
 \begin{proof}
     In a full interpretation with a monad $T$, for every effect $\sigma$
     there is a family of morphisms $(\sigma_X) : \mathbb{N} \times (T X)^\mathbb{N} \to T X$
@@ -285,7 +285,6 @@ for the language defined in a monadic way on the category of $\omega$CPPOs.
     and we have 
     $f = f^\dagger \circ \eta_{\mathbb{N}_\bot}$.
 \qed\end{proof}
-\end{ensps}
 
 This result can be used to show that given an interpretation,
 the contextual preorder we can define is the same as 
@@ -310,14 +309,12 @@ result comes from \cite{plotkin2001adequacy}.
     using the interpretation.
 \end{acorollary}
 
-\begin{ensps}
 \begin{proof}
     On closed ground type terms $|M| \sqeq_b |M'|$ is equivalent 
     to $\llbracket |M| \rrbracket \leq \llbracket |M'| \rrbracket$.
     Using the adequacy result from \cite{plotkin2001adequacy} 
     it is equivalent to $\llbracket M \rrbracket \leq \llbracket M' \rrbracket$.
 \qed\end{proof}
-\end{ensps}
 
 An interesting lemma can be used to prove compositionality 
 and admissibility of a preorder. The idea is to find a 
@@ -364,7 +361,6 @@ a free preorder in an abstract way.
     any preorder constructed using the same pattern.
 \end{alemma}
 
-\begin{ensps}
 \begin{proof}
     There is a free $\omega$CPPO for this inequational 
     theory \cite{abramsky1994}. Using Lemma \ref{lem:freealgebra}
@@ -376,4 +372,4 @@ a free preorder in an abstract way.
     can be factored out, which can be translated back into 
     an inclusion between the two preorders.
 \qed\end{proof}
-\end{ensps}
+

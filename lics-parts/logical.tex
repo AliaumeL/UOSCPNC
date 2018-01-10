@@ -65,7 +65,6 @@ all the properties in Figure \ref{fig:galois} are automatically true.
 
 
 \begin{figure}[h]
-    \begin{multicols}{3}
         \begin{equation*}
             r^{\top\top\top} = r^\top
         \end{equation*}
@@ -81,7 +80,6 @@ all the properties in Figure \ref{fig:galois} are automatically true.
         \begin{equation*}
             r \subseteq s \implies r^{\top\top} \subseteq s^{\top\top}
         \end{equation*}
-    \end{multicols}
     \caption{Properties of the $\top$ operation}
     \label{fig:galois}
 \end{figure}
@@ -253,7 +251,6 @@ with the constructions of the language.
     The logical relation is adequate.
 \end{alemma}
 
-\begin{ensps}
 \begin{proof}
     Let $M$ and $M'$ be two computation terms of type $\Nat$
     such that $\emptyset \vdash M \| \Nat \|_C M'$. 
@@ -267,7 +264,6 @@ with the constructions of the language.
     Therefore it suffices to show that $(Id,Id) \in \| \Nat \|_C^\top$ 
     to conclude, but this is a direct consequence of lemma \ref{lem:stackrefl}.
 \qed\end{proof}
-\end{ensps}
 
 We are now going to prove compatibility of the logical relation with 
 the different constructions of the language. To simplify the proofs, 
@@ -650,7 +646,6 @@ or product types.
     \end{equation*}
 \end{alemma}
 
-\begin{ensps}
 \begin{proof}
     The right-to-left implication is a consequence of the definition 
     and the monotonicity of the $\top\top$-closure.
@@ -690,7 +685,6 @@ or product types.
 
     \end{itemize}
 \qed\end{proof}
-\end{ensps}
 
 
 \begin{alemma}[Largest adequate compatible and substitutive relation]
@@ -699,7 +693,6 @@ or product types.
     being compatible with the rules in Figure \ref{fig:substitutive}.
 \end{alemma}
 
-\begin{ensps}
 \begin{proof}
     First of all, it is clear that the logical relation is substitutive 
     by definition as an open extension.
@@ -776,7 +769,6 @@ or product types.
     \tau \|_V V'$.
 
 \qed\end{proof}
-\end{ensps}
 
 \begin{figure}[h]
     \begin{center}
@@ -792,7 +784,6 @@ or product types.
 \begin{alemma}[Contextual preorder is substitutive]
 \end{alemma}
 
-\begin{ensps}
 \begin{proof}
     Because contextual preorder is transitive, it suffices 
     to show that we have the following equality when 
@@ -808,7 +799,6 @@ or product types.
     relation, and we know that the logical relation is included in 
     the contextual preorder, allowing us to conclude.
 \qed\end{proof}
-\end{ensps}
 
 
 \begin{atheorem}[Contextual preorder equals the logical relation]
@@ -838,7 +828,6 @@ justifies the fact that we only ask for a preorder on $\Tree_\Nat$.
     admissible if and only if it is admissible on natural numbers. 
 \end{atheorem}
 
-\begin{ensps}
 \begin{proof}
     Assume that we have $M$ and $M'$ terms constructed 
     only as trees of effect constructors with 
@@ -884,7 +873,6 @@ justifies the fact that we only ask for a preorder on $\Tree_\Nat$.
         |S, M[(M_i)]| \sqeq_b |S', M'[(M_i')] |
     \end{equation*}
 \qed\end{proof}
-\end{ensps}
 
 
 \begin{atheorem}[Contextual preorder can be reduced to closed terms]
@@ -919,7 +907,6 @@ of $\sqeq_b$.
     \end{equation*}
 \end{alemma}
 
-\begin{ensps}
 \begin{proof}
     \begin{itemize}
         \item Let's assume that $\sqeq_b$ is compositional. For 
@@ -990,4 +977,4 @@ of $\sqeq_b$.
     \end{itemize} 
 
 \qed\end{proof}
-\end{ensps}
+

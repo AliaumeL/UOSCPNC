@@ -1,0 +1,320 @@
+%% For double-blind review submission, w/o CCS and ACM Reference (max submission space)
+\documentclass[sigplan,9pt,review]{acmart}\settopmatter{printfolios=true,printccs=false,printacmref=false}
+%% For double-blind review submission, w/ CCS and ACM Reference
+%\documentclass[sigplan,10pt,review,anonymous]{acmart}\settopmatter{printfolios=true}
+%% For single-blind review submission, w/o CCS and ACM Reference (max submission space)
+%\documentclass[sigplan,10pt,review]{acmart}\settopmatter{printfolios=true,printccs=false,printacmref=false}
+%% For single-blind review submission, w/ CCS and ACM Reference
+%\documentclass[sigplan,10pt,review]{acmart}\settopmatter{printfolios=true}
+%% For final camera-ready submission, w/ required CCS and ACM Reference
+%\documentclass[sigplan,10pt]{acmart}\settopmatter{}
+
+
+%% Conference information
+%% Supplied to authors by publisher for camera-ready submission;
+%% use defaults for review submission.
+\acmConference[]{}{}{}
+\acmYear{2018}
+\acmISBN{} % \acmISBN{978-x-xxxx-xxxx-x/YY/MM}
+\acmDOI{} % \acmDOI{10.1145/nnnnnnn.nnnnnnn}
+\startPage{1}
+
+%% Copyright information
+%% Supplied to authors (based on authors' rights management selection;
+%% see authors.acm.org) by publisher for camera-ready submission;
+%% use 'none' for review submission.
+\setcopyright{none}
+%\setcopyright{acmcopyright}
+%\setcopyright{acmlicensed}
+%\setcopyright{rightsretained}
+%\copyrightyear{2017}           %% If different from \acmYear
+
+%% Bibliography style
+\bibliographystyle{ACM-Reference-Format}
+%% Citation style
+%\citestyle{acmauthoryear}  %% For author/year citations
+%\citestyle{acmnumeric}     %% For numeric citations
+%\setcitestyle{nosort}      %% With 'acmnumeric', to disable automatic
+                            %% sorting of references within a single citation;
+                            %% e.g., \cite{Smith99,Carpenter05,Baker12}
+                            %% rendered as [14,5,2] rather than [2,5,14].
+%\setcitesyle{nocompress}   %% With 'acmnumeric', to disable automatic
+                            %% compression of sequential references within a
+                            %% single citation;
+                            %% e.g., \cite{Baker12,Baker14,Baker16}
+                            %% rendered as [2,3,4] rather than [2-4].
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Note: Authors migrating a paper from traditional SIGPLAN
+%% proceedings format to PACMPL format must update the
+%% '\documentclass' and topmatter commands above; see
+%% 'acmart-pacmpl-template.tex'.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%% Some recommended packages.
+\usepackage{booktabs}   %% For formal tables:
+                        %% http://ctan.org/pkg/booktabs
+\usepackage{subcaption} %% For complex figures with subfigures/subcaptions
+                        %% http://ctan.org/pkg/subcaption
+
+
+%%%Author packages
+
+
+%\usepackage{cmap}
+% \usepackage{underscore}
+
+\usepackage[english]{babel}
+%\usepackage[utf8x]{inputenc}
+%\usepackage[T1]{fontenc}
+\usepackage{paralist}
+%\usepackage[usenames, dvipsnames]{color}
+%\usepackage{hyperref}
+%\usepackage{verbatim}
+%\usepackage{cite}
+
+
+\usepackage{amssymb,amsfonts,mathrsfs}
+\usepackage{stmaryrd}
+\usepackage{marvosym}
+\usepackage{bussproofs}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,positioning,decorations.pathreplacing,automata,shadows}
+\usepackage{tikz-cd}
+
+%%%Author macros
+
+
+% Syntax 
+\newcommand{\Nat}{\textnormal{Nat}}
+\newcommand{\Tree}{\textnormal{Tree}}
+\newcommand{\Succ}{\operatorname{S}}
+\newcommand{\Zero}{\textnormal{Z}}
+\newcommand{\Fix}{\operatorname{fix}}
+\newcommand{\Unroll}{\operatorname{unroll}}
+\newcommand{\Pos}{\operatorname{Pos}}
+\newcommand{\In}{\operatorname{in}}
+\newcommand{\Inr}{\operatorname{inl}}
+\newcommand{\Inl}{\operatorname{inr}}
+\newcommand{\Out}{\operatorname{out}}
+\newcommand{\Ret}{\operatorname{return}}
+\newcommand{\Bind}[3]{\operatorname{let} #2 \Leftarrow #1 \operatorname{in} #3}
+\newcommand{\lcase}[3]{\operatorname{case} #1 \operatorname{of} \, \Zero \Rightarrow #2; \Succ(x) \Rightarrow #3}
+\newcommand{\scase}[3]{\operatorname{case} #1 \operatorname{of} \, \Inl(x) \Rightarrow #2; \Inr (x) \Rightarrow #3}
+\newcommand{\pcase}[2]{\operatorname{case} #1 \operatorname{of} \, (x,y) \Rightarrow #2}
+
+% Arrows 
+\makeatletter
+\newcommand\twoheaduparrow{%
+\mathrel{\mathchoice
+  {\raise2pt\hbox{%
+  \ooalign{\hss$\uparrow$\hss\cr\lower2pt\hbox{%
+  $\uparrow$}}}}
+  {\raise2pt\hbox{%
+  \ooalign{\hss$\uparrow$\hss\cr\lower2pt\hbox{%
+  $\uparrow$}}}}
+  {\raise1.5pt\hbox{%
+  \ooalign{\hss$\scriptstyle\uparrow$\hss\cr\lower1.5pt\hbox{%
+  $\scriptstyle\uparrow$}}}}
+  {\raise1.1pt\hbox{%
+  \ooalign{\hss$\scriptscriptstyle\uparrow$\hss\cr\lower1.1pt\hbox{%
+  $\scriptscriptstyle\uparrow$}}}}
+}}
+\makeatletter
+\newcommand\twoheaddownarrow{%
+\mathrel{\mathchoice
+  {\raise2pt\hbox{%
+  \ooalign{\hss$\downarrow$\hss\cr\lower2pt\hbox{%
+  $\downarrow$}}}}
+  {\raise2pt\hbox{%
+  \ooalign{\hss$\downarrow$\hss\cr\lower2pt\hbox{%
+  $\downarrow$}}}}
+  {\raise1.5pt\hbox{%
+  \ooalign{\hss$\scriptstyle\downarrow$\hss\cr\lower1.5pt\hbox{%
+  $\scriptstyle\downarrow$}}}}
+  {\raise1.1pt\hbox{%
+  \ooalign{\hss$\scriptscriptstyle\downarrow$\hss\cr\lower1.1pt\hbox{%
+  $\scriptscriptstyle\downarrow$}}}}
+}}
+
+
+% Results
+\newcommand{\res}{\operatorname{results}}
+
+% Effects 
+\newcommand{\prEff}{\operatorname{pr}}
+\newcommand{\orEff}{\operatorname{or}}
+\newcommand{\exEff}{\operatorname{raise}}
+
+% Reduction
+\newcommand{\reduces}{\rightarrowtail}
+\newcommand{\reductionPair}[2]{#1 \leadsto #2}
+\newcommand{\sqeq}{\sqsubseteq}
+
+
+% Mixed non-determinism
+\newcommand{\drop}{\operatorname{drop}}
+\newcommand{\odd}{\operatorname{odd}}
+\newcommand{\even}{\operatorname{even}}
+
+
+%%%%% ---- THEOREMS ----- 
+
+\newenvironment{atheorem}[1][]{\begin{theorem}[#1]}{\end{theorem}}
+\newenvironment{alemma}[1][]{\begin{lemma}[#1]}{\end{lemma}}
+\newenvironment{acorollary}[1][]{\begin{corollary}[#1]}{\end{corollary}}
+\newenvironment{adefinition}[1][]{\begin{definition}[#1]\em}{\end{definition}}
+
+
+
+\begin{document}
+
+%% Title information
+\title[Contextual equivalence for combined probability and nondeterminism]{Contextual equivalence for algebraic effects under call-by-value, \\ illustrated using combined  probability and nondeterminism}
+
+%\titlenote{}             %% \titlenote is optional;
+                                        %% can be repeated if necessary;
+                                        %% contents suppressed with 'anonymous'
+%\subtitle{}                     %% \subtitle is optional
+%\subtitlenote{}       %% \subtitlenote is optional;
+                                        %% can be repeated if necessary;
+                                        %% contents suppressed with 'anonymous'
+
+
+%% Author information
+%% Contents and number of authors suppressed with 'anonymous'.
+%% Each author should be introduced by \author, followed by
+%% \authornote (optional), \orcid (optional), \affiliation, and
+%% \email.
+%% An author may have multiple affiliations and/or emails; repeat the
+%% appropriate command.
+%% Many elements are not rendered, but should be provided for metadata
+%% extraction tools.
+
+%% Author with single affiliation.
+\author{Aliaume Lopez}
+% \authornote{with author1 note}          %% \authornote is optional;
+                                        %% can be repeated if necessary
+\orcid{}             %% \orcid is optional
+\affiliation{
+  \department{\'Ecole Normale Sup\'erieure Paris-Saclay}              %% \department is recommended
+  \institution{Universit\'e Paris-Saclay, France}            %% \institution is required
+%  \country{France}                    %% \country is recommended
+}
+\email{aliaume.lopez@ens-paris-saclay.fr}          %% \email is recommended
+
+%% Author with two affiliations and emails.
+\author{Alex Simpson}
+% \authornote{with author2 note}          %% \authornote is optional;
+                                        %% can be repeated if necessary
+%\orcid{nnnn-nnnn-nnnn-nnnn}             %% \orcid is optional
+\affiliation{
+%  \position{Position2a}
+  \department{Faculty of Mathematics and Physics}             %% \department is recommended
+  \institution{University of Ljubljana, Slovenia}           %% \institution is required
+%  \streetaddress{Street2a Address2a}
+%  \city{City2a}
+%  \state{State2a}
+%  \postcode{Post-Code2a}
+% \country{Slovenia}                   %% \country is recommended
+}
+\email{Alex.Simpson@fmf.uni-lj.si}         %% \email is recommended
+
+%% Abstract
+%% Note: \begin{abstract}...\end{abstract} environment must come
+%% before \maketitle command
+\begin{abstract}
+We present a systematic study of contextual equivalence
+in the presence of algebraic effects, adapting the ``generic operational metatheory'' of Johann, Simpson and Voigtl\"{a}nder (LiCS 2010)
+from its original call-by-name setting to call-by-value. As in this previous work, the central idea is to define contextual equivalence by specifying a
+\emph{basic operational preorder} on ground-type effect trees. We catalogue three main approaches to 
+defining such preorders: (i) using direct operational considerations,  (ii) 
+via denotational semantics, and (iii) via (in)equational axiomatisations. To illustrate this methodology in practice, we present a nontrivial case study: the combination of probabilistic choice with (either angelic or demonic) nondeterminism. In each case (either angelic or demonic), the three  methods of specifying the basic preorder (operationally in terms of Markov decision processes, denotationally using  a suitable powerdomain, and axiomatically) lead to a single canonical relation of contextual equivalence.
+\end{abstract}
+
+
+%%% 2012 ACM Computing Classification System (CSS) concepts
+%%% Generate at 'http://dl.acm.org/ccs/ccs.cfm'.
+%\begin{CCSXML}
+%<ccs2012>
+%<concept>
+%<concept_id>10011007.10011006.10011008</concept_id>
+%<concept_desc>Software and its engineering~General programming languages</concept_desc>
+%<concept_significance>500</concept_significance>
+%</concept>
+%<concept>
+%<concept_id>10003456.10003457.10003521.10003525</concept_id>
+%<concept_desc>Social and professional topics~History of programming languages</concept_desc>
+%<concept_significance>300</concept_significance>
+%</concept>
+%</ccs2012>
+%\end{CCSXML}
+%
+%\ccsdesc[500]{Software and its engineering~General programming languages}
+%\ccsdesc[300]{Social and professional topics~History of programming languages}
+%%% End of generated code
+
+
+%% Keywords
+%% comma separated list
+\keywords{contextual equivalence, call-by-value, algebraic effects, operational semantics, domain theory, nondeterminism, probabilistic choice, Markov decision processes}  %% \keywords are mandatory in final camera-ready submission
+
+
+%% \maketitle
+%% Note: \maketitle command must come after title commands, author
+%% commands, abstract environment, Computing Classification System
+%% environment and commands, and keywords command.
+\maketitle
+
+\input{lics-parts/intro}
+
+\input{lics-parts/pcf}
+
+\input{lics-parts/rewriting}
+
+\input{lics-parts/contextual}
+
+\input{lics-parts/logical}
+
+\input{lics-parts/domains}
+
+\input{lics-parts/free}
+
+\input{lics-parts/mixed}
+
+\input{lics-parts/conclusion}
+
+
+%%% Acknowledgments
+%\begin{acks}                            %% acks environment is optional
+%                                        %% contents suppressed with 'anonymous'
+%  %% Commands \grantsponsor{<sponsorID>}{<name>}{<url>} and
+%  %% \grantnum[<url>]{<sponsorID>}{<number>} should be used to
+%  %% acknowledge financial support and will be used by metadata
+%  %% extraction tools.
+%  This material is based upon work supported by the
+%  \grantsponsor{GS100000001}{National Science
+%    Foundation}{http://dx.doi.org/10.13039/100000001} under Grant
+%  No.~\grantnum{GS100000001}{nnnnnnn} and Grant
+%  No.~\grantnum{GS100000001}{mmmmmmm}.  Any opinions, findings, and
+%  conclusions or recommendations expressed in this material are those
+%  of the author and do not necessarily reflect the views of the
+%  National Science Foundation.
+%\end{acks}
+
+
+%% Bibliography
+%\bibliography{bibfile}
+
+\bibliography{bibliographie}
+
+%% Appendix
+\appendix
+\section{Appendix}
+
+Text of appendix \ldots
+
+\end{document}
