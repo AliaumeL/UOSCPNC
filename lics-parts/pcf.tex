@@ -1,18 +1,19 @@
 \section{Parametrized class of languages}
 
 The studied class of languages is based on PCF \cite{plotkin1977lcf} in a call-by-value setting 
-parametrized by extra operations called \emph{effects}, which is a setting very similar to 
-the one studied by Plotikn and Power \cite{plotkin2001adequacy}. 
-The main motivation is to find result similar to the ones 
-we already have in a call-by-name setting \cite{gom}.
+parameterised by additional \emph{effect} operations, which is a setting very similar to 
+the one studied by Plotkin and Power in \cite{plotkin2001adequacy}. 
+As in  \cite{gom}, where a similar programme was carried out in a call-by-name setting,
+our goal is to provide generic mathematical machinery for defining and 
+analysing contextual equivalence. 
 
 The parameter for this class of languages is $\Sigma$,  
-a set of symbols with a finite arity.
-Refined call-by-value \cite{Ugo2017} is used instead of regular call-by-value 
-to help separating effect evaluation and regular term 
-evaluation in the language. However the results apply equally to both 
-languages because there is a direct translation from one to
-the other that can be seen in Figure \ref{fig:refinedNormal}.
+a set of symbols each of a finite arity.
+Fine-grained call-by-value [[REFERENCES]]  is used, instead of regular call-by-value,
+because it simplifies the technical development by devolving all sequencing of effects to a single
+language construct. 
+This is a purely stylistic choice, as there are easy translations between fine-grained and regular call-by-value
+[[REFERENCES]].
 
 The type system is fairly simple, with only 
 natural numbers and functions from one 
@@ -30,7 +31,7 @@ in this context. In fact, logical relations excel in proving parametricity
 results \cite{wadler1989theorems}.
 In the spirit of simplicity 
 and to allow comparison with the work on bisimulations by
-Ugo Dal Lago, Francesco Gavazzo and Paul Blain Lévi 
+Ugo Dal Lago, Francesco Gavazzo and Paul Blain Levy
 \cite{Ugo2017} we take the same kind of effect signature 
 as they do. Technically, it means that compared to 
 the paper from Johann et al. \cite{gom} it lacks 
