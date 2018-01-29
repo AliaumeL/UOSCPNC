@@ -61,6 +61,10 @@ Following~\cite{gom}, we consider the basic ingredient for specifying  a notion 
 contextual equivalence for a programming language to be a preorder $\Basicleq$ on $\Trees(\mathbb{N})$.
 As long as the preorder is both admissible and compositional (equivalently an admissible substitutive precongruence), the mathematical tools of~\cite{gom} and Sections [[WHICH]] of the present paper are applicable. These allow fundamental properties of contextual equivalence to be proved.
 
+We observe that admissible compositional preorders are closed under arbitrary intersection. That is, if
+$\mathcal{R} \subseteq \mathcal{P}(\mathbb{N} \times \mathbb{N})$ is a family of admissible compositional preorders
+then so is $\bigcap \mathcal{R}$.
+
 Every family $\mathcal{O} \subseteq \mathcal{P}(\Trees(\mathbb{N}))$ determines a preorder $\Basicleq_\mathcal{O}$ on 
 $\Trees(\mathbb{N})$ by
 \begin{equation}
@@ -85,7 +89,7 @@ of $\Trees(\mathbb{N})$.
 \end{aproposition}
 
 It is possible to characterise the compositionality property for relations of the form $\Basicleq_\mathcal{O}$, using a notion of \emph{decomposability} of $\mathcal{O}$, see~\cite{gom}. 
-[[IT WOULD BE NICE TO REPEAT THIS AND REFINE IT, E.G., TO REFLECT THE SUBSTITUTIVE PRECONGRUENCE DEFINITION OF COMPOSITIONALITY.]]
+[[IT WOULD POSSIBLY BE NICE TO REPEAT THIS AND REFINE IT, E.G., TO REFLECT THE SUBSTITUTIVE PRECONGRUENCE DEFINITION OF COMPOSITIONALITY.]]
 
 
 
