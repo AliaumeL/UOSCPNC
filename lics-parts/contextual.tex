@@ -129,30 +129,6 @@ that it should behave nicely with composition of trees (compositionality).
 
 \vspace{1em}
 
-\begin{adefinition}[Admissibility]
-    A relation $R$ on $\Tree_\Nat$ is admissible for $\sqsubseteq$ when 
-    for every ascending chain $(t_i)_{i \geq 0}$ and 
-    $(t_i')_{i\geq 0}$ such that $t_i \, R \, t_i'$:
-
-    \[
-        \left(\bigsqcup_{i \geq 0} t_i\right) \, R \, \left(\bigsqcup_{i \geq 0} t_i'\right)
-    \]
-\end{adefinition}
-
-\begin{adefinition}[Compositionality]
-    A relation $R$ on $\Tree_\Nat$ is compositional when 
-    $t \, R \, t'$ and $\forall n, t_n \, R \, t_n'$ 
-    implies that:
-    
-    \[
-        t[ \bar{n} := t_n] \, R \, t'[ \bar{n} := t_n']
-    \]
-
-    Where $t[ \bar{n} := t_n]$ is defined as the lifted 
-    $h_\sigma (t)$
-    where $\sigma (n) = t_n$.
-\end{adefinition}
-
 The compositionality and admissibility requirements are 
 natural ones, and they automatically have good properties 
 on natural numbers (lemma \ref{lem:admcompnat}),

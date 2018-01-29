@@ -90,7 +90,8 @@
 
 % Syntax 
 \newcommand{\Nat}{\textnormal{Nat}}
-\newcommand{\Tree}{\textnormal{Tree}}
+
+
 \newcommand{\Succ}{\operatorname{S}}
 \newcommand{\Zero}{\textnormal{Z}}
 \newcommand{\Fix}{\operatorname{fix}}
@@ -140,14 +141,28 @@
   $\scriptscriptstyle\downarrow$}}}}
 }}
 
+% Trees
+
+\newcommand{\Trees}{\textnormal{Trees}}
+\newcommand{\Tree}{\textnormal{Tree}}
+
+\newcommand{\Treeleq}{\sqsubseteq}
+
+\newcommand{\Basicleq}{\preccurlyeq}
 
 % Results
 \newcommand{\res}{\operatorname{results}}
 
 % Effects 
-\newcommand{\prEff}{\operatorname{pr}}
-\newcommand{\orEff}{\operatorname{or}}
-\newcommand{\exEff}{\operatorname{raise}}
+\newcommand{\prEff}{\operatorname{\mathit{pr}}}
+\newcommand{\orEff}{\operatorname{\mathit{or}}}
+\newcommand{\exEff}{\operatorname{\mathit{raise}}}
+
+\newcommand{\prnd}{\text{prnd}}
+\newcommand{\pr}{\text{pr}}
+\newcommand{\nd}{\text{nd}}
+\newcommand{\ang}{\text{ang}}
+\newcommand{\dem}{\text{dem}}
 
 % Reduction
 \newcommand{\reduces}{\rightarrowtail}
@@ -164,9 +179,10 @@
 %%%%% ---- THEOREMS ----- 
 
 \newenvironment{atheorem}[1][]{\begin{theorem}[#1]}{\end{theorem}}
+\newenvironment{aproposition}[1][]{\begin{proposition}[#1]}{\end{proposition}}
 \newenvironment{alemma}[1][]{\begin{lemma}[#1]}{\end{lemma}}
 \newenvironment{acorollary}[1][]{\begin{corollary}[#1]}{\end{corollary}}
-\newenvironment{adefinition}[1][]{\begin{definition}[#1]\em}{\end{definition}}
+\newenvironment{adefinition}[1][]{\begin{definition}[#1]}{\end{definition}}
 
 
 
@@ -271,6 +287,12 @@ defining such preorders: (i) operational (ii) denotational, and (iii) axiomatic;
 
 \input{lics-parts/intro}
 
+\input{lics-parts/trees}
+
+\input{lics-parts/basic}
+
+\input{lics-parts/operational-order}
+
 \input{lics-parts/pcf}
 
 \input{lics-parts/rewriting}
@@ -313,8 +335,7 @@ defining such preorders: (i) operational (ii) denotational, and (iii) axiomatic;
 
 %% Appendix
 \appendix
-\section{Appendix}
 
-Text of appendix \ldots
+\input{lics-parts/appendix}
 
 \end{document}

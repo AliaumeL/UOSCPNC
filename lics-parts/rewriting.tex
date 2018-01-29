@@ -1,26 +1,30 @@
-\subsection{Uniform Small-Step Semantics}
+% \subsection{Uniform Small-Step Semantics}
 
-The first step to define contextual equivalence 
-is to define an operational semantics.
-Because we are considering a \emph{class} of languages 
-we are going to have a two steps approach: first 
-interpret the core language independently of the parameter $\Sigma$
-and only then \emph{refine} this semantics to give one to the effects.
+%The first step to define contextual equivalence 
+%is to define an operational semantics.
+%Because we are considering a \emph{class} of languages 
+%we are going to have a two steps approach: first 
+%interpret the core language independently of the parameter $\Sigma$
+%and only then \emph{refine} this semantics to give one to the effects.
 
-A small-step semantics is given using 
-stack and frames \cite{gom}.
+[[THE REFERENCES NEED REORGANISING IN THIS PARAGRAPH]]
+We give a small-step operational semantics using 
+stacks and frames \cite{gom}.
 The link between this small-step semantics 
 and its big-step counterpart is 
 made both in \cite{plotkin2001adequacy} 
 and in \cite{Pitts2000}. This method
 can be traced back to \cite{Amadio2008} (1998) page 184 and 
-\cite{Felleisen1992}.
+\cite{Felleisen1992}. 
 
-In a refined call-by-value calculus stacks and frames 
-are very simple as it can be seen in Figure \ref{fig:stacks:frames}, 
-but few cases does not imply little expressive power, and 
-in fact any term with one free variable can be turned into 
-a stack. A type system for stacks is also defined Figure \ref{fig:stacks:types}.
+The syntax of stacks and frames is given in Figure \ref{fig:stacks:frames}. 
+A type system for stacks is also defined Figure \ref{fig:stacks:types}.
+Because stacks are just a \texttt{let}-binding with one hole, we can define 
+application of a stack to a \emph{computation} which returns a computation
+obtained by substitution as defined in Figure \ref{fig:stackapplication}.
+We say that a pair $(S,M)$ of a stack and a computation term is 
+\emph{well typed} when $S : \sigma \multimap \tau$ and $M : \sigma$, 
+this is consistent with the following type-safety lemma.
 
 \begin{figure}[h]
     \begin{center}
@@ -31,16 +35,12 @@ a stack. A type system for stacks is also defined Figure \ref{fig:stacks:types}.
     \end{center}
     \caption{Stacks and Frames}
     \label{fig:stacks:frames}
-\end{figure}
-
-
-\begin{figure}[h]
     \begin{center}
         \AxiomC{$x:\tau \vdash_C M : \tau'$}
         \UnaryInfC{$\vdash \Bind{\square}{x:\tau}{M} : 
             \tau \multimap \tau'$}
         \DisplayProof
-        \hskip 1.5em
+        \vskip 1.5em
         \AxiomC{$\vdash E : \tau \multimap \tau'$}
         \AxiomC{$\vdash S : \tau' \multimap \tau''$}
         \BinaryInfC{$\vdash S \circ E : \tau \multimap \tau''$}
@@ -52,14 +52,6 @@ a stack. A type system for stacks is also defined Figure \ref{fig:stacks:types}.
     \end{center}
     \caption{Typing of Stacks and Frames}
     \label{fig:stacks:types}
-\end{figure}
-
-
-Because stacks are just a \texttt{let}-binding with one hole, we can define 
-application of a stack to a \emph{computation} which returns a computation
-obtained by substitution as defined in Figure \ref{fig:stackapplication}.
-
-\begin{figure}[h]
     \begin{align*}
         Id\{ M \} &= M \\
         (S \circ E) \{ M \} &= S \{ E \{ M \} \} \\
@@ -76,28 +68,27 @@ obtained by substitution as defined in Figure \ref{fig:stackapplication}.
     %following the rules in Figure \ref{fig:stackapplication}.
 %\end{adefinition}
 
-We say that a pair $(S,M)$ of a stack and a term is well 
-typed when $S : \sigma \multimap \tau$ and $M : \sigma$, 
-this will be consistent with the following safety theorem.
 
-\begin{alemma}[Safety]
-    Typing of stacks and frame is coherent
+\begin{alemma}
+    The typing of stacks and frames is consistent
     with the typing of terms and stack application.
 
     \begin{equation*}
-        \vdash S : \tau \multimap \tau' \, \wedge \, 
+        \vdash S : \tau \multimap \tau'  ~ \wedge ~ 
         \vdash_C M : \tau
-        \implies
+        ~ \implies ~
         \vdash_C S\{M\} : \tau'
     \end{equation*}
 \end{alemma}
 
-Now that evaluation stacks are defined, we can use them to define 
-the operational semantics of our language. First of all, on 
-simple computations, we can define a term reduction 
-as in Figure \ref{fig:termred}, then given this basic 
-reduction, we can use stacks to generalise the evaluation 
-process to more terms as seen in Figure \ref{fig:evalstep}.
+%Now that evaluation stacks are defined, we can use them to define 
+%the operational semantics of our language. First of all, on 
+%simple computations, we can define a 
+
+A basic reduction relation $\leadsto$, on computation terms, 
+is defined in Figure \ref{fig:termred}. Using this, a reduction relation $\reduces$ is
+defined, on well-typed stack-computation configurations, in 
+Figure \ref{fig:evalstep}.
 
 
 \begin{figure}[h]
@@ -114,10 +105,6 @@ process to more terms as seen in Figure \ref{fig:evalstep}.
     \end{center}
     \caption{Term reduction}
     \label{fig:termred}
-\end{figure}
-
-
-\begin{figure}[h]
     \begin{center}
         \begin{equation*}
             \begin{array}{lclr}
@@ -132,128 +119,29 @@ process to more terms as seen in Figure \ref{fig:evalstep}.
 \end{figure}
 
 \begin{alemma}[Safety]
-    If a pair $(S,M)$ is well-typed then 
-    evaluation preserves this property 
+    If a pair $(S,M)$ is well-typed then the
+    evaluation relation $\reduces$ preserves this property 
     and the co-domain of the stack never changes.
 \end{alemma}
 
-\begin{example}[Reduction for combination of non-determinism and probabilities]
-    We can consider the following term in our language with signature $\Sigma =
-    \{ \prEff, \orEff \}$:
+%\begin{example}[Reduction for combination of non-determinism and probabilities]
+%    We can consider the following term in our language with signature $\Sigma =
+%    \{ \prEff, \orEff \}$:
+%
+%    \begin{equation*}
+%        M = (\lambda x:\Nat. \prEff (x,\underline{1})) \underline{0}
+%    \end{equation*}
+%    
+%    This term corresponds to applying \underline{0} to a function 
+%    that tosses a coin and return either the input given to the 
+%    function or \underline{1}.
+%    It can be shown that $(Id,M)$ reduces to $(Id, \prEff (\underline{0},
+%    \underline{1}))$
+%    as one could expect. However there is no more reduction possible afterwards: the 
+%    evaluation is stuck, because there is no rule to evaluate 
+%    the effect of a coin toss.
+%\end{example}
 
-    \begin{equation*}
-        M = (\lambda x:\Nat. \prEff (x,\underline{1})) \underline{0}
-    \end{equation*}
-    
-    This term corresponds to applying \underline{0} to a function 
-    that tosses a coin and return either the input given to the 
-    function or \underline{1}.
-    It can be shown that $(Id,M)$ reduces to $(Id, \prEff (\underline{0},
-    \underline{1}))$
-    as one could expect. However there is no more reduction possible afterwards: the 
-    evaluation is stuck, because there is no rule to evaluate 
-    the effect of a coin toss.
-\end{example}
-
-
-\subsection{Computation Trees}
-
-We now have a definition of an operational semantics 
-for the parametrized language, but it lacks one thing: 
-any evaluation that encounters an effect is stuck, because 
-there is no rule to deal with them. The technical tool used to keep the 
-semantics uniform across the class of languages 
-is the notion of computation tree \cite{plotkin2001adequacy} \cite{gom}.
-
-The idea is that any effect has a finite amount of arguments defined 
-by its arity in $\Sigma$, because we do not know what the effect is going 
-to do with the different arguments, we are going to compute all of them, 
-and build a tree whose nodes are uninterpreted effects, and leaves are 
-syntactical values of our calculus. One problem arises because of 
-the fixed point operator: some trees can be infinite, and some computation 
-are not terminating. 
-
-To deal with both issues, trees of type $\tau$ are going to have an $\omega$CPPO 
-structure, meaning that there is a preorder $\sqeq$ on trees,
-that least-upper bounds of increasing sequences of trees 
-can be taken, and that there is a bottom tree $\bot$
-under any other tree. We are in fact building the free $\Sigma$-continuous algebra
-over the set of values of type $\tau$ \cite{abramsky1994}.
-
-\begin{adefinition}[Trees over a set]
-    A computation tree over a set $X$ is the
-    free continuous $\Sigma$-algebra over $X$.  
-    A continuous $\Sigma$-algebra is an $\omega$CPPO 
-    equipped with continuous functions of appropriate arity 
-    for each operation symbol in $\Sigma$; 
-    a morphism of such algebras is a strict continuous
-    function preserving the operations; the free 
-    continuous $\Sigma$-algebra functor
-    is the left adjoint to the forgetful 
-    functor from the category of continuous $\Sigma$-algebras to that of
-    sets.
-\end{adefinition}
-
-
-\begin{adefinition}[Computation Tree]
-    Given $\tau$ a type, a computation tree of type $\tau$
-    is an element of $\Tree_{\tau}$ which 
-    is a shorthand for the trees over the set of 
-    values of type $\tau$.
-
-    Because $\Tree_\tau$ is the free
-    continuous $\Sigma$-algebra over values of type $\tau$
-    we have the following universal property. 
-
-    For every function $f : \textnormal{Values}_\tau \to A$ where 
-    $A$ is a continuous $\Sigma$-algebra,
-    there exists a unique morphism $\hat{f} : \Tree_\tau \to A$
-    such that:
-
-    \begin{equation*}
-        f = \hat{f} \circ i
-    \end{equation*}
-
-    \begin{center}
-        \begin{tikzcd}
-            \textnormal{Values}_\tau
-            \arrow[r, "f"] 
-            \arrow[d, hook, "i"]
-            & A \\
-            \Tree_\tau \arrow[ru, dashrightarrow, "\hat{f}" below]
-        \end{tikzcd}
-    \end{center}
-\end{adefinition}
-
-It is worth noticing that the lifting operation $f \mapsto \hat{f}$ is
-a continuous functional. A consequence of this is the following monotonicity 
-property of the lifting.
-
-\begin{alemma}[Order preserving lift]
-    \label{lem:orderpreservinglift}
-    If $\sigma_1 : \Nat \to A$ and $\sigma_2 : \Nat \to A$ 
-    are two functions such that $\sigma_1 \leq \sigma_2$ pointwise,
-    then $\hat{\sigma_1} \leq \hat{\sigma_2}$ pointwise.
-\end{alemma}
-
-We can already see the usefulness of this definition 
-when looking at the construction of substitution:
-given abstractly, in full generality and 
-guaranteed to be continuous without any hassle. 
-
-\begin{adefinition}[Substitution]
-    Let $t \in \textnormal{Tree}_X$ 
-    and $\sigma : X \to \textnormal{Tree}_Y$.
-    Using the universal property, there exists a
-    unique lift $\hat{\sigma} : \textnormal{Tree}_X \to \textnormal{Tree}_Y$,
-    which is the substitution. We write $t\sigma$ as a shorthand for 
-    $\hat{\sigma}t$.
-\end{adefinition}
-
-Using this new construction it is now possible  
-to continue our definition of the operational semantics without 
-interpreting effects by building an infinite tree
-labeled by the effects encountered during evaluation.
 
 \subsection{Interpretation}
 

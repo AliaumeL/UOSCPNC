@@ -35,6 +35,11 @@ allowing to separate the semantics
 of the effects from the semantics of the ground language
 itself by using computation trees \cite{plotkin2001adequacy}.
 
+
+As in  \cite{gom}, where a similar programme was carried out in a call-by-name setting,
+our goal is to provide generic mathematical machinery for defining and 
+analysing contextual equivalence. 
+
 Following the work done by Patricia
 Johann, Alex Simpson and Janis Voigtländer \cite{gom}, we then define 
 a logical relation to capture the contextual 
@@ -44,6 +49,8 @@ The main difference is that our approach
 is done in a call-by-value setting, as opposed 
 to call-by-name.
 
+We use a language based on PCF \cite{plotkin1977lcf}, but with  a call-by-value 
+evaluation strategy
 
 We also continue the work done by Plotkin and Power \cite{plotkin2001adequacy}
 by using their result to link our setting to the denotational approach. This 
@@ -53,3 +60,34 @@ non-determinism and probability, a subject that has been regularly encountered
 in denotational models \cite{tix2009semantic} \cite{JGL-mscs16}
 \cite{KeimelP2016} and the study concurrent programs
 \cite{Mislove2000} \cite{mislove2004axioms}.
+
+
+In this section we are going to fix a specific signature $\Sigma$
+containing two binary operators \texttt{pr} and \texttt{or}. The two
+operators are used to model a language where both probabilistic choice 
+and non-determinism coexist. Combining these specific effects has been 
+the subject of numerous papers, and even when restricting ourselves to the 
+denotational setting, the work of Regina Tix on powercones \cite{tix2009semantic} 
+continued afterwards by Plotkin and Keimel \cite{KeimelP2016} on Kegelspitze
+shows the interest of such combination.
+A more functional version of theses domains can also be found in the work of Jean-Goubault Larrecq 
+\cite{JGL-mscs16}.
+
+
+
+This setting is purposely restricted, and several improvements can 
+be added without technical issue. For instance, more complex types 
+such as sum, products and even type polymorphism can be studied 
+in this context. In fact, logical relations excel in proving parametricity 
+results \cite{wadler1989theorems}.
+In the spirit of simplicity 
+and to allow comparison with the work on bisimulations by
+Ugo Dal Lago, Francesco Gavazzo and Paul Blain Levy
+\cite{Ugo2017} we take the same kind of effect signature 
+as they do. Technically, it means that compared to 
+the paper from Johann et al. \cite{gom} it lacks 
+three of the four effect constructions, but as noticed 
+in the said paper, all of the constructions share the
+same pattern of proof, so that they actually treated 
+only one of the four cases in their proofs.
+

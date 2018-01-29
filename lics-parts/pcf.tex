@@ -1,44 +1,21 @@
-\section{Parametrized class of languages}
+\section{A functional language with algebraic effects}
 
-The studied class of languages is based on PCF \cite{plotkin1977lcf} in a call-by-value setting 
-parameterised by additional \emph{effect} operations, which is a setting very similar to 
-the one studied by Plotkin and Power in \cite{plotkin2001adequacy}. 
-As in  \cite{gom}, where a similar programme was carried out in a call-by-name setting,
-our goal is to provide generic mathematical machinery for defining and 
-analysing contextual equivalence. 
-
-The parameter for this class of languages is $\Sigma$,  
-a set of symbols each of a finite arity.
+We use a  simply-typed  functional language, with a base type of natural numbers, general recursion, and a call-by-value evaluation strategy. In addition, 
+the language is 
+parameterised by a collection $\Sigma$ of \emph{effect} operations, resulting in a 
+language similar to that considered in.~\cite{plotkin2001adequacy}.
 Fine-grained call-by-value [[REFERENCES]]  is used, instead of regular call-by-value,
 because it simplifies the technical development by devolving all sequencing of effects to a single
 language construct. 
 This is a purely stylistic choice, as there are easy translations between fine-grained and regular call-by-value
 [[REFERENCES]].
 
-The type system is fairly simple, with only 
-natural numbers and functions from one 
-type to another type as it can be seen in Figure \ref{fig:language}.
-The type inference rules for this language can be seen in Figure
-\ref{fig:inference:typing}, no rule should be surprising
-but it is worth mentioning that already the inference 
-rules are making a distinction between \emph{computations}
-and \emph{values}.
+The syntax of types and terms is given in in Figure \ref{fig:language}. 
+Note that there is a syntactic distinction between \emph{values} $V$ and \emph{computations} $M$.
+The latter depend on the 
+parameter set $\Sigma$, which  is 
+an arbitrary set of operation symbols each with an associated finite arity.
 
-This setting is purposely restricted, and several improvements can 
-be added without technical issue. For instance, more complex types 
-such as sum, products and even type polymorphism can be studied 
-in this context. In fact, logical relations excel in proving parametricity 
-results \cite{wadler1989theorems}.
-In the spirit of simplicity 
-and to allow comparison with the work on bisimulations by
-Ugo Dal Lago, Francesco Gavazzo and Paul Blain Levy
-\cite{Ugo2017} we take the same kind of effect signature 
-as they do. Technically, it means that compared to 
-the paper from Johann et al. \cite{gom} it lacks 
-three of the four effect constructions, but as noticed 
-in the said paper, all of the constructions share the
-same pattern of proof, so that they actually treated 
-only one of the four cases in their proofs.
 
 
 \begin{figure}[h!]
@@ -53,18 +30,18 @@ only one of the four cases in their proofs.
     \caption{Refined Call-By-Value PCF with effects}
     \label{fig:language}
 \end{figure}
-
-\begin{figure}[h!]
-    \begin{equation*}
-        \begin{array}{rl}
-            (\lambda x:\tau. N)M &\leftarrow \Bind{M}{x:\tau}{N} \\
-            M N &\rightarrow \Bind{M}{f:\sigma \to \tau}{\Bind{N}{x:\sigma}{ f x }} 
-        \end{array}
-    \end{equation*}
-    \caption{Translation between refined and regular call-by-value}
-    \label{fig:refinedNormal}
-\end{figure}
-
+%
+%\begin{figure}[h!]
+%    \begin{equation*}
+%        \begin{array}{rl}
+%            (\lambda x:\tau. N)M &\leftarrow \Bind{M}{x:\tau}{N} \\
+%            M N &\rightarrow \Bind{M}{f:\sigma \to \tau}{\Bind{N}{x:\sigma}{ f x }} 
+%        \end{array}
+%    \end{equation*}
+%    \caption{Translation between refined and regular call-by-value}
+%    \label{fig:refinedNormal}
+%\end{figure}
+%
 
 \begin{figure}[h]
     \begin{center}
@@ -131,14 +108,8 @@ only one of the four cases in their proofs.
 \end{figure}
 
 
-\begin{example}[Signature for combined probabilities and non-determinism]
-    In the case of combining non-determinism and probabilities, one can
-    consider a fair coin toss $\prEff$ of arity two, with a demonic 
-    choice operator $\orEff$ of arity two. The signature of the language 
-    is therefore $\Sigma = \{ (\prEff,2), (\orEff,2) \}$.
-\end{example}
-
-
-It can be shown that the set of values of type $\Nat$ is isomorphic to $\mathbb{N}$
-and therefore we will identify the two sets using $\underline{n}$ to denote 
-the value corresponding to $n$.
+The type inference rules are given  in Figure \ref{fig:inference:typing}.
+It is easily shown that the set of values of type $\Nat$ is isomorphic to $\mathbb{N}$,
+with $\Zero$ as $0$ and $\Succ$ as successor.
+We use $\underline{n}$ to denote 
+the closed value corresponding to $n$.

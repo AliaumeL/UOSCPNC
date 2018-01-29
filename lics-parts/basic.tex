@@ -1,0 +1,91 @@
+\section{The basic operational preorder}
+
+
+
+
+\begin{adefinition}[Admissibility]
+    A binary relation $R$ on $\Trees(X)$ is \emph{admissible} if,
+    for every ascending chain $(t_i)_{i \geq 0}$ and 
+    $(t_i')_{i\geq 0}$, we have:
+    \[ \text{($\,t_i \, R \, t_i'$ for all $i\,$)} ~ \implies~
+        \left(\bigsqcup_{i \geq 0} t_i\right) \, R \, \left(\bigsqcup_{i \geq 0} t_i'\right) \enspace .
+    \]
+\end{adefinition}
+
+\begin{adefinition}[Generalised congruence]
+    A binary relation $R$ on $\Trees(X)$ is a \emph{generalised congruence} if,
+    for every $o \in \Sigma$ of arity $n$, and for all trees 
+     $t_1,\dots, t_n$ and $t'_1, \dots, t'_n$, we have:
+    \[ \text{($\,t_i\, R \, t'_i$ for all $i = 1, \dots, n\,$)} ~ \implies ~ 
+        o(t_1, \dots, t_n) \, R \; o(t'_1, \dots, t'_n) \enspace .
+    \]
+\end{adefinition}
+If a generalised congruence is a preorder then it is called a \emph{precongruence}. If it is an equivalence relation it is called a \emph{congruence}.
+
+\noindent
+The next two definitions make use of the substitution operation on trees defined at the end of
+Section~\ref{section:trees}.
+\begin{adefinition}[Substitutive]
+    A binary relation $R$ on $\Trees(X)$ is  \emph{substitutive} if,
+    for all trees $t$, $t'$ and $\{t_x\}_{x \in X}$, we have:
+    \[ \text{$\,t\, R \, t'$} ~ \implies ~ 
+       t[ x \mapsto t_x] \, R \, t'[ x \mapsto t_x] \enspace .
+    \]
+\end{adefinition}
+
+
+
+\begin{adefinition}[Compositionality]
+    A binary relation $R$ on $\Trees(X)$ is \emph{compositional} if, for all 
+    trees $t$, $t'$,  $\{t_x\}_{x \in X}$,  and $\{t'_x\}_{x \in X}$, we have:
+        \[ \text{($\,t \, R \, t'$ and $t_x \, R \, t'_x$ for all $x \in X\,$)} ~ \implies ~ 
+        t[ x \mapsto t_x] \, R \, t'[ x \mapsto t'_x] \enspace .
+    \]
+\end{adefinition}
+
+
+
+\begin{aproposition} Let $\Basicleq$ be a preorder  on $\Trees(\mathbb{N})$.
+\begin{enumerate} 
+\item If  $\Basicleq$ is compositional then it is a substitutive precongruence.
+\item If $\Basicleq$ is an admissible substitutive precongruence then it is compositional.
+\end{enumerate}
+\end{aproposition}
+
+\noindent
+[[INSERT EASY PROOF (AT LEAST IN OUTLINE). IN PROOF NOTE THAT 1 ONLY REQUIRES REFLEXIVITY.]]
+
+
+[[MOTIVATE]]
+Following~\cite{gom}, we consider the basic ingredient for specifying  a notion of
+contextual equivalence for a programming language to be a preorder $\Basicleq$ on $\Trees(\mathbb{N})$.
+As long as the preorder is both admissible and compositional (equivalently an admissible substitutive precongruence), the mathematical tools of~\cite{gom} and Sections [[WHICH]] of the present paper are applicable. These allow fundamental properties of contextual equivalence to be proved.
+
+Every family $\mathcal{O} \subseteq \mathcal{P}(\Trees(\mathbb{N}))$ determines a preorder $\Basicleq_\mathcal{O}$ on 
+$\Trees(\mathbb{N})$ by
+\begin{equation}
+\label{equation:observational-preorder}
+t \Basicleq_\mathcal{O} t' ~ \Leftrightarrow ~ \forall U \in \mathcal{O}~ (t \in U ~ \Rightarrow ~ t' \in U) \enspace .
+\end{equation}
+
+\begin{aproposition} 
+The following are equivalent for
+any admissible  preorder  $\Basicleq$ on $\Trees(\mathbb{N})$.
+\begin{enumerate} 
+\item $\bot \Basicleq t$,  for every $t \in \Trees(\mathbb{N})$.
+\item $t \Treeleq t'$ implies $t \Basicleq t'$ for all $t,t' \in \Trees(\mathbb{N})$.
+\end{enumerate}
+For an arbitrary preorder $\Basicleq$, the following are equivalent.
+\begin{enumerate}
+\setcounter{enumi}{2}
+\item $\Basicleq$ is admissible and satisfies 1 (equivalently 2) above.
+\item $\Basicleq$ arises as $\Basicleq_\mathcal{O}$ for some family $\mathcal{O}$ of Scott-open subsets
+of $\Trees(\mathbb{N})$.
+\end{enumerate}
+\end{aproposition}
+
+It is possible to characterise the compositionality property for relations of the form $\Basicleq_\mathcal{O}$, using a notion of \emph{decomposability} of $\mathcal{O}$, see~\cite{gom}. 
+[[IT WOULD BE NICE TO REPEAT THIS AND REFINE IT, E.G., TO REFLECT THE SUBSTITUTIVE PRECONGRUENCE DEFINITION OF COMPOSITIONALITY.]]
+
+
+
