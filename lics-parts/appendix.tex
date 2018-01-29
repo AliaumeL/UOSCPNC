@@ -1,0 +1,36 @@
+\section{Migrating material}
+
+It is worth noticing that the lifting operation $f \mapsto \hat{f}$ is
+a continuous functional. A consequence of this is the following monotonicity 
+property of the lifting.
+
+\begin{alemma}[Order preserving lift]
+    \label{lem:orderpreservinglift}
+    If $\sigma_1 : \Nat \to A$ and $\sigma_2 : \Nat \to A$ 
+    are two functions such that $\sigma_1 \leq \sigma_2$ pointwise,
+    then $\hat{\sigma_1} \leq \hat{\sigma_2}$ pointwise.
+\end{alemma}
+
+We can already see the usefulness of this definition 
+when looking at the construction of substitution:
+given abstractly, in full generality and 
+guaranteed to be continuous without any hassle. 
+
+\begin{adefinition}[Substitution]
+    Let $t \in \textnormal{Tree}_X$ 
+    and $\sigma : X \to \textnormal{Tree}_Y$.
+    Using the universal property, there exists a
+    unique lift $\hat{\sigma} : \textnormal{Tree}_X \to \textnormal{Tree}_Y$,
+    which is the substitution. We write $t\sigma$ as a shorthand for 
+    $\hat{\sigma}t$.
+\end{adefinition}
+
+
+Using this new construction it is now possible  
+to continue our definition of the operational semantics without 
+interpreting effects by building an infinite tree
+labeled by the effects encountered during evaluation.
+
+
+
+% 
