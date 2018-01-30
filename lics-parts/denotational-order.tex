@@ -25,7 +25,7 @@ the basic operational preorder $\Basicleq_D$ using the partial order relation on
 t \Basicleq_D t' ~~ \Leftrightarrow ~~ \Sem{t} \sqsubseteq \Sem{t' } \enspace .
 \]
 \begin{aproposition}
-The relation $\Basicleq_D$ is always an admissible pregongruence.
+The relation $\Basicleq_D$ is admissible pregongruence.
 \end{aproposition}
 
 [[PROOF]]
@@ -57,6 +57,10 @@ composite functor $UU' : \mathcal{A} \to \Set$ has a left adjoint $F$, where $U:
 Then, defining $D$ to be the continuous $\Sigma$-algebra $U' F \, \mathbb{N}$, the unit of the adjunction defines a function
 $j \colon \mathbb{N} \to D$ which has the factorisation property.
 \end{alemma}
+
+[[THE STATEMENT CAN PERHAPS BE IMPROVED. ALSO DOUBLE CHECK WHETHER $U'$ PERHAPS NEEDS TO BE FAITHFUL.]]
+
+
 \begin{alemma}
 Let $T$ be a monad on the category $\wCPO$.  Suppose that for every $\omega$CPO $X$, we have a 
 continuous $\Sigma$-algebra structure on TX. Suppose also that all Kleisli liftings of 
@@ -64,4 +68,10 @@ $f^* \colon TX \to TY$, of maps $f \colon X \to TY$, are  continuous  homomorphi
 defining $D$ to be the continuous $\Sigma$-algebra $T \mathbb{N}$, the unit of the adjunction defines a function
 $j \colon \mathbb{N} \to D$ which has the factorisation property.
 \end{alemma}
+
+Let $\mathcal{V}_{\leq 1} \,X$ be the $\omega$CPO of (discrete) subprobability distributions on a set $X$.
+We write $\mathcal{H}\mathcal{V}_{\leq 1} \,X$ for the $\omega$CPO of nonempty Scott-closed convex subsets
+of  $\mathcal{V}_{\leq 1} \,X$  ordered by subset inclusion $\subseteq$. 
+We write $\mathcal{S}\mathcal{V}_{\leq 1} \,X$ for the $\omega$CPO of nonempty upper-closed Scott-compact convex subsets
+of  $\mathcal{V}_{\leq 1} \,X$  ordered by reverse inclusion $\supseteq$.
 
