@@ -3,9 +3,11 @@
 Contextual equivalence in the style of Morris
 has imposed itself as a very simple and powerful
 way to express what an equivalence on programs should be. 
-However
-this operational notion of equivalence is rarely usable 
-as-is \cite{pitts1997operationally}.
+Two programs are said to be contextually equivalent if 
+they \emph{behave} equivalently under any context. 
+However this operational notion of equivalence is rarely usable 
+as-is because of the quantification over potentially complex 
+contexts, which can lead to unintuitive results \cite{pitts1997operationally}.
 
 For this reason, many other forms of equivalences have 
 been developed in the past years: bisimulations 
@@ -25,29 +27,30 @@ are deeply tied with the effects of the language,
 and adding or removing effects changes the overall 
 shape of the semantics. For denotational interpretation,
 the problem is less visible because it is transposed 
-into domain theoretic constructions, such as powerdomains, distributive laws,
-and solving domain equations.
+into the difficulty of finding suitable domain theoretic constructions, 
+such as powerdomains, distributive laws,
+and solutions to domain equations.
 
 To be able to give uniform results, the first 
-step is to restrict the class of effects
+step we took was to restrict the class of effects
 to \emph{algebraic} ones, 
 allowing to separate the semantics 
-of the effects from the semantics of the ground language
-itself by using computation trees \cite{plotkin2001adequacy}.
+of the effects from the semantics of the ground language. 
+This is effectively done by splitting the semantics of 
+the language in two steps. First, the evaluation 
+of the ground language terms into a \emph{computation tree}
+containing all the uninterpreted effects that should occur, 
+and then specifying how the following trees should behave.
+This construction follows the work already done on 
+algebraic effects \cite{plotkin2001adequacy}.
 
-
-As in  \cite{gom}, where a similar programme was carried out in a call-by-name setting,
-our goal is to provide generic mathematical machinery for defining and 
-analysing contextual equivalence. 
 
 Following the work done by Patricia
-Johann, Alex Simpson and Janis Voigtländer \cite{gom}, we then define 
-a logical relation to capture the contextual 
-equivalence, and apply this result to a wide class of known effects 
-such as: non-determinism, probabilities, input-output, and exceptions. 
-The main difference is that our approach 
-is done in a call-by-value setting, as opposed 
-to call-by-name.
+Johann, Alex Simpson and Janis Voigtl\"ander \cite{gom}, we 
+characterise the contextual equivalence using the framework 
+of logical relations. This is done regardless of the 
+effects added to the language, and can be applied to a wide 
+class of known effects: non-determinism, probabilities, input-output.
 
 We use a language based on PCF \cite{plotkin1977lcf}, but with  a call-by-value 
 evaluation strategy
@@ -74,7 +77,7 @@ A more functional version of theses domains can also be found in the work of Jea
 \cite{JGL-mscs16}.
 
 
-
+%% This should be in conclusion ! 
 This setting is purposely restricted, and several improvements can 
 be added without technical issue. For instance, more complex types 
 such as sum, products and even type polymorphism can be studied 
