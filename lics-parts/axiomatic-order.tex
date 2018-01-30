@@ -5,6 +5,28 @@ properties of the operations in the effect signature $\Sigma$.
 Since we are defining a preorder, it is appropriate for the axiomatisation to involve inequalities
 specifying desired properties of the operational preorder. As the technical framework for this, we allow
 Horn clause axiomatisations of inequalities between infinitary terms.  This provides a flexible general setting for
-axiomatising admissible and compositional preorderd on 
+axiomatising admissible and compositional preorders on 
 $\Trees(\mathbb{N})$. 
 
+Let $\Vars$ be a set of countably many distinct variables. By an  \emph{expression}, we mean a
+tree $e \in \Trees(\Vars)$. The use of trees incorporates infinitary non-well-founded terms alongside the usual finite
+algebraic terms. By an \emph{inequality} we mean a statement $e_1 \leq e_2$, where $e_1, e_2$ are expressions.
+By an \emph{(infinitary) Horn clause} we mean an implication between inequalities:
+\begin{equation}
+\label{equation:horn-clause}
+\bigwedge_{i \in I} e_i \leq e'_i ~ \rightarrow ~ e \leq e' \enspace ,
+\end{equation}
+An \emph{effect theory} $T$  is a set of Horn clauses.
+
+A preorder $\Basicleq$ on $\Trees(X)$ is said to \emph{satisfy} a Horn clause (\ref{equation:horn-clause}) if,
+for every environment $\rho \colon \Vars \to \Trees(X)$, the implication below holds (recall the notation for tree substitution from Section~\ref{section:trees}.
+\[
+\bigwedge_{i \in I} e_i[\rho] \Basicleq e'_i[\rho]~~~ \Rightarrow ~~~ e[\rho] \Basicleq e'[\rho] 
+\]
+We say that $\Basicleq$ is a \emph{model} of a Horn clause theory $T$ if it satisfies every Horn clause in $T$.
+We consider models as subsets of $\Trees(X) \times \Trees(X)$, partially ordered by inclusion.
+\begin{aproposition}
+Every Horn clause theory $T$ has a smallest admissible model ${\Basicleq_T} \subseteq \Trees(X) \times \Trees(X)$. The smallest model
+is a substitutive precongruence. In the case that $X = \mathbb{N}$, the smallest admissible model is thus an
+admissible compositional preorder.
+\end{aproposition}
