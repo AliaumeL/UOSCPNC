@@ -19,6 +19,14 @@ The example below will be the main running example throughout the paper.
      simulated using fair probabilistic choice.)
  \end{example}
 
+The idea is that any effect has a finite amount of arguments defined 
+by its arity in $\Sigma$. Because we do not know what the effect is going 
+to do with the different arguments, we are going to compute all of them ;  
+thus building a tree whose nodes are uninterpreted effects, and leaves are 
+syntactical values of our calculus. One problem arises because of 
+the while loop construction: some trees can be infinite, and some computation 
+are not terminating. 
+
 During the execution of a program with effects, three different situations can arise.
 Firstly, the computation can terminate without triggering any effect. Secondly
 it may not terminate at all, while still not triggering any effect; this is
@@ -29,23 +37,15 @@ Note that it is possible that the program does not terminate and triggers an
 infinite numbers of effect doing so: by being in the third case an infinite
 number of times ; this is called a \emph{noisy nontermination}.
 
-The global behaviour of such a program is captured by the notion of an \emph{effect tree}: a  finitely branching tree, whose 
-internal nodes represent effect operations, and whose leaves represent either termination with a result, or silent nontermination. The branches of the tree represent potential execution sequences of the program. 
-Trees are potentially infinitely deep, with their infinite branches representing noisy nontermination.
+The global behaviour of such a program is captured by the notion of an
+\emph{effect tree}: a  finitely branching tree, whose internal nodes represent
+effect operations, and whose leaves represent either termination with a result,
+or silent nontermination. The branches of the tree represent potential execution
+sequences of the program.  Trees are potentially infinitely deep, with their
+infinite branches representing noisy nontermination.
 
 Such trees were introduced as \emph{infinitary effect values} in  \cite{plotkin2001adequacy}. In \cite{com} they are called
 \emph{computation trees}.
-
-
-
-
-%The idea is that any effect has a finite amount of arguments defined 
-%by its arity in $\Sigma$, because we do not know what the effect is going 
-%to do with the different arguments, we are going to compute all of them, 
-%and build a tree whose nodes are uninterpreted effects, and leaves are 
-%syntactical values of our calculus. One problem arises because of 
-%the fixed point operator: some trees can be infinite, and some computation 
-%are not terminating. 
 
 
 The set $\Trees(X)$ of \emph{effect trees} with values from  the set $X$ is coinductively defined so that

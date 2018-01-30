@@ -1,28 +1,6 @@
 \section{The basic operational preorder}
 
 
-
-
-\begin{adefinition}[Admissibility]
-    A binary relation $R$ on $\Trees(X)$ is \emph{admissible} if,
-    for every ascending chain $(t_i)_{i \geq 0}$ and 
-    $(t_i')_{i\geq 0}$, we have:
-    \[ \text{($\,t_i \, R \, t_i'$ for all $i\,$)} ~ \implies~
-        \left(\bigsqcup_{i \geq 0} t_i\right) \, R \, \left(\bigsqcup_{i \geq 0} t_i'\right) \enspace .
-    \]
-\end{adefinition}
-
-\begin{adefinition}[Generalised congruence]
-    A binary relation $R$ on $\Trees(X)$ is a \emph{generalised congruence} if,
-    for every $o \in \Sigma$ of arity $n$, and for all trees 
-     $t_1,\dots, t_n$ and $t'_1, \dots, t'_n$, we have:
-    \[ \text{($\,t_i\, R \, t'_i$ for all $i = 1, \dots, n\,$)} ~ \implies ~ 
-        o(t_1, \dots, t_n) \, R \; o(t'_1, \dots, t'_n) \enspace .
-    \]
-\end{adefinition}
-If a generalised congruence is a preorder then it is called a \emph{precongruence}. If it is an equivalence relation it is called a \emph{congruence}.
-
-\noindent
 The next two definitions make use of the substitution operation on trees defined at the end of
 Section~\ref{section:trees}.
 \begin{adefinition}[Substitutive]
@@ -43,6 +21,26 @@ Section~\ref{section:trees}.
     \]
 \end{adefinition}
 
+\begin{adefinition}[Admissibility]
+    A binary relation $R$ on $\Trees(X)$ is \emph{admissible} if,
+    for every ascending chain $(t_i)_{i \geq 0}$ and 
+    $(t_i')_{i\geq 0}$, we have:
+    \[ \text{($\,t_i \, R \, t_i'$ for all $i\,$)} ~ \implies~
+        \left(\bigsqcup_{i \geq 0} t_i\right) \, R \, \left(\bigsqcup_{i \geq 0} t_i'\right) \enspace .
+    \]
+\end{adefinition}
+
+\begin{adefinition}[Generalised congruence]
+    A binary relation $R$ on $\Trees(X)$ is a \emph{generalised congruence} if,
+    for every $o \in \Sigma$ of arity $n$, and for all trees 
+     $t_1,\dots, t_n$ and $t'_1, \dots, t'_n$, we have:
+    \[ \text{($\,t_i\, R \, t'_i$ for all $i = 1, \dots, n\,$)} ~ \implies ~ 
+        o(t_1, \dots, t_n) \, R \; o(t'_1, \dots, t'_n) \enspace .
+    \]
+\end{adefinition}
+
+If a generalised congruence is a preorder then it is called a \emph{precongruence}. 
+If it is an equivalence relation it is called a \emph{congruence}.
 
 
 \begin{aproposition} Let $\Basicleq$ be a preorder  on $\Trees(\mathbb{N})$.
