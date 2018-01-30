@@ -31,29 +31,41 @@ into the difficulty of finding suitable domain theoretic constructions,
 such as powerdomains, distributive laws,
 and solutions to domain equations.
 
-To be able to give uniform results, the first 
-step we took was to restrict the class of effects
-to \emph{algebraic} ones, 
-allowing to separate the semantics 
-of the effects from the semantics of the ground language. 
-This is effectively done by splitting the semantics of 
-the language in two steps. First, the evaluation 
-of the ground language terms into a \emph{computation tree}
-containing all the uninterpreted effects that should occur, 
-and then specifying how the following trees should behave.
-This construction follows the work already done on 
-algebraic effects \cite{plotkin2001adequacy}.
 
+The first step to be able to give uniform results 
+is to start with a ground language, and parametrize 
+the syntax with an \emph{effect signature} $\Sigma$. The ground
+language we chose was based on PCF \cite{plotkin1977lcf} 
+but adapted to a call-by-value evaluation strategy.
+The effect signature is given as a set of term constructors 
+with finite arity. This allows for instance to add 
+a non-deterministic choice operator. However at this 
+stage there is no semantics whatsoever, and syntactically 
+the signature of a coin-tossing primitive would be the same one 
+for instance.
 
-Following the work done by Patricia
-Johann, Alex Simpson and Janis Voigtl\"ander \cite{gom}, we 
-characterise the contextual equivalence using the framework 
-of logical relations. This is done regardless of the 
-effects added to the language, and can be applied to a wide 
-class of known effects: non-determinism, probabilities, input-output.
+Then, we build a semantics that reduces a program 
+using the signature $\Sigma$ for effects into 
+a \emph{computation tree}. The computation tree 
+is obtained by interpreting the program until 
+an effect is encountered, and then just adding 
+this effect as a node to the tree. This is still 
+a syntactical transformation, that builds the 
+tree of all the effects that should be performed. 
+The key to this construction is that it clearly 
+separates the semantics of the ground language 
+and the semantics of the effects, that is going 
+to be determined by \emph{relations on trees}.
 
-We use a language based on PCF \cite{plotkin1977lcf}, but with  a call-by-value 
-evaluation strategy
+Now, the two ingredients to our recipe are 
+the signature $\Sigma$ and a relation $\sqeq_b$ 
+on trees of type $\Sigma$. Using these two one
+can completely capture the contextual equivalence 
+by using the well-known framework of logical relations.
+Examples of effects that are covered by our 
+approach are numerous: non-determinism, probabilities, 
+input-output and exceptions. 
+
 
 We also continue the work done by Plotkin and Power \cite{plotkin2001adequacy}
 by using their result to link our setting to the denotational approach. This 
