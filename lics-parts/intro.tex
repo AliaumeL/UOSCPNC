@@ -67,42 +67,26 @@ approach are numerous: non-determinism, probabilities,
 input-output and exceptions. 
 
 
-We also continue the work done by Plotkin and Power \cite{plotkin2001adequacy}
-by using their result to link our setting to the denotational approach. This 
-should be considered as an empirical proof of the usefulness of this method. 
-Continuing in this direction, we study a concrete example combining
-non-determinism and probability, a subject that has been regularly encountered 
-in denotational models \cite{tix2009semantic} \cite{JGL-mscs16}
-\cite{KeimelP2016} and the study concurrent programs
-\cite{Mislove2000} \cite{mislove2004axioms}.
+In the sections 2 and 3 we are going to define what 
+a computation tree over a signature $\Sigma$ is, 
+and what properties should the relation $\sqeq_b$ 
+over trees enjoy to be able to derive our results.
 
-
-In this section we are going to fix a specific signature $\Sigma$
+Then, from section 4 to section 6 we propose several 
+ways to build such relations using the three classical 
+approaches to semantics: by using operational constructions,
+denotational interpretations and axiomatic theories.
+To illustrate the different methods we 
+fix a specific signature $\Sigma$
 containing two binary operators \texttt{pr} and \texttt{or}. The two
 operators are used to model a language where both probabilistic choice 
-and non-determinism coexist. Combining these specific effects has been 
-the subject of numerous papers, and even when restricting ourselves to the 
-denotational setting, the work of Regina Tix on powercones \cite{tix2009semantic} 
-continued afterwards by Plotkin and Keimel \cite{KeimelP2016} on Kegelspitze
-shows the interest of such combination.
-A more functional version of theses domains can also be found in the work of Jean-Goubault Larrecq 
-\cite{JGL-mscs16}.
+and non-determinism coexist, leading to a non-trivial example. 
 
-
-%% This should be in conclusion ! 
-This setting is purposely restricted, and several improvements can 
-be added without technical issue. For instance, more complex types 
-such as sum, products and even type polymorphism can be studied 
-in this context. In fact, logical relations excel in proving parametricity 
-results \cite{wadler1989theorems}.
-In the spirit of simplicity 
-and to allow comparison with the work on bisimulations by
-Ugo Dal Lago, Francesco Gavazzo and Paul Blain Levy
-\cite{Ugo2017} we take the same kind of effect signature 
-as they do. Technically, it means that compared to 
-the paper from Johann et al. \cite{gom} it lacks 
-three of the four effect constructions, but as noticed 
-in the said paper, all of the constructions share the
-same pattern of proof, so that they actually treated 
-only one of the four cases in their proofs.
-
+After having investigated how to build the pairs $(\Sigma, \sqeq_b)$
+necessary to our results, we introduce section 7 the actual 
+language and its semantics. This is closely followed by 
+the definition of contextual equivalence in section 8 where
+we derive our first simple results. Then, we characterise 
+the contextual equivalence using a logical relation in 
+section 9, and then use it to derive some results 
+independently from the signature used.
