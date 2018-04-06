@@ -1,0 +1,126 @@
+\section{Operationally-defined preorders}
+
+In this section, we consider our first approach to defining an admissible and compositional basic operational
+preorder $\Basicleq$ on $\Trees(\mathbb{N})$. We call this method \emph{operational}. Its characteristic is that the preorder
+ $\Basicleq$ is directly defined using a mathematical model of the way that an effect tree in $\Trees(\mathbb{\Nat})$ will be executed.
+
+This approach is illustrated for several examples of effects in~\cite{gom}. 
+The main goal of the section is to demonstrate the approach using a different example, the signature
+$\Sigma_\prnd = \{\prEff,\orEff\}$ from Example~\ref{example:prnd}, which is of interest because of the 
+interplay between probabilistic and nondeterministic effects. However, we first
+briefly review the simpler cases, $\Sigma_\pr = \{\prEff\}$ and $\Sigma_\nd = \{\orEff\}$, of purely probabilistic and 
+purely nondeterministic computation. These two cases are already covered in~\cite{gom}, and are 
+relatively simple, so our treatment will be brief. 
+
+First, we  consider the case $\Sigma_\pr = \{\prEff\}$. Every internal node in a  tree $t \in \Trees(\mathbb{N})$  is a binary branching node labelled with $\prEff$ representing a probabilistic choice with each branch having probability $\frac{1}{2}$. The tree can thus be interpreted as a (countable state) Markov-chain, that determines a discrete subprobability distribution over the set $\mathbb{N}$.
+(It is a subprobability distribution because there can be a positive probability of nontermination, both silent and noisy.) We write
+$\mathbf{P}_t (H)$ for the probability assigned to a set $H \subseteq \mathbb{N}$
+by the tree $t$, and $\mathbf{E}_t (h)$ for the (possibly infinite) expectation of a function $h\colon \mathbb{N} \to [0,\infty]$ under the subprobability distribution on $\mathbb{N}$ determined by $t$.
+The basic operational preorder can be defined using any of the three equivalent properties below.
+\begin{align*}
+t \Basicleq_\pr t' ~~ \Leftrightarrow ~~ &  \forall n ~ ~ \mathbf{P}_t (\{n\}) \leq \mathbf{P}_{t'}(\{n\})  \\
+ ~ \Leftrightarrow ~~ & \forall H \subseteq \mathbb{N} ~~ \mathbf{P}_t (H) \leq \mathbf{P}_{t'}(H) \\
+ ~ \Leftrightarrow ~~ & \forall h\colon \mathbb{N} \to [0,\infty] ~~ \mathbf{E}_t (h) \leq \mathbf{E}_{t'}(h) \enspace .
+\end{align*}
+Here one can view $H$ as a test set of desirable results, and $h$ as a function that assigns (possibly infinite) desirability weights 
+to result values in $\mathbb{N}$. The first alternative above has the advantage of simplicity. The second strengthens the definition by testing the probability of arbitrary properties. The third further strengthens it by using quantitative properties.
+\begin{proposition}
+The preorder $\Basicleq_\pr$ is admissible and compositional. 
+\end{proposition}
+%\noindent
+%It is also possible to define $\Basicleq_\pr$ cas $\Basicleq_{\mathcal{O}_\pr}$ for the a family of Scott-open subsets of $\Trees(\mathbb{N})$, \emph{viz}:
+%\[
+%\mathcal{O}_\pr ~ = ~ \{\,  \{t \mid \mathbf{P}_t (n) > q\} \mid n \in \mathbb{N}, \,q \in \mathbb{Q}\, \}  \enspace .
+%\]
+
+Next, we consider the case $\Sigma_\nd = \{\orEff\}\,$, in which every internal node in a tree is a binary nondeterministic choice.
+Although this signature is considered in~\cite{gom}, we here give a more directly operational treatment in terms of 
+ \emph{schedulers}, namely external agents that resolve nondeterministic choices.
+We model the scheduler as a 
+function $s: \{l,r\}^* \to \{l,r\}$. The idea is that a word $w \in \{l,r\}^*$ represents a finite path of left/right choices from the root of a 
+tree $t \in \Trees(\mathbb{N})$. If the computation reaches a nondeterministic choice at the node indexed by 
+$w$ then it takes the left/right branch according to the value of $s(w)$. This way of representing choices has some redundancy
+(in every tree other than the complete infinite binary tree, there will be words $w$ that do not index nodes in the tree; if $s(\varepsilon) = l$ then the value of $s$ on words beginning with $r$ is immaterial; etc.), but it is simple and convenient for future purposes. 
+Given such a scheduling function $s$, we write $t@s$ for the result of the computation as scheduled by $s$. This is defined by:
+\[
+t@s ~ = ~ \begin{cases} 
+ n & \text{if there exists $w \in \{l,r\}^*$ indexing an $n$ node in $t$} \\
+    & ~~~\text{such that, for every $i < |w|$, $~w_{i+1} = s(w\!\restriction_i)\,$;} \\
+  \bot & \text{otherwise.}
+ \end{cases}
+\]
+Here we write $|w|$ for the length of a word, $w_i$ for the $i$-th symbol in a word, and $w \!\restriction_i$ for the prefix of $w$ that has length $i$.
+
+The  \emph{angelic} interpretation of nondeterminism takes into account the possibility of a nondeterministic computation achieving a specified goal, given a cooperative scheduler.  The  \emph{demonic} interpretation, 
+models the {necessity} that a goal will be achieved, however adversarial the scheduler. 
+For angelic nondeterminism, one again has three possible definitions of the basic operational preorder
+$\Basicleq_\ang$, paralleling the three alternatives above. In the definitions below, $s$ ranges over schedulers, the statement $t@s \in H$, where $H \subseteq \mathbb{N}$, implies in particular that $t@s \neq\bot$, and we write $h_\bot$ for the unique strict function from $\mathbb{N}_\bot$ to
+$[0,\infty]$ extending $h$.
+\begin{align*}
+t \Basicleq_\ang t' ~ \Leftrightarrow ~ ~& \forall n ~~ (\exists s ~\; t@s =n)~ \Rightarrow~ (\exists s ~ \; t'@s =n) 
+\\
+~ \Leftrightarrow ~ ~& \forall H \subseteq \mathbb{N}~~ (\exists s ~\; t@s \in H)~ \Rightarrow~ (\exists s ~ \; t'@s \in H) 
+\\
+~ \Leftrightarrow ~ ~& \forall h\colon \mathbb{N}\to [0,\infty]~~ \sup_s h_\bot(t@s)~ \leq ~ \sup_s h_\bot(t'@s)
+\end{align*}
+For demonic nondeterminism, the first pattern of definition is not available, because, although  the relation defined by the formula below is admissible, it is  \emph{not} compositional.
+\[
+\forall n ~~ (\forall s ~\; t@s =n)~ \Rightarrow~ (\forall s ~ \; t'@s =n) \enspace .
+\]
+To define the basic preorder $\Basicleq_\dem$ for demonic nondeterminism one can use either of the other two patterns of definition.
+\begin{align*}
+t \Basicleq_\dem t' ~ \Leftrightarrow ~ ~& \forall H \subseteq \mathbb{N}~~ (\forall s ~ \; t@s \in H)~ \Rightarrow~ (\forall s ~ \; t'@s \in H) 
+\\
+~ \Leftrightarrow ~ ~& \forall h\colon \mathbb{N}\to [0,\infty]~~ \inf_s  h_\bot(t@s)~ \leq ~ \inf_s h_\bot(t'@s)
+\end{align*}
+\begin{proposition}
+The preorders $\Basicleq_\ang$  and $\Basicleq_\dem$ are admissible and compositional. 
+\end{proposition}
+\noindent
+Since admissible compositional preorders are closed under intersection, the relation ${\Basicleq_\ang} \cap {\Basicleq_\dem}$ is also an admissible compositional preorder. This gives a basic operational preorder corresponding to a neutral view of nondeterminism that takes account of both possibility and necessity.
+
+We now turn to the case of principal interest in this paper, the signature $\Sigma_\prnd = \{\prEff,\orEff\}$.
+In this case, trees in $\Trees(\mathbb{N})$ have both probabilistic and nondeterministic branching nodes.
+It is thus natural to consider them as (countable state) Markov Decision Processes. Once again the 
+scheduler resolving nondeterministic
+choices can be modelled by a 
+function $s: \{l,r\}^* \to \{l,r\}$. For any given $t \in \Trees(\mathbb{N})$, such a function
+$s: \{l,r\}^* \to \{l,r\}$ models a (deterministic) \emph{strategy} for the scheduler, in which the choice of direction at a nondeterministic node  
+can take into account the outcomes of probabilistic nodes higher up the tree.
+% (since the position of a node in the tree determines the entire sequence of choices that need to be made for that node to be reached during the process of execution).
+(There is now further degree of redundancy in defining strategies as functions $s: \{l,r\}^* \to \{l,r\}$, because the value of $s(w)$ on words $w$ that index 
+probabilistic nodes in $t$ is irrelevant.) A strategy $s$ and a tree $t$ in combination determine a subtree $t\#s$, defined by 
+removing, at every nondeterministic node in $t$ with index $w$, the child tree that is not selected by $s(w)$. So $t\#s$ is a tree that has binary branching at probabilistic nodes, and unary branching at nondeterministic nodes. It is thus, in effect, a purely probabilistic tree, and so defines a Markov chain determining a subprobability distribution over $\mathbb{N}$. 
+
+It is now natural to interpret the combination of probability with angelic nondeterminism 
+by giving the scheduler the aim of maximising the probability of landing in any specified goal set. Similarly, in the demonic case, the scheduler should minimise the probability. However, as the proposition below shows, 
+this does not work in the form stated. 
+\begin{proposition}
+Neither of the preorders defined below between $t,t' \in \Trees(\mathbb{N})$ is compositional.
+\begin{align*}
+& \forall H \subseteq \mathbb{N}  ~~ \sup_s  \mathbf{P}_{t\#s} (H)~ \leq~ \sup_s \mathbf{P}_{t'\#s} (H)
+\\
+& \forall H \subseteq \mathbb{N}  ~~ \inf_s  \mathbf{P}_{t\#s} (H)~ \leq~ \inf_s \mathbf{P}_{t'\#s} (H)
+\end{align*}
+\end{proposition}
+
+[[GIVE BRIEF PROOF]]
+
+The situation is rescued by generalising the test properties $H$ to 
+quantitative properties $h \colon \mathbb{N} \to [0,\infty]$. 
+Accordingly, we define:
+\begin{align*}
+t \Basicleq_\prang t' ~ \Leftrightarrow ~ ~& \forall h \colon \mathbb{N} \to [0,\infty]~~ \sup_s  \mathbf{E}_{t\#s} (h)~ \leq~ \sup_s \mathbf{E}_{t'\#s} (h)
+\\
+t \Basicleq_\prdem t' ~ \Leftrightarrow ~ ~& \forall g \colon \mathbb{N} \to [0,\infty]~~ \inf_s  \mathbf{E}_{t\#s} (h)~ \leq~ \inf_s \mathbf{E}_{t'\#s} (h)
+\end{align*}
+\begin{proposition}
+The preorders $\Basicleq_\prang$ and $\Basicleq_\prdem$ are admissible and compositional.
+\end{proposition}
+
+[[GIVE PROOF]]
+
+We view the fact that the use of quantitative properties is required to obtain a compositional preorder as being
+a mathematical analogue of the situation found in the work of Kozen [[REF]] and McIver and Morgan [[REF]], where 
+logics of quantitative properties are seen to be necessary to obtain compositional reasoning principles for 
+probabilistic program logics.

@@ -1,0 +1,54 @@
+\section{Conclusion and future work}
+
+The first part of this paper was about extending the results 
+of Alex Simpson, Patricia Johann and Janis Voigtländer \cite{gom}
+to a call-by-value setting. By doing so, some properties of 
+the basic preorder $\sqeq_b$ were developed and a direct link
+to denotational semantics has been made. This is a first step 
+in a better understanding of basic preorders and the generality 
+of the method itself. 
+
+Some generic theorems and sanity checks have been proven 
+abstractly for the logical relation and the contextual preorder
+arising from $\sqeq_b$, allowing to decline them with any 
+effect signature $\Sigma$. 
+
+The ability to automatically build free preorders for an equational 
+theory $\mathcal{T}$ was studied, and compared to the operational 
+and denotational method in the case of probability, non-determinism
+and the combination of both, showing how robust this general setting 
+is.
+
+\vspace{1em}
+
+Obviously, the study of the requirements for a basic preorder 
+are not enough, and it would be interesting to see how far we 
+can weaken the admissibility property and still get results.
+For instance, countable non-determinism [CIT] does \emph{not} have 
+this admissibility property, but is believed to still fit in 
+our setting. On the other side of the requirements, compositionality 
+could be better understood using sets of observations as done in 
+\cite{gom} or looking at the continuity properties of the 
+monadic multiplication on trees.
+
+It would then be interesting to try and generalise the class of 
+effects, be it by adding more effects known to be algebraic, 
+or blatantly non algebraic effects such as exception handling 
+that would require changing the language itself, but still 
+be captured by the same general method.
+
+This work can be extended to a richer type system in the obvious 
+way, and even recursive types are not an issue using step-indexing 
+techniques [CITE] or by defining the projections in the language [CITE].
+
+It could be interesting to generalise the notion of $\top\top$-closure 
+to metric relations 
+and talk about the distance of terms, see the work of Ugo and Raphaëlle
+(and more)
+
+Finally, the study of mixed non-determinism and probability is 
+done very briefly in this paper, and there would be a lot more 
+to talk about. For instance, how does the functional representation 
+evolves when combining angelic,demonic and probability operators ?
+Can our result be safely transported into a realisability world 
+such as done in the work by Niels ?

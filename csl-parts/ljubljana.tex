@@ -1,0 +1,149 @@
+\section{Preliminaries}
+
+
+\subsection{University of Ljubljana (FMF)}
+
+My internship took place in Ljubljana the capital city of Slovenia.
+The Faculty of Mathematics and Physics (FMF) of the University of Ljubljana is 
+the main university in Slovenia for mathematical studies. Located 
+in the southern part of the town, it is accessible by bus and bike,
+and is at a walking distance from the center of Ljubljana.
+
+\subsection{Research environment}
+
+My research supervisor was Alex Simpson
+who is currently a 
+"Professor of Computer Science" at the Faculty of Mathematics and Physics (FMF)
+of Ljubljana.
+Even if the FMF is not a faculty of computer science,
+Alex Simpson is well known in the theoretical area of 
+this discipline and presented two talks during the 
+CALCO/MFPS conference in Ljubljana on June 2017. 
+This year he was 
+supervising Niels Vorneeveld, a PhD student, working 
+on effects inside programming languages.
+
+The university was able to give me a desk from the first 
+day, and when Théo Winterhalter — another 
+ENS Paris-Saclay student — left Ljubljana at the end 
+of his internship, I was able to move to the office of 
+the PhD students. 
+
+The group of PhD students, containing both theoretical 
+computer science and complex analysis research,
+was very friendly. Once or twice a week, they would 
+go to the climbing gym, and on a regular basis having beers 
+in the town center. Every working day we had meals 
+with Andrej Bauer and Alex Simpson, two teachers and 
+supervisors of some PhD students of the group at the 
+local restaurant.
+
+I attended the almost regular 
+Tuesday seminar on "Foundations of mathematics and theoretical computer science"
+with the rest of the group.
+I gave one seminar myself in a joint seminar with Niels, where 
+we presented the recent work of Dal Lago, Gavazzo and Levy \cite{Ugo2017} on 
+abstract bisimulations for a parametrized class of programming languages.
+
+I also attended with Niels Voorneveld and Philipp Haselwarter 
+a reading course given by Dr. Mtija Pretnar for PhD students on operational semantics. The 
+objective of this course was to understand a paper by Andrew Pitts 
+\cite{Pitts2000}, which was tightly related to the technical tools I was 
+using in my research. 
+
+I would also like to mention the presence of 
+Pierre-Marie Pédrot, a former student from ENS Lyon 
+who was also part of this cohesive group, while 
+not being a PhD student anymore (post-doc).
+
+On top of this ideal setting for research, 
+Ljubljana was hosting the seventh Conference on Algebra and
+Coalgebra in Computer Science (CALCO) and 
+Mathematical Foundations of Programming Semantics (MFPS)
+the same week in the building of the FMF. This was
+a wonderful week because it was the occasion 
+to see the ongoing work in the area I was working on,
+meet and befriend researchers in this domain 
+of computer science. The complete list of participants 
+and the abstracts of the talks are
+available online at \url{http://coalg.org/mfps-calco2017/}.
+
+\subsection{Research subject}
+
+Even before it started, the internship 
+was tied to an article published in 2010 
+by Alex Simpson and two other authors \cite{gom}.
+The paper itself was a step towards having a 
+"General Operational Metatheory" for calculi 
+with effects, a project that can be linked 
+to the theory of algebraic effects of Plotkin 
+and Power, and from which some technicalities 
+were borrowed, for instance from 
+Adequacy for Algebraic Effects \cite{plotkin2001adequacy}.
+
+The goal of the internship was very simple: extend 
+as much as possible the results from the last paper. 
+The first imperative improvement was to adapt the theory 
+from a call-by-name to a call-by-value setting:
+it is indeed very unnatural to consider effects in 
+a programming language where the evaluation order of said 
+effects cannot be determined easily. For instance, consider 
+the two programs:
+
+\begin{enumerate}
+    \item A function that returns its input with probability 
+        one half, and returns one with probability one half: 
+        \texttt{function x -> pr (x,1)}
+    \item A function that is the identity with probability 
+        one half, and the constant function equal to one 
+        with probability one half: 
+        \texttt{pr (function x -> x, function x -> 1)}
+\end{enumerate}
+
+They represent 
+two functions that give the same result $\prEff (x, 1)$ when 
+applied to the same input $x$. There exists a metatheorem 
+for the call-by-name evaluation strategy, stating that this is 
+enough to conclude that the two terms are contextually equivalent
+\cite{gom}. Contextual equivalence has to be understood
+informally as the fact that 
+the two programs cannot be distinguished when placed into 
+different contexts. However, it is clear that the two programs are fundamentally 
+different in call-by-value: one is going to "evaluate" the probability 
+only once, and the other one every time the function is called. An example 
+of context that can distinguish this behaviour is the following one:
+
+\begin{verbatim}
+        let f = *hole* in
+        if f 1 == f 1 then 
+            return "It is not the first function"
+        else
+            return "It is the first function"
+\end{verbatim}
+
+If the first function is passed, then the result is \texttt{"It is the first
+function"} with probability
+$3/4$, and if the second function is passed, then the result is \texttt{"It is
+not the first function"} with probability one. The context is actually
+here to distinguish between a function that is constant and a function 
+that is not.
+
+A second very 
+natural goal was to tie the results to the denotational 
+setting, in order to make a clear connection between 
+the two approaches to contextual equivalence.
+After this several ways to improve 
+the understanding of the method and technical but insightful 
+constructions were developed. 
+
+Another crucial point was the study of a non-trivial and 
+well-studied combination of two effects: non-determinism and probability.
+This combination is known to be challenging \cite{Mislove2000} and
+being able to consider it inside our restricted setting is a concrete 
+proof of its expressive power. 
+
+
+This internship has been the occasion to prepare a paper that is going to be 
+submitted to FOSSACS in 2018. For the moment, this is still a draft, but most 
+of the content is present, and the draft can be found in appendix of this
+report. 

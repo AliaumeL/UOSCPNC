@@ -1,0 +1,77 @@
+\section{Denotationally-defined preorders}
+
+Our second approach to defining an admissible and compositional basic operational
+preorder $\Basicleq$ on $\Trees(\mathbb{N})$ is to make use of established constructions from domain theory.
+Under this approach, admissibility and compositionality of the defined preorder $\Basicleq$ hold automatically,
+for general reasons. Since this approach essentially amounts to giving a denotational semantics to effect trees, we call it the 
+\emph{denotational} method of defining a basic operational preorder.
+
+Let $D$ be a continuous $\Sigma$-algebra (see Section~\ref{section:trees}) with a distinguished function 
+$j\colon \mathbb{N} \to D$. Let   $\llbracket \cdot \rrbracket \colon \Trees(\mathbb{N}) \to D$ be the unique continuous homomorphism
+making the diagram below commute.
+   \begin{center}
+        \begin{tikzcd}
+            \mathbb{N}
+            \arrow[r, "j"] 
+            \arrow[d, hook, "i"]
+            & D \\
+            \Trees(\mathbb{N}) \arrow[ru, dashrightarrow, "\llbracket \cdot \rrbracket" below]
+        \end{tikzcd}
+    \end{center}
+\noindent
+We use the map $\llbracket \cdot \rrbracket \colon \Trees(\mathbb{N}) \to D$ to define 
+the basic operational preorder $\Basicleq_D$ using the partial order relation on the $\omega$CPO $D$.
+\[
+t \Basicleq_D t' ~~ \Leftrightarrow ~~ \Sem{t} \sqsubseteq \Sem{t' } \enspace .
+\]
+\begin{proposition}
+The relation $\Basicleq_D$ is admissible pregongruence.
+\end{proposition}
+
+[[PROOF]]
+
+\begin{definition}[Factorisation property]
+    The map $j\colon \mathbb{N} \to D$ is said to have  the \emph{factorisation property} if,
+    for every function $f \colon \mathbb{N} \to D$, there exists a 
+    continuous homomorphism $h_f : D \to D$ such that $f = h_f \circ j$.
+    \begin{center}
+        \begin{tikzcd}
+            \mathbb{N} \arrow[r, "j"] 
+                 \arrow[rr, bend right, "h"] &
+            D \arrow[r, "h_f", dashed] & 
+            D  
+        \end{tikzcd}
+    \end{center}
+\end{definition}
+\begin{proposition}
+If $j\colon \mathbb{N} \to D$ has the factorisation property then 
+the relation $\Basicleq_D$ is substitutive, hence it is an admissible compositional precongruence.
+\end{proposition}
+
+[[PROOF]]
+
+\begin{lemma}
+Let $\mathcal{A}$ be any category given together with a functor $U' \colon \mathcal{A} \to \ContAlg_\Sigma$.
+Suppose it holds that that the
+composite functor $UU' : \mathcal{A} \to \Set$ has a left adjoint $F$, where $U: \ContAlg_\Sigma \to \Set$ is the forgetful functor.
+Then, defining $D$ to be the continuous $\Sigma$-algebra $U' F \, \mathbb{N}$, the unit of the adjunction defines a function
+$j \colon \mathbb{N} \to D$ which has the factorisation property.
+\end{lemma}
+
+[[THE STATEMENT CAN PERHAPS BE IMPROVED. ALSO DOUBLE CHECK WHETHER $U'$ PERHAPS NEEDS TO BE FAITHFUL.]]
+
+
+\begin{lemma}
+Let $T$ be a monad on the category $\wCPO$.  Suppose that for every $\omega$CPO $X$, we have a 
+continuous $\Sigma$-algebra structure on TX. Suppose also that all Kleisli liftings of 
+$f^* \colon TX \to TY$, of maps $f \colon X \to TY$, are  continuous  homomorphisms. Then,
+defining $D$ to be the continuous $\Sigma$-algebra $T \mathbb{N}$, the unit of the adjunction defines a function
+$j \colon \mathbb{N} \to D$ which has the factorisation property.
+\end{lemma}
+
+Let $\mathcal{V}_{\leq 1} \,X$ be the $\omega$CPO of (discrete) subprobability distributions on a set $X$.
+We write $\mathcal{H}\mathcal{V}_{\leq 1} \,X$ for the $\omega$CPO of nonempty Scott-closed convex subsets
+of  $\mathcal{V}_{\leq 1} \,X$  ordered by subset inclusion $\subseteq$. 
+We write $\mathcal{S}\mathcal{V}_{\leq 1} \,X$ for the $\omega$CPO of nonempty Scott-compact convex upper-closed subsets
+of  $\mathcal{V}_{\leq 1} \,X$  ordered by reverse inclusion $\supseteq$.
+
