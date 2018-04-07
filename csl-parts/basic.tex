@@ -76,7 +76,41 @@ Section~\ref{section:trees}.
 \end{proposition}
 
 \noindent
-[[INSERT EASY PROOF (AT LEAST IN OUTLINE). IN PROOF NOTE THAT 1 ONLY REQUIRES REFLEXIVITY.]]
+\todo[inline]{Only give the ideas of the proof to gain space}
+\begin{proof}
+    \begin{enumerate}
+        \item 
+            The proof in this case relies on the fact that $\Basicleq$ is reflexive.
+            Suppose $\Basicleq$ is compositional, then 
+            it is substitutive because if $t \Basicleq t'$, and $\{ t_x \}_{x
+            \in X}$ is a family of trees we can use the reflexivity to derive 
+            $t_x \Basicleq t_x$, and thus 
+            by compositionality $t[ x \mapsto t_x] \Basicleq t'[x \mapsto t_x]$.
+            Compatibility relies on the exact same method using reflexivity on 
+            the effect operation $t = o((x)_{x \in X})$.
+
+        \item 
+            Suppose $\Basicleq$ is admissible, substitutive and compatible. 
+            Let $t \Basicleq t'$ and $t_x \Basicleq t_x'$, then substitutivity 
+            gives the following relation 
+            \begin{equation}
+                t[x \mapsto t_x] \Basicleq t'[x \mapsto t_x]
+            \end{equation}
+
+            We would like to use compatibility to derive 
+            the second equation $t'[x \mapsto t_x] \Basicleq t'[x \mapsto
+            t_x']$, however this is only possible if $t'$ is finite. 
+            The solution is to use finite approximations $(t_n')$ of $t'$
+            satisfying $\sqcup_n t_n' = t'$. For each finite tree $t_n'$
+            we have the desired equation, and we can conclude using 
+            the admissibility of $\Basicleq$.
+
+            Combining the two inequalities, and using the fact that 
+            $\Basicleq$ is transitive we get the desired inequality
+            $t[x \mapsto t_x] \Basicleq t'[x \mapsto t_x']$.
+    \end{enumerate}
+\end{proof}
+
 
 
 [[MOTIVATE]]
