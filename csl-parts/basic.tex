@@ -8,23 +8,32 @@ specified by signature $\Sigma$. This idea was developed in~\cite{gom}, in the s
 We consider how to define a notion of \emph{contextual preorder} between programs in some unspecified programming language with algebraic effects from signature $\Sigma$. (Notions of \emph{contextual equivalence}
 are included as a special cases, as any equivalence relation is a preorder.) The general idea of a contextual preorder, is to relate comparable programs $P_1$ and $P_2$ (in a typed language, programs of different type would not be considered comparable), by considering how they behave in any program context $C[-]$ that produces `observable' behaviour. One thing that can certainly be observed is the return value (if any) of a computation, as long as this it is discrete. In any sufficiently expressive language, such discrete values should be convertible to natural numbers. So it is a not unreasonable  restriction to consider contexts whose return values (if any) are natural numbers. Furthermore, the effects performed by the computations $C[P_1]$ and $C[P_2]$ may themselves have `observable' consequences. 
 
-REDUCE $\sqsubseteq_\text{ctxt}$ TO GROUND COMPUTATIONS
+\todo[inline]{REDUCE $\sqsubseteq_\text{ctxt}$ TO GROUND COMPUTATIONS}
 
-FOR THIS ASK FOR BASIC PREORDER $\Basicleq$  ON GROUND COMPUTATIONS, I.E., $\Trees(\Nat)$.
+\todo[inline]{FOR THIS ASK FOR BASIC PREORDER $\Basicleq$  ON GROUND
+COMPUTATIONS, I.E., $\Trees(\Nat)$.}
 
-OPERATION SEMANTICS GIVES  MAPPING $|(\cdot)|$ FROM  GROUND PROGRAMS TO $\Trees(\Nat)$
+\todo[inline]{OPERATION SEMANTICS GIVES  MAPPING $|(\cdot)|$ FROM  GROUND
+PROGRAMS TO $\Trees(\Nat)$}
 
-DEFINE:
+\todo[inline]{DEFINE:
 \[ P_1 \sqsubseteq_\text{ctxt} P_2 ~ \iff ~
-\text{for all ground contexts $C[-]$, $~ |C[P_1]| \Basicleq |C[P_2]|$}\]
+\text{for all ground contexts $C[-]$, $~ |C[P_1]| \Basicleq |C[P_2]|$}\]}
 
-RESULT IN~\cite{gom}:  $\sqsubseteq_\text{ctxt}$ THIS HAS GOOD PROPERTIES IF $\Basicleq$ ADMISSIBLE AND COMPOSITIONAL. (THIS IN CASE OF SPECIFIC LANGUAGE.)
+\todo[inline]{RESULT IN~\cite{gom}:  $\sqsubseteq_\text{ctxt}$ THIS HAS GOOD
+    PROPERTIES IF $\Basicleq$ ADMISSIBLE AND COMPOSITIONAL. (THIS IN CASE OF
+SPECIFIC LANGUAGE.)}
 
-WE CLAIM THIS NOT (ESPECIALLY) LANGUAGE SPECIFIC. (I THINK IT MAINLY RELIES ON THE EFFECT OPERATIONS BEING ALGEBRAIC IN THE SENSE OF PLOTKIN AND POWER.)
 
-THUS WE SEE DEFINING ADMISS AND COMP PREORDER AS KEY TO OBTAINING GOOD NOTIONS OF CONTEXTUAL PREORDER FOR GIVEN SET OF EFFECTS, LARGELY INDEPENDENTLY OF PROGRAMMING LANGUAGE
+\todo[inline]{WE CLAIM THIS NOT (ESPECIALLY) LANGUAGE SPECIFIC. (I THINK IT
+    MAINLY RELIES ON THE EFFECT OPERATIONS BEING ALGEBRAIC IN THE SENSE OF
+PLOTKIN AND POWER.)}
 
-REST OF SECTION EXPLORES THE RELEVANT TECHNICAL NOTIONS
+\todo[inline]{THUS WE SEE DEFINING ADMISS AND COMP PREORDER AS KEY TO OBTAINING
+    GOOD NOTIONS OF CONTEXTUAL PREORDER FOR GIVEN SET OF EFFECTS, LARGELY
+INDEPENDENTLY OF PROGRAMMING LANGUAGE}
+
+\todo[inline]{REST OF SECTION EXPLORES THE RELEVANT TECHNICAL NOTIONS}
 
 \begin{definition}[Admissibility]
     A binary relation $R$ on $\Trees(X)$ is \emph{admissible} if,
@@ -113,10 +122,12 @@ Section~\ref{section:trees}.
 
 
 
-[[MOTIVATE]]
+\todo[inline]{[[MOTIVATE]]}
 Following~\cite{gom}, we consider the basic ingredient for specifying  a notion of
 contextual equivalence for a programming language to be a preorder $\Basicleq$ on $\Trees(\mathbb{N})$.
-As long as the preorder is both admissible and compositional (equivalently an admissible substitutive precongruence), the mathematical tools of~\cite{gom} and Sections [[WHICH]] of the present paper are applicable. These allow fundamental properties of contextual equivalence to be proved.
+As long as the preorder is both admissible and compositional (equivalently an
+admissible substitutive precongruence), the mathematical tools of~\cite{gom} and
+Sections \textbf{[[WHICH]]} of the present paper are applicable. These allow fundamental properties of contextual equivalence to be proved.
 
 We observe that admissible compositional preorders are closed under arbitrary intersection. That is, if
 $\mathcal{R} \subseteq \mathcal{P}(\mathbb{N} \times \mathbb{N})$ is a family of admissible compositional preorders
@@ -146,7 +157,8 @@ of $\Trees(\mathbb{N})$.
 \end{proposition}
 
 It is possible to characterise the compositionality property for relations of the form $\Basicleq_\mathcal{O}$, using a notion of \emph{decomposability} of $\mathcal{O}$, see~\cite{gom}. 
-[[IT WOULD POSSIBLY BE NICE TO REPEAT THIS AND REFINE IT, E.G., TO REFLECT THE SUBSTITUTIVE PRECONGRUENCE DEFINITION OF COMPOSITIONALITY.]]
+\todo[inline]{[[IT WOULD POSSIBLY BE NICE TO REPEAT THIS AND REFINE IT, E.G., TO
+REFLECT THE SUBSTITUTIVE PRECONGRUENCE DEFINITION OF COMPOSITIONALITY.]]}
 
 
 
