@@ -128,8 +128,9 @@ Neither of the preorders below between $t,t' \in \Trees(\mathbb{N})$ is composit
     factor will be the probability associated with the subset $\{ 1 \}$.
     We dress a table of the minimal/maximal said probability on the different 
     trees.
-
-
+    
+    \todo[inline]{Remove the table and only give the final probabilities in the
+    four cases}
     \begin{equation*}
         \begin{array}{c|c|c}
                 & \textbf{Min} & \textbf{Max} \\ \hline
@@ -160,7 +161,97 @@ t \Basicleq^\Op_\prdem t' ~ \Leftrightarrow ~ ~& \forall g \colon \mathbb{N} \to
 The preorders $\Basicleq^\Op_\prang$ and $\Basicleq^\Op_\prdem$ are admissible and compositional.
 \end{proposition}
 
-[[GIVE PROOF]]
+
+\begin{proof}
+    \begin{description}
+        \item[Admissibility]
+            We prove that the function $F_h : t \mapsto \inf_s  \mathbf{E}_{t\#s} (h)$
+            is scott-continuous from $\Tree(\Nat)$ to $[0,+\infty]$ with the
+            scott-topology. Therefore, if $t_i \Basicleq^\Op_\prang t_i'$,
+            then $F_h(t_i) \leq F_h (t_i')$, and using the scott-continuity
+            of $F_h$ we deduce $F_h (\sqcup_i t_i) \leq F_h (\sqcup_i t_i')$
+            leading to $\sqcup_i t_i \Basicleq^\Op_\prang \sqcup_i t_i'$.
+
+            We use the natural topology on the set $S$ of strategies, where 
+            $S$ is compact. The functions $(s,t) \mapsto t \# s$  
+            and $t \mapsto \mathbf{E}_t (h)$ are clearly continuous.
+            We write $G_h : (s,t) \mapsto \mathbf{E}_{t \# s} (h)$ their composition.
+            \todo[inline]{It is clear if we know that a function continuous in
+                both its argument having values in a continuous domain is 
+            "globally" continuous} 
+
+            It suffices to prove that $t \mapsto \inf_s G(s,t)$ is
+            scott-continuous. This is a consequence of the compactness of $S$ 
+            \cite{AndreaShalk}
+            (Theorem 7.31). 
+
+            \todo[inline]{Choose one but keeping both is weird}
+            \textbf{Alternate Proof}
+
+            It is clear that if $(t_i)$ is an ascending chain of trees
+            then 
+            $\inf_s \sup_i G(s,t_i) \geq \sup_i \inf_s G(s,t_i)$,
+            however, $\inf_s G(s,t_i) = G(s_i, t_i)$ because $S$ is compact.
+            Now, using the fact that $S$ is metric and compact
+            \textbf{(It would be best to specify this beforehand)}, we can extract 
+            a subsequence such that $s_i \rightarrow s_\infty$ in $S$. Then
+            it is clear that the following inequalities hold:
+
+            \begin{equation*}
+                \inf_s \sup_i G(s,t_i)
+                \geq 
+                \sup_i \inf_s G(s,t_i)
+                \geq 
+                \sup_i G(s_i, t_i)
+                \geq 
+                G(s_\infty, \sup_i t_i)
+                \geq
+                \inf_s \sup_i G(s,t_i)
+            \end{equation*}
+
+            Therefore $t \mapsto \inf_s G(s,t)$ is scott-continuous.
+        \item[Compositionality]
+
+            The proof relies on the following key lemma. 
+            If $\sigma$ is a substitution on $\Tree(\Nat)$,
+            $t$ is a tree, $s$ a strategy and $h$ a weighting function then
+            the following equality holds:
+
+            \todo[inline]{I am using the notation $\sigma$ for a substitution 
+                instead of giving a family $\{ t_x \}_{x \in X}$ which is 
+                \emph{way more convenient} in this proof but not consistent 
+                with the rest of the paper}
+
+            \begin{equation*}
+                \inf_s \mathbf{E}_{t\sigma \# s } (h)
+                = 
+                \inf_s \mathbf{E}_{t \# s} (h_\sigma)
+            \end{equation*}
+
+            Where $h_\sigma (n) = \inf_s \mathbf{E}_{\sigma(n) \# s} (h)$.
+
+            \todo[inline]{The proof of this lemma is long and not interesting, 
+            should we mention it ?}
+            
+            Using this key lemma the proof can go smoothly because (by
+            definition)
+            if $\sigma \Basicleq^\Op_\prang \sigma'$ then 
+            $h_\sigma \leq h_\sigma'$.
+
+            \begin{align*}
+                \inf_s \mathbf{E}_{t\sigma \# s} (h)
+                 & = \inf_s \mathbf{E}_{t \# s} (h_\sigma)       & \text{ key lemma }  \\
+                 & \leq \inf_s \mathbf{E}_{t \# s} (h_{\sigma'}) & \text{ monotonicity wrt the weighting function } \\
+                 & \leq \inf_s \mathbf{E}_{t'\# s} (h_{\sigma'}) & \text{ monotonicity wrt the tree } \\
+                 & = \inf_s \mathbf{E}_{t'\sigma' \# s} (h )     & \text{ key lemma } \\
+            \end{align*}
+
+            Therefore $ t \Basicleq^\Op_\prang t'$ and $\sigma
+            \Basicleq^\Op_\prang \sigma'$ implies $t\sigma \Basicleq^\Op_\prang
+            t'\sigma'$.
+    \end{description}
+
+\end{proof}
 
 We view the fact that the use of quantitative properties is required to obtain a compositional preorder as being
 a mathematical analogue of the situation found in the work of Kozen [[REF]] and McIver and Morgan [[REF]], where 
