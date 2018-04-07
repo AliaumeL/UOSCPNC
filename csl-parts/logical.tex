@@ -1,0 +1,980 @@
+\section{Logical Relation}
+
+This section consists in defining a \emph{relational interpretation}
+of types by induction on their structure, and proving that 
+this relational interpretation characterises the contextual 
+preorder $\sqeq_{ctx}$. 
+
+This is a method that goes back to \cite{Reynolds83} 
+(see \cite{wadler1989theorems}) [TODO CITE FROM PITTS] where 
+instead of interpreting terms as elements of 
+a set, and types as sets, terms are left 
+uninterpreted, and types are interpreted as \emph{relations}.
+
+To benefit from theses results, one need to parametrize 
+over a class of \emph{well-behaved} relations \cite{Pitts2000} 
+and it turns out that \emph{biorthogonality} 
+is a generic construction that allows to construct them 
+\cite{mellies2005recursive}.
+
+\vspace{1em}
+
+In the following section, we will fix a preorder $\sqeq_b$
+and assume it admissible and compositional. This 
+preorder can be used to define an antitone Galois Connection 
+written $\top$ between relations on stacks and relations on closed 
+computation terms, meaning 
+that if $r$ is a relation on closed computation terms of type $\tau$ and $s$ is 
+a relation on stacks of type $\tau \multimap \Nat$:
+
+\begin{equation*}
+    r^\top \subseteq s \iff s^\top \subseteq r
+\end{equation*}
+
+\begin{definition}[The $\top$ operation]
+    Let $s$ be a relation on stacks of type $\tau \to \Nat$ 
+    and $r$ be a relation on closed computation terms 
+    of type $\tau$:
+
+    \begin{equation*}
+        \begin{array}{rl}
+            (S,S') \in r^\top &\iff
+            \forall (M,M') \in r, |S,M| \sqeq_b |S',M'|\\ 
+            (M,M') \in s^\top &\iff
+            \forall (S,S') \in s, |S,M| \sqeq_b |S',M'|
+        \end{array}
+    \end{equation*}
+\end{definition}
+
+The main interpretation is that it is possible to 
+relate stacks 
+when we apply them to closed computation terms we can relate to each other and 
+we can relate closed computation terms when we apply them to stacks we can relate to
+each other. 
+It can be intuited that a relation $r$ satisfying $r = r^{\top\top}$ going 
+to be a relation preserving observational equivalence 
+in some way, which is exactly the kind of relation 
+we are looking for.
+In fact, the function $r \mapsto r^{\top\top}$ is a closure operator
+and is going to be used in the definition 
+of the logical relation to guarantee its adequacy and compatibility.
+
+
+Because the $\top$ operation is an antitone Galois Connection, 
+all the properties in Figure \ref{fig:galois} are automatically true.
+
+
+\begin{figure}[h]
+        \begin{equation*}
+            r^{\top\top\top} = r^\top
+        \end{equation*}
+        \begin{equation*}
+            r \subseteq s \implies s^\top \subseteq r^\top
+        \end{equation*}
+        \begin{equation*}
+            r \subseteq r^{\top\top}
+        \end{equation*}
+        \begin{equation*}
+            (r^{\top\top})^{\top\top} = r^{\top\top}
+        \end{equation*}
+        \begin{equation*}
+            r \subseteq s \implies r^{\top\top} \subseteq s^{\top\top}
+        \end{equation*}
+    \caption{Properties of the $\top$ operation}
+    \label{fig:galois}
+\end{figure}
+
+
+\begin{lemma}[Saturation for $\top\top$-closed relations and $\sqeq_{ctx}$]
+    \label{lem:saturation}
+    Let $r$ be a $\top\top$-closed relation on 
+    computations, we always have:
+    \begin{equation*}
+        (\sqeq_{ctx} r \sqeq_{ctx}) \subseteq r 
+    \end{equation*}
+\end{lemma}
+
+This closure operator is going to be used in the definition 
+of the logical relation to guarantee it's adequacy and compatibility.
+
+\subsection{Definition of the relation}
+
+We combine ideas from \cite{gom} 
+for the treatment of effects and 
+\cite{pitts1998existential} for the 
+adaptation to the call-by-value setting.
+The evaluation strategy can also be 
+seen in \cite{dagand2015normalization}
+with an equivalent definition and 
+interesting description of the
+actual way things are going to compute.
+
+As usual, we define an operation on relations on terms 
+for each type constructor. Because there is only one 
+constructor it suffices to define what is the \emph{arrow}
+relation between two relations.
+
+\begin{definition}[Arrow relation]
+    Let $r_1$ be a relation on values 
+    and $r_2$ be a relation on computations 
+    of type respectively $\tau_1$ and $\tau_2$, we define 
+    $r_1 \to r_2$ a relation on 
+    values of type $\tau_1 \to \tau_2$ as:
+
+    \begin{equation*}
+        r_1 \to r_2 = 
+        \left\{ 
+            (V,V')  
+            ~|~
+            \forall (W,W') \in r_1, 
+            (VW, V'W') \in r_2 
+        \right\}
+    \end{equation*}
+
+    Note that values of type $\tau_1 \to \tau_2$
+    are all of the form $\lambda x:\tau_1. M$
+    where $x:\tau_1 \vdash_C M : \tau_2$.
+\end{definition}
+
+
+It is now possible to write in a very simple way the logical 
+relation on closed terms, which is going to be automatically $\top\top$-closed 
+on computation terms at any type.
+
+\begin{definition}[Logical relation on closed terms]
+    The logical relation on closed terms is defined in
+    Figure \ref{fig:logicalrel}. For every type 
+    $\tau$ it defines a relation $\| \tau \|_V$ 
+    on values of type $\tau$ and $\| \tau \|_C$ 
+    on computations of type $\tau$.
+\end{definition}
+
+\begin{figure}[h]
+    \begin{align*}
+        \| \Nat \|_V &= \  \sqeq_b \\
+        \| \tau \to \tau' \|_V &= \| \tau \|_V \to \| \tau' \|_C \\
+        \| \tau \|_C &= \left\{ (\Ret V, \Ret V') ~|~ (V,V') \in \|\tau\|_V
+        \right\}^{\top\top}
+    \end{align*}
+    \caption{Logical relation}
+    \label{fig:logicalrel}
+\end{figure}
+
+If one of the key results in 
+a logical relation argument is the reflexivity of the relation, 
+it is very common to have a similar reflexivity result on stacks \cite{Pitts2000}.
+We are going to use several times the fact that $(Id,Id) \in \| \Nat \|_C^\top$
+which is a consequence of the stack reflexivity at ground type $\Nat$.
+
+\begin{lemma}[Stack reflexivity at ground type $\Nat$]
+    \label{lem:stackrefl}
+    For any stack $\vdash S : \Nat \multimap \Nat$ the pair $(S,S)$ is inside $\| \Nat \|_C^\top$
+\end{lemma}
+
+\begin{proof}
+    Let $S$ be a stack such that $\vdash S : \Nat \multimap \Nat$. Let 
+    $V$ and $V'$ be two values of type $\Nat$ such that $V \sqeq_b V'$.
+    Using the stack commutation lemma \ref{lem:stackcom}, $|S, \Ret V| = |\Ret
+    V| \sigma_S$. But we know that $|\Ret V| = V$, and now using
+    compositionality and reflexivity of $\sqeq_b$ it can be shown 
+    that $|S, \Ret V| \sqeq_b |S, \Ret V'|$. This proves that $(S,S) \in \| \Nat
+    \|_C^\top$ because:
+
+    \begin{equation*}
+        \| \Nat \|_C^\top = \left\{ (\Ret V, \Ret V') ~|~ (V,V') \in \| \Nat \|_V
+        \right\}^\top
+    \end{equation*}
+\qed\end{proof}
+
+Now in order to compare the logical relation to the contextual preorder,
+it is needed to be able to relate \emph{open} terms. The usual 
+open extension of a relation is used, while being careful to only 
+substitute \emph{value} terms for the free variables.
+
+\begin{definition}[Generalisation to open terms]
+    If $M$ and $M'$ are two open terms with variables 
+    typed by $\Gamma$ then $\Gamma \vdash M \, \| \tau \|_C \, M'$ if 
+    and only if for any pair of substitutions $\vec{V}$ and $\vec{V'}$
+    for the free variables such that $\vdash V_x \| \tau_x \|_V V_x'$
+    for any $x : \tau_x \in \Gamma$ we have:
+
+    \begin{equation*}
+        \vdash M[ x := V_x ] \, \| \tau \|_C M' [ x := V_x' ]
+    \end{equation*}
+
+    The definition can be adapted to value terms in the obvious way.
+\end{definition}
+
+
+One direct consequence of this defininition as an open extension is 
+that two related computation terms with one free variable can be used 
+to extend a stack.
+
+\begin{lemma}[Stack extension]
+    \label{lem:stackexten}
+    Let $(S,S') \in \| \tau \|_C^\top$ be two related stacks,
+    and $x: \sigma \vdash M \| \tau \|_C M'$. One can construct 
+    new stacks $S \circ (\Bind{\square}{x:\sigma}{M})$
+    and $S' \circ (\Bind{\square}{x:\sigma}{M'})$ that 
+    have type $\sigma \multimap \Nat$. Theses two new 
+    stacks are related for $\| \sigma \|_C^\top$.
+\end{lemma}
+
+\begin{proof}
+    Let $(V,V') \in \| \sigma \|_V$, we can use the definition 
+    of the computation tree to reduce the stack:
+
+    \begin{equation*}
+        | S \circ (\Bind{\square}{x:\sigma}{M}, \Ret V| 
+            = 
+        | S, M[x := V]|
+    \end{equation*}
+
+    This equation is also valid for the second computation 
+    tree built using $S'$, $M'$ and $V'$.
+
+    But we know that $\vdash M[x := V] \| \tau \|_C M'[x := V']$
+    by definition of the open extension of the relation. This proves 
+    that $|S, M[x:= V]| \sqeq_b |S', M'[x:= V']|$ and therefore 
+    that the two stacks are indeed related for $\| \sigma \|_C^\top$.
+\qed\end{proof}
+
+\subsection{Inclusion in contextual preorder}
+
+The first step is to prove a soundness result, mainly that 
+if two terms are logically related then they are contextually 
+related. This soundness is proven in two steps: first prove 
+adequacy of the logical relation, then prove compatibility 
+with the constructions of the language.
+
+\begin{lemma}[Adequacy]
+    The logical relation is adequate.
+\end{lemma}
+
+\begin{proof}
+    Let $M$ and $M'$ be two computation terms of type $\Nat$
+    such that $\emptyset \vdash M \| \Nat \|_C M'$. 
+    We know that for every pair $(S,S') \in \| \Nat \|_C^\top$
+    we have:
+
+    \begin{equation*}
+        | S, M | \sqeq_b |S',M'|
+    \end{equation*}
+
+    Therefore it suffices to show that $(Id,Id) \in \| \Nat \|_C^\top$ 
+    to conclude, but this is a direct consequence of lemma \ref{lem:stackrefl}.
+\qed\end{proof}
+
+We are now going to prove compatibility of the logical relation with 
+the different constructions of the language. To simplify the proofs, 
+compatibility is proven in an empty typing context $\Gamma$, this is allowed 
+because the logical relation is defined on open terms using closing 
+substitutions.
+
+\begin{lemma}[Compatibility for variables]
+    If $\Gamma$ is a typing context and $x$ a variable name then:
+    \begin{equation*}
+        \Gamma, x:\tau \vdash x \| \tau \|_V x 
+    \end{equation*}
+\end{lemma}
+
+\begin{proof}
+    The compatibility property holds by definition of the open extension
+\qed\end{proof}
+
+\begin{lemma}[Compatibility for $\Ret$]
+    If $\Gamma$ is a typing context and $\Gamma \vdash V \| \tau \|_V V'$ then:
+    \begin{equation*}
+        \Gamma \vdash \Ret V \| \tau \|_C \Ret V
+    \end{equation*}
+\end{lemma}
+
+\begin{proof}
+    The compatibility property holds because the $\top\top$ closure 
+    is a monotone operator
+\qed\end{proof}
+
+\begin{lemma}[Compatibility for function application]
+    If $\Gamma$ is a typing context,
+    $\Gamma \vdash V \| \tau \to \tau' \|_V V'$ 
+    and $\Gamma \vdash W \| \tau \|_V W'$:
+
+    \begin{equation*}
+        \Gamma \vdash VW \| \tau' \|_C V'W'
+    \end{equation*}
+\end{lemma}
+
+\begin{proof}
+    The compatibility property holds by defintion of the arrow relation.
+\qed\end{proof}
+
+\begin{lemma}[Compatibility for $\Zero$]
+    If $\Gamma$ is a typing context then:
+    \begin{equation*}
+        \Gamma \vdash \Zero \| \Nat \|_V \Zero 
+    \end{equation*}
+\end{lemma}
+
+\begin{proof}
+The compatibility property holds 
+because $\sqeq_b$ is reflexive. 
+\qed\end{proof}
+
+\begin{lemma}[Compatibility for $\Succ$]
+    If $\Gamma$ is a typing context and $\Gamma \vdash V \| \Nat \|_V V'$. 
+    then:
+    \begin{equation*}
+        \Gamma \vdash \Succ V \| \Nat \|_V \Succ V'
+    \end{equation*}
+\end{lemma}
+\begin{proof}
+The compatibility property
+holds because of lemma \ref{lem:admcompnat}. Indeed, 
+when two natural numbers are related, either they 
+are equal, and then their successors are also related 
+because $\sqeq_b$ is reflexive, or they are not 
+equal and every number is equated by $\sqeq_b$ 
+making the property trivial. 
+\qed\end{proof}
+
+\begin{lemma}[Compatibility for $\lambda$-abstraction]
+    If $\Gamma$ is a tying context and 
+    $\Gamma, x :\tau \vdash M \| \tau' \|_C M'$ then:
+    \begin{equation*}
+        \Gamma \vdash (\lambda x:\tau. M) \| \tau \to \tau' \|_V (\lambda
+        x:\tau. M')
+    \end{equation*}
+\end{lemma}
+\begin{proof}
+Assume without loss of generality 
+that the computation terms 
+$M$ and $M'$ only have one free variable $x$,
+and that $x : \sigma \vdash M \| \tau \|_C M'$.
+
+We want to prove that $(\lambda x:\sigma .M, \lambda x:\sigma. M')$
+is in $\| \sigma \to \tau\|_V$. Let $(V,V') \in \| \sigma \|_V$,
+we have to prove that $((\lambda x:\sigma. M)V, (\lambda x:\sigma.
+M')V')$ is in $\| \tau \|_C$.
+
+But using the hypothesis and 
+the definition of the open closure, 
+we already know that 
+$(M[x := V], M'[x := V']) \in \| \tau \|_C$.
+
+Let $(S,S') \in \| \tau \|_C^\top$, we know that 
+$|S, M[x := V]| \sqeq_b |S', M'[x := V']|$ by definition 
+of the $\top\top$-closure. 
+
+It suffices to see that $|S, M[x := V]| = |S, (\lambda x:\sigma. M)
+V|$ by definition of $|-,-|$ to have the conclusion:
+
+\begin{equation*}
+    | S, (\lambda x:\sigma. M) V| \sqeq_b |S', (\lambda x:\sigma.
+    M') V'| 
+\end{equation*}
+
+Therefore we do have $(\lambda x:\sigma. M, \lambda x:\sigma. M')
+\in \| \sigma \to \tau \|_V$.
+\qed\end{proof}
+
+\begin{lemma}[Compatibility for computation binding]
+    If $\Gamma$ is a typing context,
+    $\Gamma \vdash M \| \tau \|_C M'$ and 
+    $\Gamma, x : \tau \vdash N \| \tau' \|_C M'$
+    then:
+
+    \begin{equation*}
+        \Gamma \vdash (\Bind{M}{x:\tau}{N}) \| \tau' \|_C 
+        (\Bind{M'}{x:\tau}{N'})
+    \end{equation*}
+\end{lemma}
+\begin{proof}
+Let $M = \Bind{M_1}{x:\sigma}{M_2}$,
+$M' = \Bind{M_1'}{x:\sigma}{M_2'}$ and assume 
+that $\emptyset \vdash M_1 \| \sigma \|_C M_1'$
+and $x : \sigma \vdash M_2 \| \tau \|_C M_2'$.
+
+Let $(S,S') \in \| \tau \|_C^\top$, we know that
+
+\begin{equation*}
+    \begin{cases}
+        | S, M | &=
+        | S \circ \Bind{\square}{x : \sigma}{M_2}, M_1| \\
+        | S', M' | &=
+        | S' \circ \Bind{\square}{x : \sigma}{M_2'}, M_1'| \\
+    \end{cases}
+\end{equation*}
+
+Therefore to prove the inequality for $\sqeq_b$ it suffices 
+to show that
+
+\begin{equation*}
+    (S \circ \Bind{\square}{x : \sigma}{M_2},
+     S' \circ \Bind{\square}{x : \sigma}{M_2'})
+     \in \| \sigma \|_C^\top
+\end{equation*}
+
+But because of the properties of the 
+$\top\top$-closure we know that 
+$\| \sigma \|_C^\top = (\Ret \| \sigma \|_V)^\top$.
+
+Let $(V,V') \in \| \sigma \|_V$, we can prove that 
+applying the stacks to $(\Ret V, \Ret V')$ gives 
+related trees, by using the fact that $M_2$ and $M_2'$
+are related and that $(S,S') \in \| \tau \|_C^\top$.
+
+\begin{align*}
+    | S \circ \Bind{\square}{x : \sigma}{M_2}, \Ret V| 
+    &= |S,  M_2[ x := V] | \\
+    & \sqeq_b |S', M_2' [ x := V'] | \\
+    &= 
+    | S' \circ \Bind{\square}{x : \sigma}{M_2'}, \Ret V'| 
+\end{align*}
+
+Therefore we have the expected conclusion.
+\qed\end{proof}
+
+\begin{lemma}[Compatibility for the case distinction]
+    If $\Gamma$ is a typing context, 
+    $\Gamma \vdash V \| \Nat \|_V V'$,
+    $\Gamma \vdash M_1 \| \tau \|_C M_1'$
+    and $\Gamma, x:\Nat \vdash M_2 \| \tau \|_C M_2'$
+    then:
+
+    \begin{equation*}
+        \Gamma \vdash (\lcase{V}{M_1}{M_2}) \| \tau \|_C
+            (\lcase{V'}{M_1'}{M_2'})
+    \end{equation*}
+\end{lemma}
+\begin{proof}
+Let $M = \lcase{V_1}{M_2}{M_3}$ and $M' = \lcase{V_1'}{M_2'}{M_3'}$,
+and assume without loss of generality that the terms are closed. 
+If $\emptyset \vdash V_1 \| \Nat \|_V V_1'$, 
+$\emptyset \vdash M_2 \| \tau \|_C M_2'$
+and $ x: \Nat \vdash M_3 \| \tau \|_C M_3'$ 
+then we are going to show that $\emptyset \vdash M \| \tau \|_C M'$.
+Let $(S,S') \in \| \tau \|_C^\top$.
+
+We can make a case distinction on $V_1$:
+\begin{itemize}
+    \item When $V_1 = \Zero$ then $|S,M| = |S,M_2|$,
+        but because of lemma \ref{lem:admcompnat} 
+        we can assume that $V_1 = V_2$ and therefore 
+        $|S',M'| = |S', M_2'|$. But by hypothesis
+        we know that $(M_2,M_2') \in \| \tau \|_C$ and therefore
+        we have $| S, M| \sqeq_b |S',M'|$. When in the second 
+        case of the lemma \ref{lem:admcompnat} 
+        the result is obvious.
+
+    \item When $V_1 = \Succ V'$, we have the same 
+        disjunction as in the previous case, and 
+        the same conclusion, except that we use 
+        the open closure.
+\end{itemize}
+\qed\end{proof}
+
+
+
+\begin{lemma}[Compatibility for the fixed-point construction]
+    If $\Gamma$ is a typing context and $\Gamma \vdash V \| (\tau \to \tau') \to
+\tau \to \tau' \|_V V'$ then:
+    \begin{equation*}
+        \Gamma \vdash \Fix V \| \tau \to \tau' \|_C \Fix V'
+    \end{equation*}
+\end{lemma}
+\begin{proof}
+Assume that $\emptyset \vdash V \| (\sigma \to \tau) \to \sigma \to
+\tau \|_V V'$. Let $(S,S') \in \| \sigma \to \tau\|_C^\top$.
+Using the unrolling theorem \ref{thm:unrolling} we know that:
+
+\begin{equation*}
+    \begin{cases}
+        |S, \Fix V| &= \bigsqcup_i | S, \Unroll_i V |     \\
+        |S', \Fix V'| &= \bigsqcup_i | S', \Unroll_i V' |
+    \end{cases}
+\end{equation*}
+
+Using admissibility of $\sqeq_b$, we know that it suffices 
+to show that $|S, \Unroll_i V| \sqeq_b |S', \Unroll_i V'|$
+when $i \in \mathbb{N}$. This can be 
+understood as a proof by fixed point induction, and we are 
+going to prove that $(\Unroll_i V, \Unroll_i V') \in \| \sigma \to \tau \|_C$
+which will give the expected conclusion.
+
+\begin{itemize}
+    \item We know that $\Unroll_0 V = \Unroll_0 V'$ and 
+        that for every stack they give the tree $\bot$ 
+        because they don't terminate. Therefore 
+        we have obviously $(\Unroll_0 V, \Unroll_0 V') \in \|
+        \sigma \to \tau \|_C$.
+
+    \item Suppose that $(\Unroll_i V, \Unroll_i V') \in \| \sigma
+        \to \tau \|_C$. By definition, we know that:
+
+        \begin{equation*}
+            \begin{cases}
+                \Unroll_{i+1} V &= V (\lambda x:\sigma.
+                        \Bind{(\Unroll_i V)}{g : \sigma \to \tau}{g
+                    x}) \\
+                \Unroll_{i+1} V' &= V' (\lambda x:\sigma.
+                        \Bind{(\Unroll_i V')}{g : \sigma \to \tau}{g
+                    x}) \\
+            \end{cases}
+        \end{equation*}
+
+        But we can use the previous compatibility propeties 
+        to simplify this proof. By application and variable 
+        compatibility we know that 
+        
+        \begin{equation*}
+            g : \sigma \to \tau, x : \sigma \vdash g x \| \tau \|_C g x
+        \end{equation*}
+
+        Then using a binding construction, because we know that
+        $\Unroll_i V$ and $\Unroll_i V'$ are related we can derive:
+        
+        \begin{equation*}
+            x : \sigma \vdash (\Bind{\Unroll_i V}{g : \sigma \to
+                \tau}{g x}) \| \tau \|_C (\Bind{\Unroll_i V'}{g : \sigma
+            \to \tau}{g x})
+        \end{equation*}
+        
+        Then we use the lambda-abstraction compatibility to 
+        relate the two functions terms.
+        Afterwards using the fact that $V$ and $V'$ are related 
+        and again function application we can derive:
+
+        \begin{equation*}
+            \emptyset \vdash (\Unroll_{i+1} V) \| \tau \|_C
+            (\Unroll_{i+1} V')
+        \end{equation*}
+
+\end{itemize}
+\qed\end{proof}
+
+\begin{lemma}[Compatibility for the effect construction]
+    If $\Gamma$ is a typing context, $(\sigma,n) \in \Sigma$
+    and $\Gamma \vdash M_i \| \tau \|_C M_i'$ for $i \in \{ 1, \dots, n\}$
+    then:
+    \begin{equation*}
+        \Gamma \vdash \sigma(M_1, \dots, M_n) \| \tau \|_C \sigma(M_1', \dots,
+        M_n')
+    \end{equation*}
+\end{lemma}
+\begin{proof}
+        Let $M = \sigma (M_1, \dots, M_n)$ 
+        and $M' = \sigma (M_1', \dots, M_n')$
+        such that $(M_i,M_i') \in \| \tau \|_C$.
+
+        Let $(S,S') \in \| \tau \|_C^\top$.
+
+        \begin{equation*}
+            \begin{cases}
+                |S,M|   &= \sigma (|S,M_1|, \dots |S,M_n|) \\
+                |S',M'| &= \sigma (|S',M_1'|, \dots |S',M_n'|) \\
+            \end{cases}
+        \end{equation*}
+
+        But we know that $\sqeq_b$ is reflexive, and 
+        therefore
+        \begin{equation*}
+            \sigma(\underline{1}, \dots, \underline{n})
+            \sqeq_b \sigma(\underline{1}, \dots, \underline{n})
+        \end{equation*}
+
+        The hypothesis tells us that $|S,M_i| \sqeq_b |S',M_i'|$
+        for every $1 \leq i \leq n$. We can then design
+        two substitutions (the $\bullet$ represents either 
+        nothing or a quote):
+
+        \begin{equation*}
+            \tau^\bullet (i) = \begin{cases}
+                |S^\bullet, M_i^\bullet| & \text{ when } 1 \leq i \leq n \\
+                \underline{i}            & \text{ otherwise } 
+            \end{cases}
+        \end{equation*}
+
+        We know that $\tau \sqeq_b \tau'$ pointwise, and therefore
+        by compositionality of $\sqeq_b$ we can deduce:
+
+        \begin{equation*}
+            \sigma (|S,M_1|, \dots, |S,M_n|)
+            = \sigma(\underline{0}, \dots, \underline{n}) \tau
+            \sqeq_b
+             \sigma(\underline{0}, \dots, \underline{n}) \tau'
+            =
+            \sigma (|S',M_1'|, \dots, |S',M_n'|)
+        \end{equation*}
+\qed\end{proof}
+
+We therefore have the compatibility with respect to the language constructions, 
+allowing us to state the inclusion of the logical relation inside the contextual
+preorder.
+
+\begin{theorem}[Inclusion of the preorders]
+    \label{thm:inclusionpreorder}
+    The logical relation is included in the contextual preorder.
+\end{theorem}
+
+\begin{proof}
+    The logical relation is adequate and compatible, and 
+    therefore is included in the largest relation that 
+    is adequate and compatible.
+\qed\end{proof}
+
+\subsection{Equality with contextual preorder}
+
+Because the language is call-by-value, the logical 
+relation satisfies a very strong property that 
+can be found in \cite{pitts1998existential} in a slightly different form:
+the relation can be recovered from its restriction to values.
+Separating values from computation makes this result easier to 
+prove and to grasp as seen in lemma \ref{lem:valuerelation}.
+This result is necessary to prove completeness of the logical 
+relation with respect to contextual equivalence, and can easily 
+be extended when adding new types to the language like sum types 
+or product types.
+
+\begin{lemma}[Value relation]
+    \label{lem:valuerelation}
+    For any type $\tau$ we have 
+
+    \begin{equation*}
+        (\Ret V, \Ret V') \in \| \tau \|_C
+        \iff 
+        (V,V') \in \| \tau \|_V
+    \end{equation*}
+\end{lemma}
+
+\begin{proof}
+    The right-to-left implication is a consequence of the definition 
+    and the monotonicity of the $\top\top$-closure.
+    The other implication can be proven by case analysis on $\tau$.
+
+    \begin{itemize}
+        \item When $\tau = \Nat$. Let $(\Ret V, \Ret V') \in \| \Nat \|_C$,
+            using lemma \ref{lem:stackrefl} we know that $(Id,Id) \in \| \Nat
+            \|_C^\top$ and therefore that $|\Ret V| \sqeq_b |\Ret V'|$, thus 
+            proving the result.
+        
+        \item When $\tau = \tau_1 \to \tau_2$.
+            Assume that $(\Ret V, \Ret V') \in 
+            \| \tau_1 \to \tau_2 \|_C$.
+
+            Let $(W,W') \in \| \tau_1 \|_V$, $(S,S') \in \| \tau_2 \|_C^\top$.
+            We want to prove $|S, VW| \sqeq_b |S',V'W'|$, because this would
+            imply that $(VW,V'W')$ is an element of $\| \tau_2 \|_C^{\top\top}$
+            and therefore that 
+            $(V,V')$ is in $\| \tau_1 \to \tau_2 \|_V$.
+
+            It suffices to notice that $x: \tau_1 \to \tau_2 \vdash xW \| \tau_2
+            \|_C x W'$. Indeed, this can be proven using compatibility
+            properties. Now using lemma \ref{lem:stackexten} we can extend the
+            stacks $S$ and $S'$ into the stacks $S \circ
+            (\Bind{\square}{x:\tau_1 \to \tau_2}{xW})$ and $S' \circ
+            (\Bind{\square}{x:\tau_1 \to \tau_2}{xW'})$. The lemma 
+            states that the two new stacks are related for $\| \tau_1 \to \tau_2
+            \|_C^\top$, and therefore:
+
+            \begin{align*}
+                |S \circ \Bind{\square}{x:\tau_1 \to \tau_2}{xW}, \Ret V| &\sqeq_b \\
+                |S' \circ \Bind{\square}{x:\tau_1 \to \tau_2}{xW'}, \Ret V'| 
+            \end{align*}
+
+            Which after reduction gives exactly the expected inequality.
+
+    \end{itemize}
+\qed\end{proof}
+
+
+\begin{lemma}[Largest adequate compatible and substitutive relation]
+    The logical relation is the largest adequate, compatible 
+    and substitutive relation. Where being substitutive is 
+    being compatible with the rules in Figure \ref{fig:substitutive}.
+\end{lemma}
+
+\begin{proof}
+    First of all, it is clear that the logical relation is substitutive 
+    by definition as an open extension.
+
+    Let $\CE$ be an adequate compatible and substitutive relation.
+    By definition of the contextual preorder, we know that $\CE$
+    is included into the contextual preorder. 
+
+    Let $\Gamma \vdash M \CE_C M' : \tau$, we are going 
+    to prove that $\Gamma \vdash M \| \tau \|_C M'$. 
+    
+    Let $\vec{V}$ and $\vec{V'}$ be
+    sequences of values related for the logical relation and
+    types agreeing with $\Gamma$. 
+
+    Because the logical relation is reflexive, we know that 
+    we have $\Gamma \vdash M \| \tau \|_C M$, and using the
+    fact that the logical relation is substitutive, we then 
+    can deduce that
+
+    \begin{equation*}
+        \emptyset \vdash M[\vec{\Gamma} := \vec{V}] \| \tau \|_C 
+                         M[\vec{\Gamma} := \vec{V'}]
+    \end{equation*}
+    
+    On the other hand, we know that $\CE$ is reflexive 
+    and therefore $\vec{V'}$ is pointwise related 
+    to $\vec{V'}$ for this relation. We can therefore 
+    conclude using substitutivity:
+
+    \begin{equation*}
+        \emptyset \vdash M[\vec{\Gamma} := \vec{V'}] 
+        \CE_C
+                         M'[\vec{\Gamma} := \vec{V'}]
+    \end{equation*}
+
+    But we know that the relation $\CE$ is included into 
+    the contextual preorder, and therefore the 
+    equation can be written:
+
+    \begin{equation*}
+        M[\vec{\Gamma} := \vec{V}] 
+        \| \tau \|_C
+        M[\vec{\Gamma} := \vec{V'}]
+        \sqeq_{ctx}
+        M'[\vec{\Gamma} := \vec{V'}]
+    \end{equation*}
+
+    Using the saturation lemma (lemma \ref{lem:saturation})
+    we can then deduce that for every pair of
+    logically related $(\vec{V},\vec{V'})$ we have:
+
+    \begin{equation*}
+        \emptyset \vdash M[\vec{\Gamma} := \vec{V}] \| \tau \|_C
+        M'[\vec{\Gamma} := \vec{V'}] 
+    \end{equation*}
+
+    Which by definition means that $\Gamma \vdash M \| \tau \|_C M'$. 
+    We now have proven that:
+
+
+    \begin{equation*}
+        \Gamma \vdash M \CE_C M' : \tau \implies \Gamma \vdash M
+    \| \tau \|_C M'
+    \end{equation*}
+    
+    Therefore to prove that $\CE$ is included in the logical 
+    relation it suffices to prove the same for value terms.
+
+    Let $\Gamma \vdash V \CE_V V' : \tau$, because the relation is compatible 
+    we know that $\Gamma \vdash \Ret V \CE_C \Ret V' : \tau$, using the previous 
+    result we know that $\Gamma \vdash \Ret V \| \tau \|_C \Ret V'$, but
+    using lemma \ref{lem:valuerelation} we can deduce that $\Gamma \vdash V \|
+    \tau \|_V V'$.
+
+\qed\end{proof}
+
+\begin{figure}[h]
+    \begin{center}
+        \AxiomC{$\Gamma, x : \tau \vdash W \CE_V W' : \tau'$}
+        \AxiomC{$\Gamma \vdash V \CE_V V' : \tau$}
+        \BinaryInfC{$\Gamma \vdash W[x := V] \CE_C W'[x := V'] : \tau'$}
+        \DisplayProof
+    \end{center}
+    \caption{Substitutivity}
+    \label{fig:substitutive}
+\end{figure}
+
+\begin{lemma}[Contextual preorder is substitutive]
+\end{lemma}
+
+\begin{proof}
+    Because contextual preorder is transitive, it suffices 
+    to show that we have the following equality when 
+    $M$ is a computation term of type $\tau$ and $V$
+    a value term of type $\sigma$ to have the 
+    substitutive property on computation terms:
+
+    \begin{equation*}
+        \Gamma \vdash M[ x := V] \equiv_{ctx} (\lambda x:\sigma. M) V : \tau
+    \end{equation*}
+
+    But we have already seen that this equivalence is true for the logical 
+    relation, and we know that the logical relation is included in 
+    the contextual preorder, allowing us to conclude.
+\qed\end{proof}
+
+
+\begin{theorem}[Contextual preorder equals the logical relation]
+\end{theorem}
+
+\begin{proof}
+    We already have one inclusion with the theorem \ref{thm:inclusionpreorder}
+    and the second one is given because 
+    contextual preorder is an adequate, compatible and substitutive relation,
+    therefore included into the largest one (the logical relation).
+\qed\end{proof}
+
+\subsection{Meta properties}
+
+Using the abstract equality between the contextual preorder
+and the logical relation we defined, we can prove generic 
+theorems about contextual equivalence independently 
+of the properties of effects.
+
+The first one is that a relation between effects is true 
+at ground type if and only if they are true at all type. This 
+justifies the fact that we only ask for a preorder on $\Tree_\Nat$.
+
+\begin{theorem}[Inequalities between effects are seen at ground type]
+    Meaning that if $M$ and $M'$ are terms with only effects and free 
+    variables, a polymorphic inequality between $M$ and $M'$ is 
+    admissible if and only if it is admissible on natural numbers. 
+\end{theorem}
+
+\begin{proof}
+    Assume that we have $M$ and $M'$ terms constructed 
+    only as trees of effect constructors with 
+    a finite number of 
+    place holders for leaves, and that for any type $\tau$
+    we have the following admissible rule:
+
+
+    \begin{prooftree}
+        \AxiomC{$\forall i, \Gamma \vdash M_i \, \| \tau \|_C \, M_i'$}
+        \UnaryInfC{$ \Gamma \vdash M[(M_i)] \,  \| \tau \|_C \,  M'[(M_i')]$}
+    \end{prooftree}
+    
+    It is trivial to see that the rule can be seen 
+    at type $\Nat$.
+
+    Going the other way around, we only assume that 
+    we have the following admissible rule:
+
+    \begin{prooftree}
+        \AxiomC{$\forall i, \Gamma \vdash M_i \, \| \Nat \|_C \, M_i'$}
+        \UnaryInfC{$ \Gamma \vdash M[(M_i)] \,  \| \Nat \|_C \,  M'[(M_i')]$}
+    \end{prooftree}
+
+    Let $\tau$ be a given type, 
+    and a set of computation terms 
+    of type $\tau$ such that we have 
+    derivations of $\Gamma \vdash M_i \, \| \tau \|_C \, M_i'$.
+
+    Let $(S,S') \in \| \tau \|_C^\top$, because 
+    $M$ is merely a tree, we can calculate $|S, M[(M_i)]|$:
+
+    \begin{equation*}
+        |S, M[(M_i)]| = 
+        M[(i)] [ i \mapsto |S,M_i| ]
+    \end{equation*}
+
+    Now, using the given admissible rule on $\Ret i$ 
+    and compositionality of the preorder we can 
+    deduce that:
+
+    \begin{equation*}
+        |S, M[(M_i)]| \sqeq_b |S', M'[(M_i')] |
+    \end{equation*}
+\qed\end{proof}
+
+
+\begin{theorem}[Contextual preorder can be reduced to closed terms]
+    Two open computation terms $M$ and $M'$ are contextually related 
+    if and only if for any closing substitution of contextually related 
+    values, the two closed terms obtained are related.
+
+    This is stating that $\sqeq_{ctx}$ is the open extension of 
+    $\sqeq_{ctx}$ restricted to closed terms.
+\end{theorem}
+
+\subsection{Importance of hypothesis}
+
+We can now ask ourselves to what extend we could change 
+the hypothesis on $\sqeq_b$. The answer is that they 
+are in some sense minimal because removing admissibility 
+allows to "break" the behaviour of fixed-points, and 
+removing compositionality allows to "break" the 
+behaviour of effects.
+
+The following results are \emph{not} using the meta-theorems 
+that are extensively using compositionality and admissibility 
+of $\sqeq_b$.
+
+\begin{lemma}[Admissibility and good behaviour on $\Tree_\Nat$ implies compositionality]
+    Namely, we are going to show that if $\sqeq_b$ is admissible then 
+    \begin{equation*}
+        \left[(M,M') \in \| \Nat \|_C \iff
+        |M| \sqeq_b |M'| \right]
+        \iff
+        \sqeq_b \text{ is compositional }
+    \end{equation*}
+\end{lemma}
+
+\begin{proof}
+    \begin{itemize}
+        \item Let's assume that $\sqeq_b$ is compositional. For 
+            one direction it suffices to notice that
+            $(Id,Id) \in \| \Nat \|_C^\top$ to conclude. For the other 
+            direction, assume that $|M| \sqeq_b |M'|$, 
+            we know that if $(S,S') \in \| \Nat \|_C^\top$ we have:
+
+            \begin{equation*}
+                |S,M| = |M|[i \mapsto |S, \Ret i|]
+            \end{equation*}
+
+            Now using compositionality we can conclude that $|S,M| \sqeq_b
+            |S',M'|$ and therefore $(M,M') \in \| \Nat \|_C$.
+
+        \item The other way around, we use the fact that 
+            every tree is the least upper bound of it's finite approximations,
+            and that any finite tree on $\Nat$ has a trivial representation as a 
+            finite term\footnote{Note that it still holds if 
+            we allow countable branching controled by a lambda-abstraction}.
+            
+            Without loss of generality (using admissibiltiy) we can 
+            therefore restrict to finite trees represented by terms 
+            $M,M'$.
+
+            To prove compositionality, we are going to consider 
+            two terms $M$ and $M'$ such that $|M| \sqeq_b |M'|$, two substitutions 
+            $(\sigma,\sigma')$ such that $\sigma^\bullet (i)$ is always 
+            a finite tree, represented by a term $N_i^\bullet$, and 
+            $|N_i| \sqeq_b |N_i'|$.
+
+            Compositionality claims that $|M|[ i \mapsto |N_i|] \sqeq_b |M'|[ i
+            \mapsto |N_i'|]$, to obtain that result we are going to consider 
+            stacks $(S_k,S_k') \in \| \Nat \|_C^\top$ that satisfies:
+
+            \begin{equation*}
+                | S_k^\bullet, \Ret i | = 
+                \begin{cases}
+                    |N_i| & \text{ when } i \leq k \\
+                    \bot  & \text{ otherwise } 
+                \end{cases}
+            \end{equation*}
+
+            Building theses and checking the relation is easy as it is just 
+            writing a finite case disjunction and using the non terminating 
+            term when we fall in the last case.
+
+            Now, because $\| \Nat \|_C = \| \Nat \|_C^{\top\top}$ we can 
+            deduce:
+            \begin{equation*}
+                |S_k, M| \sqeq_b |S_k', M'|
+            \end{equation*}
+
+            But we can rewrite the terms using the substitution lemma
+            \ref{lem:stackcom}: 
+            \begin{equation*}
+                |M|[i \mapsto |S_k, \Ret i|] \sqeq_b |M'|[ i \mapsto |S_k', \Ret
+                i|]
+            \end{equation*}
+
+            It is clear that the trees obtained are ascending chains in $k$
+            with least upper bound $|M^\bullet|[i \mapsto |N_i^\bullet|]$ 
+            giving the expected result.
+
+            To adapt this to any tree, it suffices to see that the chain 
+            is also ascending in $M$ and $N_i$, therefore allowing for 
+            simultaneous approximaton on $k,M,N_i$.
+    \end{itemize} 
+
+\qed\end{proof}
+

@@ -1,0 +1,226 @@
+
+\section{Free preorders}
+
+Given an inequational theory $\mathcal{T}$ one can always 
+build some preorder $\sqeq_b$ corresponding to it as in Lemma 
+\ref{lem:freedomainpreorder}.
+This uses the previous part about denotational semantics 
+and preorders built using them. However we saw 
+that one could naturally build the smallest admissible,
+compositional preorder extending $\sqeq$ without 
+requiring such machinery by using Lemma \ref{lem:freepreo}. 
+It is not known (yet) if the two constructions coincide,
+however one inclusion is clear: the free preorder obtained 
+using a denotational interpretation always contains 
+the other one, defined as the intersection of all preorders 
+satisfying admissibilty, compositionality and pointedness properties.
+The difficulty is going to prove the equality between the free preorder 
+(obtained via Lemma \ref{lem:freepreo}) and the other ones 
+either obtained operationally or using the denotational free preorder.
+
+
+\begin{lemma}[Angelic preorder]
+    Let $\mathcal{T}_A$ be the following theory:
+    \begin{equation*}
+        \begin{array}{rl}
+            a \orEff a &= a \\
+            a \orEff b &= b \orEff a \\
+            a \orEff (b \orEff c) &= (a \orEff b) \orEff c \\
+            a \orEff b &\geq a
+        \end{array}
+    \end{equation*}
+
+
+    The free preorder for the theory 
+    $\mathcal{T}_A$ coincides 
+    with the preorder $\sqeq_A$ defined 
+    operationally by:
+
+    \begin{equation*}
+        t \sqeq_A t' 
+        \iff
+        \forall n \in \Nat, n \in t \implies n \in t'
+    \end{equation*}
+
+    And $\sqeq_A$ itself coincides with the denotational
+    iterpretation in the Hoare powerdomain for $\Nat$
+    (the free join-semilattice over $\Nat$).
+\end{lemma}
+
+\begin{proof}
+    First, it is easy to see that indeed the denotational
+    and the operational preorders are equal using 
+    a characterisation of the Hoare powerdomain \cite{abramsky1994}.
+
+    Thus, $\sqeq_A$ is admissible and compositional. Moreover,
+    $\sqeq_A$ satisfies the inequational 
+    theory $\mathcal{T}$ in a trivial way.
+
+    Therefore, $(\sqeq_{\mathcal{T}_A}) \subseteq (\sqeq_A)$.
+
+    The other inclusion is done in two steps, following the 
+    idea that the free preorder on $\mathcal{T}$ is
+    the "admissible extension" of the free preorder on finite 
+    trees.
+    
+    Let $t$ and $t'$ be two finite trees, we can use 
+    idempotence to prove that $t$ is equivalent to 
+    a complete binary tree with depth $n$, and 
+    the same for $t'$. Given two complete binary
+    trees of equal depth, using first associativity 
+    and commutativity one can reorder the leaves, and 
+    then using only $\bot \sqeq_{\mathcal{T}_A} x$ for any
+    $x$ and compositionality construct 
+    a finite proof that $t \sqeq_{\mathcal{T}_A} t'$.
+    Indeed, for every leaf in $t$, the corresponding 
+    leaf in $t'$ is either the same one or $\bot$.
+
+    
+    If two infinite trees have their results included,
+    then it suffices to notice that any finite approximation 
+    of the first has it's results included in a finite 
+    approximation of the second. With this and the result 
+    on finite tree, admissibilty can be applied to 
+    show that $t \sqeq_{\mathcal{T}_A} t'$. 
+\qed\end{proof}
+
+
+\begin{lemma}[Demonic preorder]
+    \label{lem:demopreo}
+    Let $\mathcal{T}_D$ be the following theory:
+    \begin{equation*}
+        \begin{array}{rl}
+            a \orEff a &= a \\
+            a \orEff b &= b \orEff a \\
+            a \orEff (b \orEff c) &= (a \orEff b) \orEff c \\
+            a \orEff b &\leq a
+        \end{array}
+    \end{equation*}
+
+    The free preorder for the theory $\mathcal{T}_D$ coincides with 
+    the preorder $\sqeq_D$ given by:
+
+    \begin{equation*}
+        t \sqeq_D t' \iff 
+        \begin{cases}
+            \bot \in t' \implies \bot \in t \\
+            n    \in t' \implies n \in t    \\
+            \bot \in t
+        \end{cases}
+    \end{equation*}
+
+    And $\sqeq_D$ itself coincides with the denotational
+    iterpretation in the Smyth powerdomain for $\Nat$
+    (the free meet-semilattice over $\Nat$).
+\end{lemma}
+
+\begin{proof}
+    The proof follows the exact same pattern as the previous one,
+    except that infinite trees are all equivalent to $\bot$ 
+    in this theory, and therefore the infinite case is even 
+    simpler.
+\qed\end{proof}
+
+
+\begin{lemma}[Probabilistic preorder]
+    \label{lem:probpreo}
+    We use the notation $\oplus$ for the infix notation 
+    of $\prEff$ to ease lecture.
+    Let $\mathcal{T}_P$ be the following probabilistic theory 
+    \cite{heckmann1994probabilistic}:
+
+    \begin{equation*}
+        \begin{array}{rl}
+            a \oplus a &= a \\
+            a \oplus b &= b \oplus a \\
+            (a \oplus b) \oplus (c \oplus d) &= (a \oplus c) \oplus (b \oplus d) \\
+            a \oplus b \leq b &\implies a \leq b
+        \end{array}
+    \end{equation*}
+
+    The free preorder for the theory $\mathcal{T}_P$
+    coincides with the preorder defined by:
+    
+    \begin{equation*}
+        t \sqeq_P t' \iff 
+        \forall n \in \Nat, \nu (t) \leq \nu (t')
+    \end{equation*}
+
+    Where $\nu(t)$ corresponds to the probability distribution 
+    over $\Nat$ encoded by the tree $t$.
+
+    And $\sqeq_P$ itself coincides with the denotational
+    iterpretation in the probabilistic powerdomain for $\Nat$
+    (the free full kegelspitze over $\Nat$ \cite{KeimelP2016}).
+
+\end{lemma}
+
+\begin{proof}
+    As before, the first inclusion is not a problem, and on finite 
+    trees transforming into a complete binary tree with 
+    an ordering on leafs is 
+    possible to prove the inequality using some normal form.
+
+    Let $t$ and $t'$ be two possibly infinite trees 
+    of natural numbers such that the leaves are bounded by
+    a constant $C$ and assume that $\nu(t) \leq \nu(t')$.
+    We can make a case distinction:
+
+    \begin{enumerate}
+        \item There exists a finite tree $t_i'$
+            such that $\nu (t_i') = \nu (t')$ and $t_i' \sqeq t'$.
+
+        \item For any finite tree $t_i'$ such that $t_i' \sqeq t'$, there exists 
+            an $n$ such that $\nu (t_i')(n) < \nu (t')(n)$.
+    \end{enumerate}
+
+    Now let's take two approximating chains of finite trees 
+    for $t$ and $t'$, and build the chain $t_i \oplus t_i'$.
+    
+    We know that $\nu (t_i \oplus t_i') \leq \nu (t')$ by 
+    some simple calculation. Now, assume we are in the first 
+    case, then we have a finite approximating tree $t_j'$ with $j > i$ such that 
+    $\nu (t_i \oplus t_i') \leq \nu (t_j')$. In the second case,
+    we know that there is an $n$ such that the inequality is strict: 
+    but because $\nu$ is scott-continuous, there is a $j > i$ such that 
+    $\nu (t_i \oplus t_i') (n) < \nu (t_j')$. Because the support 
+    is finite, we know that we can take the maximum of such $j$'s 
+    and have a finite tree $t_j'$ such that $\nu (t_i \oplus t_i') (n) \leq \nu
+    (t_j')$.
+
+    But all the trees in this last equation are finite, and therefore 
+    they are true for $\sqeq_{\mathcal{T}_P}$.
+
+    \begin{equation*}
+        \forall i \in \mathbb{N}, \exists j > i, 
+        t_i \oplus t_i' \sqeq_{\mathcal{T}_P} t_j'
+    \end{equation*}
+
+    Using admissibility, we can now conclude:
+
+    \begin{equation*}
+        t \oplus t' \sqeq_{\mathcal{T}_P} t'
+    \end{equation*}
+
+    But then we can deduce that $t \sqeq_{\mathcal{T}_P} t'$ using 
+    the last axiom of $\mathcal{T}$.
+
+
+    To extend this result to infinite support, it suffices to 
+    use the family of substitutions:
+
+    \begin{equation*}
+        \sigma_k (i) = \begin{cases}
+            \bot & \text{ when } i > k \\
+            i    & \text{ otherwise } 
+        \end{cases}
+    \end{equation*}
+
+    If $\nu (t) \leq \nu (t')$ then we know that 
+    for all $k$, $\nu (t\sigma_k) \leq \nu (t'\sigma_k)$
+    and they have finite support, therefore 
+    $t \sigma_k \sqeq_{\mathcal{T}_P} t' \sigma_k$.
+    To conclude it suffices to see that $t = \sqcup_k t\sigma_k$
+    and use admissibility.
+
+\qed\end{proof}

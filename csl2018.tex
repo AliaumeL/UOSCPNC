@@ -1,0 +1,206 @@
+
+\documentclass[a4paper,UKenglish]{lipics-v2018}
+%This is a template for producing LIPIcs articles. 
+%See lipics-manual.pdf for further information.
+%for A4 paper format use option "a4paper", for US-letter use option "letterpaper"
+%for british hyphenation rules use option "UKenglish", for american hyphenation rules use option "USenglish"
+% for section-numbered lemmas etc., use "numberwithinsect"
+
+\usepackage{microtype}%if unwanted, comment out or use option "draft"
+\usepackage{tikz}
+\usetikzlibrary{arrows,positioning,decorations.pathreplacing,automata,shadows}
+\usepackage{tikz-cd}
+\usepackage{stmaryrd}
+\usepackage{bussproofs}
+
+%\graphicspath{{./graphics/}}%helpful if your graphic files are in another directory
+
+\bibliographystyle{plainurl}% the recommnded bibstyle
+
+
+% Syntax 
+\newcommand{\Nat}{\textnormal{Nat}}
+
+
+\newcommand{\Succ}{\operatorname{S}}
+\newcommand{\Zero}{\textnormal{Z}}
+\newcommand{\Fix}{\operatorname{fix}}
+\newcommand{\Unroll}{\operatorname{unroll}}
+\newcommand{\Pos}{\operatorname{Pos}}
+\newcommand{\In}{\operatorname{in}}
+\newcommand{\Inr}{\operatorname{inl}}
+\newcommand{\Inl}{\operatorname{inr}}
+\newcommand{\Out}{\operatorname{out}}
+\newcommand{\Ret}{\operatorname{return}}
+\newcommand{\Bind}[3]{\operatorname{let} #2 \Leftarrow #1 \operatorname{in} #3}
+\newcommand{\lcase}[3]{\operatorname{case} #1 \operatorname{of} \, \Zero \Rightarrow #2; \Succ(x) \Rightarrow #3}
+\newcommand{\scase}[3]{\operatorname{case} #1 \operatorname{of} \, \Inl(x) \Rightarrow #2; \Inr (x) \Rightarrow #3}
+\newcommand{\pcase}[2]{\operatorname{case} #1 \operatorname{of} \, (x,y) \Rightarrow #2}
+
+% Trees
+
+\newcommand{\Trees}{\textnormal{Trees}}
+\newcommand{\Tree}{\textnormal{Tree}}
+
+\newcommand{\Treeleq}{\sqsubseteq}
+
+\newcommand{\Basicleq}{\preccurlyeq}
+
+% Results
+\newcommand{\res}{\operatorname{results}}
+
+% Effects 
+\newcommand{\prEff}{\operatorname{\mathit{pr}}}
+\newcommand{\orEff}{\operatorname{\mathit{or}}}
+\newcommand{\exEff}{\operatorname{\mathit{raise}}}
+
+\newcommand{\prnd}{\text{pr/nd}}
+\newcommand{\pr}{\text{pr}}
+\newcommand{\nd}{\text{nd}}
+\newcommand{\ang}{\text{ang}}
+\newcommand{\dem}{\text{dem}}
+\newcommand{\prang}{\text{pr/ang}}
+\newcommand{\prdem}{\text{pr/dem}}
+
+\newcommand{\Op}{\text{op}}
+\newcommand{\Den}{\text{den}}
+\newcommand{\Ax}{\text{ax}}
+
+% Denotational
+
+\newcommand{\Sem}[1]{\llbracket #1 \rrbracket}
+
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\ContAlg}{\mathbf{ContAlg}}
+
+\newcommand{\wCPO}{\mathbf{{\omega}CPO}}
+
+% Axiomatic
+
+\newcommand{\Vars}{\mathsf{Vars}}
+
+% Reduction
+\newcommand{\reduces}{\rightarrowtail}
+\newcommand{\reductionPair}[2]{#1 \leadsto #2}
+\newcommand{\sqeq}{\sqsubseteq}
+
+
+% Mixed non-determinism
+\newcommand{\drop}{\operatorname{drop}}
+\newcommand{\odd}{\operatorname{odd}}
+\newcommand{\even}{\operatorname{even}}
+
+% Theorem environments
+\newtheorem{proposition}[theorem]{Proposition}
+
+\title{Basic operational preorders  for algebraic effects in general, and for
+combined probability and nondeterminism in particular}
+
+\titlerunning{Basic operational preorders}%optional, please use if title is longer than one line
+
+\author{Aliaume Lopez}{\'Ecole Normale Sup\'erieure Paris-Saclay\\{Universit\'e Paris-Saclay, France}}{aliaume.lopez@ens-paris-saclay.fr}{}{}%mandatory, please use full name; only 1 author per \author macro; first two parameters are mandatory, other parameters can be empty.
+
+\author{Alex Simpson}{Faculty of Mathematics and Physics\\{University of Ljubljana, Slovenia}}{Alex.Simpson@fmf.uni-lj.si}{}{Research supported by: [[TO COMPLETE]]}
+
+
+
+\authorrunning{A. Lopez and A. Simpson}%mandatory. First: Use abbreviated first/middle names. Second (only in severe cases): Use first author plus 'et. al.'
+
+\Copyright{Aliaume Lopez and Alex Simpson}%mandatory, please use full first names. LIPIcs license is "CC-BY";  http://creativecommons.org/licenses/by/3.0/
+
+\subjclass{Dummy classification}% mandatory: Please choose ACM 2012 classifications from https://www.acm.org/publications/class-2012 or https://dl.acm.org/ccs/ccs_flat.cfm . E.g., cite as "General and reference $\rightarrow$ General literature" or \ccsdesc[100]{General and reference~General literature}. 
+
+\keywords{contextual equivalence, call-by-value, algebraic effects, operational semantics, domain theory, nondeterminism, probabilistic choice, Markov decision process}%mandatory
+
+\category{}%optional, e.g. invited paper
+
+\relatedversion{}%optional, e.g. full version hosted on arXiv, HAL, or other respository/website
+
+\supplement{}%optional, e.g. related research data, source code, ... hosted on a repository like zenodo, figshare, GitHub, ...
+
+\funding{}%optional, to capture a funding statement, which applies to all authors. Please enter author specific funding statements as fifth argument of the \author macro.
+
+\acknowledgements{We thank Gordon Plotkin and Niels Voorneveld for helpful discussions.}%optional
+
+%Editor-only macros:: begin (do not touch as author)%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\EventEditors{John Q. Open and Joan R. Access}
+\EventNoEds{2}
+\EventLongTitle{42nd Conference on Very Important Topics (CVIT 2016)}
+\EventShortTitle{For review}
+\EventAcronym{CVIT}
+\EventYear{2016}
+\EventDate{December 24--27, 2016}
+\EventLocation{Little Whinging, United Kingdom}
+\EventLogo{}
+\SeriesVolume{42}
+\ArticleNo{23}
+%\nolinenumbers %uncomment to disable line numbering
+%\hideLIPIcs  %uncomment to remove references to LIPIcs series (logo, DOI, ...), e.g. when preparing a pre-final version to be uploaded to arXiv or another public repository
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+The ``generic operational metatheory'' of  Johann, Simpson and Voigtl\"{a}nder (LiCS 2010) defines
+contextual equivalence, 
+in the presence of algebraic effects, in terms of a
+\emph{basic operational preorder} on ground-type effect trees. We propose three general approaches to 
+specifying such preorders: (i)~operational (ii)~denotational, and (iii)~axiomatic; coinciding with the three major styles of program semantics. We illustrate these via a nontrivial case study: the combination of probabilistic choice with nondeterminism, for which we show that  the three specification methods (operational in terms of Markov decision processes, denotational using  a powerdomain, and axiomatic) all determine the same canonical preorder. We do this in the case of both angelic and demonic nondeterminism. 
+I DO NOT THINK WE WILL HAVE SPACE FOR:
+We further show how basic operational preorders support a manageable theory of contextual equivalence for call-by-value languages, complementing the call-by-name case previously treated in the literature.
+ \end{abstract}
+
+
+\input{csl-parts/intro}
+
+\input{csl-parts/trees}
+
+\input{csl-parts/basic}
+
+\input{csl-parts/operational-order}
+
+\input{csl-parts/denotational-order}
+
+\input{csl-parts/axiomatic-order}
+
+\input{csl-parts/equivalence-theorem}
+
+
+
+%%
+%% Bibliography
+%%
+
+%% Please use bibtex, 
+
+\bibliography{bibliographie}
+
+\newpage
+
+\appendix
+
+\input{csl-parts/pcf}
+
+\input{csl-parts/rewriting}
+
+\input{csl-parts/contextual}
+
+\input{csl-parts/logical}
+
+
+
+\input{csl-parts/domains}
+
+\input{csl-parts/free}
+
+\input{csl-parts/mixed}
+
+\input{csl-parts/conclusion}
+
+\input{csl-parts/appendix}
+
+
+
+\end{document}

@@ -1,0 +1,98 @@
+\section{Introduction}
+
+OBVIOUSLY INTRO NEEDS REVISING. BUT WE SHOULD WRITE THIS TOWARDS THE END.
+
+Contextual equivalence in the style of Morris
+has imposed itself as a very simple and powerful
+way to express what an equivalence on programs should be. 
+Two programs are said to be contextually equivalent if 
+they \emph{behave} equivalently under any context. 
+However this operational notion of equivalence is rarely usable 
+as-is because of the quantification over potentially complex 
+contexts, which can lead to unintuitive results \cite{pitts1997operationally}.
+
+For this reason, many other forms of equivalences have 
+been developed in the past years: bisimulations 
+and their refinements (environmental bisimulations, 
+bisimulations up-to) \cite{koutavas2011applicative}, 
+game semantics \cite{abramsky1999game}, 
+denotational interpretation in domains \cite{scott1982domains}, 
+higher order logic on 
+programs \cite{honda2005observationally} 
+and logical relations \cite{Pitts2000}.
+
+Unsurprisingly one can observe extreme variations on 
+the complexity of such methods when changing  
+the class of effects studied. This has to do with 
+the fact that most of the operational semantics 
+are deeply tied with the effects of the language, 
+and adding or removing effects changes the overall 
+shape of the semantics. For denotational interpretation,
+the problem is less visible because it is transposed 
+into the difficulty of finding suitable domain theoretic constructions, 
+such as powerdomains, distributive laws,
+and solutions to domain equations.
+
+To be able to give uniform results, the first 
+step we took was to restrict the class of effects
+to \emph{algebraic} ones, 
+allowing to separate the semantics 
+of the effects from the semantics of the ground language. 
+This is effectively done by splitting the semantics of 
+the language in two steps. First, the evaluation 
+of the ground language terms into a \emph{computation tree}
+containing all the uninterpreted effects that should occur, 
+and then specifying how the following trees should behave.
+This construction follows the work already done on 
+algebraic effects \cite{plotkin2001adequacy}.
+
+
+Following the work done by Patricia
+Johann, Alex Simpson and Janis Voigtl\"ander \cite{gom}, we 
+characterise the contextual equivalence using the framework 
+of logical relations. This is done regardless of the 
+effects added to the language, and can be applied to a wide 
+class of known effects: non-determinism, probabilities, input-output.
+
+We use a language based on PCF \cite{plotkin1977lcf}, but with  a call-by-value 
+evaluation strategy
+
+We also continue the work done by Plotkin and Power \cite{plotkin2001adequacy}
+by using their result to link our setting to the denotational approach. This 
+should be considered as an empirical proof of the usefulness of this method. 
+Continuing in this direction, we study a concrete example combining
+non-determinism and probability, a subject that has been regularly encountered 
+in denotational models \cite{tix2009semantic} \cite{JGL-mscs16}
+\cite{KeimelP2016} and the study concurrent programs
+\cite{Mislove2000} \cite{mislove2004axioms}.
+
+
+In this section we are going to fix a specific signature $\Sigma$
+containing two binary operators \texttt{pr} and \texttt{or}. The two
+operators are used to model a language where both probabilistic choice 
+and non-determinism coexist. Combining these specific effects has been 
+the subject of numerous papers, and even when restricting ourselves to the 
+denotational setting, the work of Regina Tix on powercones \cite{tix2009semantic} 
+continued afterwards by Plotkin and Keimel \cite{KeimelP2016} on Kegelspitze
+shows the interest of such combination.
+A more functional version of theses domains can also be found in the work of Jean-Goubault Larrecq 
+\cite{JGL-mscs16}.
+
+
+%% This should be in conclusion ! 
+This setting is purposely restricted, and several improvements can 
+be added without technical issue. For instance, more complex types 
+such as sum, products and even type polymorphism can be studied 
+in this context. In fact, logical relations excel in proving parametricity 
+results \cite{wadler1989theorems}.
+In the spirit of simplicity 
+and to allow comparison with the work on bisimulations by
+Ugo Dal Lago, Francesco Gavazzo and Paul Blain Levy
+\cite{Ugo2017} we take the same kind of effect signature 
+as they do. Technically, it means that compared to 
+the paper from Johann et al. \cite{gom} it lacks 
+three of the four effect constructions, but as noticed 
+in the said paper, all of the constructions share the
+same pattern of proof, so that they actually treated 
+only one of the four cases in their proofs.
+

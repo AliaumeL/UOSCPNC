@@ -11,23 +11,31 @@ $\Trees(\mathbb{N})$.
 Let $\Vars$ be a set of countably many distinct variables. By an  \emph{expression}, we mean a
 tree $e \in \Trees(\Vars)$. The use of trees incorporates infinitary non-well-founded terms alongside the usual finite
 algebraic terms. By an \emph{inequality} we mean a statement $e_1 \leq e_2$, where $e_1, e_2$ are expressions.
-By an \emph{(infinitary) Horn clause} we mean an implication between inequalities:
+By an \emph{(infinitary) Horn clause} we mean an implication of the form:
 \begin{equation}
 \label{equation:horn-clause}
-\bigwedge_{i \in I} e_i \leq e'_i ~ \rightarrow ~ e \leq e' \enspace ,
+\left( \bigwedge_{i \in I} e_i \leq e'_i \right)~ \implies ~ e \leq e' \enspace ,
 \end{equation}
 An \emph{effect theory} $T$  is a set of Horn clauses.
 
 A precongruence $\Basicleq$ on $\Trees(X)$ is said to \emph{satisfy} a Horn clause (\ref{equation:horn-clause}) if,
 for every environment $\rho \colon \Vars \to \Trees(X)$, the implication below holds (recall the notation for tree substitution from Section~\ref{section:trees}).
 \[
-\bigwedge_{i \in I} e_i[\rho] \Basicleq e'_i[\rho]~~~ \Rightarrow ~~~ e[\rho] \Basicleq e'[\rho] 
+\left( \bigwedge_{i \in I} e_i[\rho] \Basicleq e'_i[\rho] \right) ~ \implies ~  e[\rho] \Basicleq e'[\rho] 
 \]
 We say that a precongruence $\Basicleq$ is a \emph{model} of a Horn clause theory $T$ if it satisfies every Horn clause in $T$.
 We consider models as subsets of $\Trees(X) \times \Trees(X)$, partially ordered by inclusion. Note that models are precongruences by assumption.
-\begin{aproposition}
+\begin{proposition}
 Every Horn clause theory $T$ defines a smallest admissible model  ${\Basicleq_T} \subseteq \Trees(X) \times \Trees(X)$. The smallest model
 is substitutive. In the case that $X = \mathbb{N}$, the smallest admissible model is thus an
 admissible compositional preorder.
-\end{aproposition}
+\end{proposition}
+
+AXIOMS FOR PROBABILITY PLUS TWO THEORIES OF NONDETERMINISM
+
+USE THE ABOVE TO DEFINE $\Basicleq^\Ax_\prang$ and $\Basicleq^\Ax_\prdem$
+
+NOTE EXPLICITLY THAT ADMISSIBLE AND COMPOSITIONAL
+
+OBSERVE EQUIVALENCE OF INFINITARY EQUATIONAL AXIOM WITH HORN CLAUSE AXIOM?
 

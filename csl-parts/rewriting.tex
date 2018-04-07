@@ -1,0 +1,402 @@
+% \subsection{Uniform Small-Step Semantics}
+
+%The first step to define contextual equivalence 
+%is to define an operational semantics.
+%Because we are considering a \emph{class} of languages 
+%we are going to have a two steps approach: first 
+%interpret the core language independently of the parameter $\Sigma$
+%and only then \emph{refine} this semantics to give one to the effects.
+
+[[THE REFERENCES NEED REORGANISING IN THIS PARAGRAPH]]
+We give a small-step operational semantics using 
+stacks and frames \cite{gom}.
+The link between this small-step semantics 
+and its big-step counterpart is 
+made both in \cite{plotkin2001adequacy} 
+and in \cite{Pitts2000}. This method
+can be traced back to \cite{Amadio2008} (1998) page 184 and 
+\cite{Felleisen1992}. 
+
+The syntax of stacks and frames is given in Figure \ref{fig:stacks:frames}. 
+A type system for stacks is also defined Figure \ref{fig:stacks:types}.
+Because stacks are just a \texttt{let}-binding with one hole, we can define 
+application of a stack to a \emph{computation} which returns a computation
+obtained by substitution as defined in Figure \ref{fig:stackapplication}.
+We say that a pair $(S,M)$ of a stack and a computation term is 
+\emph{well typed} when $S : \sigma \multimap \tau$ and $M : \sigma$, 
+this is consistent with the following type-safety lemma.
+
+\begin{figure}[h]
+    \begin{center}
+        \begin{align*}
+            E &:= \Bind{\square}{x:\tau}{M} \\
+            S &:= Id ~|~ S \circ E
+        \end{align*}
+    \end{center}
+    \caption{Stacks and Frames}
+    \label{fig:stacks:frames}
+    \begin{center}
+        \AxiomC{$x:\tau \vdash_C M : \tau'$}
+        \UnaryInfC{$\vdash \Bind{\square}{x:\tau}{M} : 
+            \tau \multimap \tau'$}
+        \DisplayProof
+        \vskip 1.5em
+        \AxiomC{$\vdash E : \tau \multimap \tau'$}
+        \AxiomC{$\vdash S : \tau' \multimap \tau''$}
+        \BinaryInfC{$\vdash S \circ E : \tau \multimap \tau''$}
+        \DisplayProof
+        \vskip 1.5em
+        \AxiomC{}
+        \UnaryInfC{$\vdash Id : \tau \multimap \tau$}
+        \DisplayProof
+    \end{center}
+    \caption{Typing of Stacks and Frames}
+    \label{fig:stacks:types}
+    \begin{align*}
+        Id\{ M \} &= M \\
+        (S \circ E) \{ M \} &= S \{ E \{ M \} \} \\
+        (\Bind{\square}{x : \tau}{N} \{ M \}) &= \Bind{M}{x : \tau}{N}
+    \end{align*}
+    \caption{Stack application}
+    \label{fig:stackapplication}
+\end{figure}
+
+%\begin{definition}[Stack application]
+    %Given a stack $S$ and a computation term $M$
+    %we can define $S\{M\}$ to be the application 
+    %of the stack to the term by induction on $S$
+    %following the rules in Figure \ref{fig:stackapplication}.
+%\end{definition}
+
+
+\begin{lemma}
+    The typing of stacks and frames is consistent
+    with the typing of terms and stack application.
+
+    \begin{equation*}
+        \vdash S : \tau \multimap \tau'  ~ \wedge ~ 
+        \vdash_C M : \tau
+        ~ \implies ~
+        \vdash_C S\{M\} : \tau'
+    \end{equation*}
+\end{lemma}
+
+%Now that evaluation stacks are defined, we can use them to define 
+%the operational semantics of our language. First of all, on 
+%simple computations, we can define a 
+
+A basic reduction relation $\leadsto$, on computation terms, 
+is defined in Figure \ref{fig:termred}. Using this, a reduction relation $\reduces$ is
+defined, on well-typed stack-computation configurations, in 
+Figure \ref{fig:evalstep}.
+
+
+\begin{figure}[h]
+    \begin{center}
+        \begin{equation*}
+            \begin{array}{lcl}
+                (\lambda x:\tau. M) V & \leadsto & M[x := V] \\
+                \lcase{\Zero}{M_1}{M_2} & \leadsto & M_1 \\
+                \lcase{\Succ(V)}{M_1}{M_2} & \leadsto & M_2[x := V] \\
+                \Bind{\Ret V}{x : \tau}{M} & \leadsto & M[x := V] \\
+                \Fix V & \leadsto & V (\lambda x. \Bind{(\Fix V)}{g}{g x})
+            \end{array}
+        \end{equation*}
+    \end{center}
+    \caption{Term reduction}
+    \label{fig:termred}
+    \begin{center}
+        \begin{equation*}
+            \begin{array}{lclr}
+                (S,E\{M\}) & \reduces & (S \circ E, M) \\
+                (S \circ E, \Ret V) & \reduces & (S, E \{ \Ret V \}) \\
+                (S,M) & \reduces & (S,M') & \text{ when } M \leadsto M'
+            \end{array}
+        \end{equation*}
+    \end{center}
+    \caption{Evaluation steps}
+    \label{fig:evalstep}
+\end{figure}
+
+\begin{lemma}[Safety]
+    If a pair $(S,M)$ is well-typed then the
+    evaluation relation $\reduces$ preserves this property 
+    and the co-domain of the stack never changes.
+\end{lemma}
+
+%\begin{example}[Reduction for combination of non-determinism and probabilities]
+%    We can consider the following term in our language with signature $\Sigma =
+%    \{ \prEff, \orEff \}$:
+%
+%    \begin{equation*}
+%        M = (\lambda x:\Nat. \prEff (x,\underline{1})) \underline{0}
+%    \end{equation*}
+%    
+%    This term corresponds to applying \underline{0} to a function 
+%    that tosses a coin and return either the input given to the 
+%    function or \underline{1}.
+%    It can be shown that $(Id,M)$ reduces to $(Id, \prEff (\underline{0},
+%    \underline{1}))$
+%    as one could expect. However there is no more reduction possible afterwards: the 
+%    evaluation is stuck, because there is no rule to evaluate 
+%    the effect of a coin toss.
+%\end{example}
+
+
+\subsection{Interpretation}
+
+Because of the injection of values of type $\tau$ into $\Tree_\tau$,
+and to avoid unnecessary clutter in the equations, we are going to treat 
+this injection as an inclusion and write $V$ instead of $i(V)$.
+
+%The idea of this definition is to interpret terms "as most as we can"
+%without having a semantics for the effects. When encountering an effect operation,
+%the idea is to take advantage of the "continuation passing"
+%and instead of having a specific rule for dealing with the effect, 
+%create a branch for every possible input of the remaining computation 
+%(see \cite{plotkin2001adequacy} and \cite{gom}). 
+
+\begin{definition}[Computation tree]
+    Given a well-typed pair $(S,M)$ and an integer $n$ we can 
+    compute the tree $|S,M|_n$ by induction on $n$ 
+    following the rules in Figure \ref{fig:treecalcul}.
+    The sequence $|S,M|_n$ is ascending in $n$ given a fixed 
+    pair $(S,M)$ and we write $|S,M|$ for its least upper bound.
+\end{definition}
+
+\begin{figure}[h!]
+    \begin{center}
+        \begin{equation*}
+            \begin{array}{llr}
+                |S,M|_{n+1} &= |S',M'|_n & (S,M) \reduces (S',M') \\
+                |Id,\Ret V|_{n+1} &= i(V) & i \text{ is the injection from values into
+                trees} \\
+                |S,\sigma(M_1, \dots, M_l)|_{n+1} &= \sigma (|S, M_1|_n, \dots,|S,M_l|_n) \\
+                |S,M|_0 &= \bot \\
+            \end{array}
+        \end{equation*}
+    \end{center}
+    \caption{Computation tree construction}
+    \label{fig:treecalcul}
+\end{figure}
+
+This construction can be tested on a non terminating term 
+that never uses effects:
+because the computation tree is going to be $\bot$ at any 
+step, the global computation tree is going to be $\bot$.
+
+
+\begin{example}[Non termination]
+    The following term does not terminate, and no effects occurs 
+    during the evaluation of this term:
+    
+    \begin{equation*}
+        \Omega_\tau = \Bind{\Fix (\lambda f : \Nat \to \tau. \Ret f
+        )}{g : \Nat \to \tau}{g \underline{0}}
+    \end{equation*}
+
+    It is therefore possible to conclude that the computation tree
+    associated to this term is always the least element of $\Tree_\tau$,
+    independently of the stack $\vdash S : \tau \to \tau'$:
+
+    \begin{equation*}
+        \forall S : \sigma \multimap \tau, |S, \Omega_\sigma| = \bot
+    \end{equation*}
+\end{example}
+
+
+One key result about this tree construction is the relationship between 
+substitution on trees and application of stacks. To compute a computation 
+tree for the pair $(S,M)$ it suffices to compute the computation tree 
+for $(Id,M)$ and then substitute leaves with the computation tree obtained 
+by $(S,\Ret V)$ where $V$ is the corresponding value of the leaf.
+
+\begin{lemma}[Stack commutation]
+    \label{lem:stackcom}
+    Let $S : \tau \multimap \tau'$ and $M : \tau$, we always have:
+
+    \begin{equation*}
+        |S, M| = |Id,M| \sigma_S
+    \end{equation*}
+
+    Where $\sigma_S (V) = |S, \Ret V|$.
+\end{lemma}
+
+\begin{proof}
+    We prove by induction on $n$ that for any well-typed pair $(S,M)$ we have 
+    such that for every $m \geq n$ and $m' \geq n$ 
+    we have $|S,M|_n \sqeq |M|_m \sigma^{m'}_S$, where 
+    $\sigma^{m'}_S (V) = |S, \Ret V|_{m'}$.
+
+    When $n=0$ the result is obvious because $\bot$ is under any other tree.
+
+    \begin{itemize}
+        \item If $|S,\sigma(M_1, \dots, M_k)|_{n+1} = \sigma (|S,M_1|_n, \dots,
+            |S, M_k|_n)$ then we can use the induction hypothesis on all 
+            subtrees and have $|S, M_i|_n \sqeq |M_i|_m \sigma^{m'}_S$ when 
+            $m$ and $m'$ are above $n$. By continuity of $\sigma$ and 
+            compatibility of substitution we have therefore when $m$ and $m'$
+            are above $n$ we have:
+
+            \begin{equation*}
+                |S, \sigma (M_1, \dots, M_k)|_{n+1} \sqeq |\sigma(M_1, \dots,
+                M_k)|_m \sigma^{m'}_S
+            \end{equation*}
+
+        \item If $|S, M|_{n+1} = |S, M'|_n$ because $M \leadsto M'$, and 
+            therefore $|M|_{n+1} = |M'|_n$, and we can use this to trivially
+            obtain the desired result.
+
+        \item If $|S \circ E, M|_{n+1} = |S, E \{M\}|_n$ then 
+            $M = \Ret V$ for some value $V$ and the result is obvious.
+
+        \item If $|S, E\{M\}|_{n+1} = |S \circ E, M|_n$ then 
+            we can use the induction hypothesis and the fact that 
+            $\sigma^m_{S \circ E} \sqeq \sigma^m_S \circ \sigma^m_E$ pointwise
+            to conclude.
+    \end{itemize}
+    
+    Taking the limit we can conclude:
+
+    \begin{equation*}
+        |S,M| \sqeq |M| \sigma_S
+    \end{equation*}
+    
+    The other inequality is obtained using a similar reasoning. 
+\qed\end{proof}
+
+
+\subsection{Iteration Approximation}
+
+The last thing to check with our construction is that approximation on trees 
+is indeed capturing the construction of infinite trees obtained by fixed points 
+in the language. This equivalence 
+is precisely given by the Theorem \ref{thm:unrolling} stating that 
+the least upper bound of the semantics of the approximations is 
+exactly the semantics of the fixed point. An equivalent
+result also exists in call-by-name \cite{gom}, note that 
+because of the evaluation strategy, the theorem is stated 
+on trees over values of type $\Nat$ to ensure full 
+evaluation of the fixed-point.
+
+Unrolling fixed points is a very common operation \cite{plotkin2001adequacy}
+and this approximation result is a basic one in papers defining logical 
+relations \cite{pitts1997operationally} \cite{Pitts2000}.
+
+\begin{figure}[h]
+    \begin{align*}
+        \Unroll_0 V     &= \Omega_{\sigma \to \tau} \\
+        \Unroll_{n+1} V &= 
+        V (\lambda x : \sigma. \Bind{(\Unroll_n V)}{g : \sigma \to \tau}{gx})
+    \end{align*}
+    \caption{Unrolling fixed point}
+    \label{fig:unrolling}
+\end{figure}
+
+\begin{theorem}[Unrolling]
+    \label{thm:unrolling}
+    Let $\vdash S : (\sigma \to \tau) \multimap \Nat$ be a stack and 
+    $\vdash_V V : (\sigma \to \tau) \to \sigma \to \tau$ be a 
+    value term.
+
+    \begin{equation*}
+        \bigsqcup_{n \geq 0} |S, \Unroll_n V| = |S, \Fix V| 
+    \end{equation*}
+\end{theorem}
+
+\begin{proof}
+    \textbf{Alternative proof:}
+
+    By induction on $n$ we prove that 
+
+    \begin{equation*}
+        \forall S,M,n,
+        \exists m_0, \forall m \geq m_0, 
+        |S[\Fix V], M[\Fix V]|_n = |S[\Unroll_m V], M[\Unroll_m V]|_n
+    \end{equation*}
+
+
+    If $n = 0$ then the result is obvious because all trees are $\bot$.
+    When looking at $n+1$, we do a case analysis on the production rule 
+    of the tree, and use the induction hypothesis. The only interresting 
+    cases are: 
+
+    \begin{enumerate}
+        \item A fixed point evaluation, where it suffices to increase $m_0$ 
+            by one
+        \item An effect unfolding, where we take the maximal $m_0$ for each
+            branch
+    \end{enumerate}
+
+    This proof is way simpler than what can be found in the work of Andrew Pitts
+    but it does not scale to countable branches. For the sake of the argument 
+    the outline of a more operational (and generic) proof is the following one.
+
+    By induction on the derivation we can prove that 
+    if 
+    \begin{equation*}
+        (S[x:=\Omega_\tau],M[x:=\Omega_\tau]) \reduces^* 
+        (S'[x:=\Omega_\tau], M'[x:=\Omega_\tau])
+    \end{equation*}
+    then for any computation term $F$ of type $\tau$ 
+    we have 
+    \begin{equation*}
+        (S[x:=F],M[x:=F]) \reduces^* 
+        (S'[x:=F], M'[x:=F])
+    \end{equation*}
+
+    Using this result, we can prove by induction on $n$ 
+    that if 
+    \begin{equation*}
+        (S[x:=\Unroll_n V],M[x:=\Unroll_n V]) \reduces^* 
+        (S'[x:=\Unroll_n V], M'[x:=\Unroll_n V])
+    \end{equation*}
+
+    Then 
+    \begin{equation*}
+        (S[x:=\Unroll_{n+1} V],M[x:=\Unroll_{n+1} V]) \reduces^* 
+        (S'[x:=\Unroll_{n+1} V], M'[x:=\Unroll_{n+1} V])
+    \end{equation*}
+
+    This allows us to prove by inudction on the derivation 
+    that if 
+    \begin{equation*}
+        (S[x:=\Fix V],M[x:=\Fix V]) \reduces^* 
+        (S'[x:=\Fix V], M'[x:=\Fix V])
+    \end{equation*}
+    Then there exists an $n_0$ such that for all $n \geq n_0$
+    we have 
+    \begin{equation*}
+        (S[x:=\Unroll_n V],M[x:=\Unroll_n V]) \reduces^* 
+        (S'[x:=\Unroll_n V], M'[x:=\Unroll_n V])
+    \end{equation*}
+
+    Using another induction we can prove the converse statement. 
+
+    Now by induction on $k$ we can prove that for any depth 
+    $k$ the truncation of $|S[x:= \Fix V, M[x := \Fix V]|$ 
+    at depth $k$ is equal to the truncation of 
+    the supremum of the chain $|S[x:= \Unroll_n V], M[x := \Unroll_n V]|$
+    at depth $k$.
+
+    This gives us the expected result because a computation tree 
+    is the limit of it's finite approximations.
+
+\qed\end{proof}
+
+
+There is now an operational semantics for the language, respecting 
+effects and capturing approximations. Up to this point, everything 
+has been done uniformly over all signatures $\Sigma$. 
+Given a computation term $M$ of type $\tau$, one can compute 
+$|Id,M|$ (abbreviated $|M|$) which is a tree labelled with effects 
+and has \emph{values} of type $\tau$ as leafs. 
+
+The next goal is to define contextual equivalence for a specific signature 
+$\Sigma$. This is usually done by fixing a relation on computation terms of type 
+$\Nat$. However we can separate the
+semantics of the effects contained in this relation from the semantics 
+of the ground language: it suffices to give a relation on \emph{trees} of 
+natural numbers to have one over computation terms of type $\Nat$.
+The information required is therefore a simple relation $\sqeq_b$
+over $\Tree_\Nat$.
