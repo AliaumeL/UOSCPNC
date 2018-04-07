@@ -110,7 +110,42 @@ Neither of the preorders below between $t,t' \in \Trees(\mathbb{N})$ is composit
 \end{proposition}
 
 \begin{proof}
-GIVE BRIEF PROOF, REFERRING TO FIG.~\ref{fig:exampletrees}.
+    We use the two trees presented figure~\ref{fig:exampletrees},
+    representing the expressions $A = 3 \orEff (1 \prEff 2)$
+    and $B = (3 \orEff 1) \prEff (3 \orEff 2)$.
+
+    To prove that both expressions behave the same on every subset of $\mathbb{N}$,
+    it suffices to check it on every subsets of $\{ 1, 2, 3\}$, and it is clear
+    with both preorders.
+
+    However, we build a family $\{ t_1, t_2, t_3\}$ such that 
+    $A[ i \mapsto t_i] = t_3 \orEff (t_1 \prEff t_3) = C$ is not equivalent to 
+    $B[ i\mapsto t_i] = (t_3 \orEff t_1) \prEff (t_3 \orEff t_2) = D$,
+    which contradicts the compositionality.
+
+    Let $t_1 = 0 \prEff (0 \prEff (0 \prEff (0 \prEff 1)))$,
+    $t_2 = 1$ et $t_3 = 0 \prEff (0 \prEff (0 \prEff 1))$. The distinguishing 
+    factor will be the probability associated with the subset $\{ 1 \}$.
+    We dress a table of the minimal/maximal said probability on the different 
+    trees.
+
+
+    \begin{equation*}
+        \begin{array}{c|c|c}
+                & \textbf{Min} & \textbf{Max} \\ \hline
+            t_1 & 1/8 & - \\
+            t_2 & 1   & -   \\
+            t_3 & 1/4 & - \\
+            t_1 \prEff t_2 & 9 / 16 & - \\
+            t_3 \orEff t_1 & 1/8    & 1/4 \\
+            t_3 \orEff t_2 & 1/4    & 1   \\
+            t_3 \orEff (t_1 \prEff t_3) & 1/4 & 9/16 \\
+            (t_3 \orEff t_1) \prEff (t_3 \orEff t_2) & 3 / 16 & 5/8 \\
+        \end{array}
+    \end{equation*}
+
+    In both preorders, we have $\neg (C = D)$,
+    giving the expected contradiction.
 \end{proof}
 
 The situation is rescued by generalising the test properties $H$ to 
