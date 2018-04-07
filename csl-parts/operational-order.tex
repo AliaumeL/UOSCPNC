@@ -7,10 +7,13 @@ preorder $\Basicleq$ on $\Trees(\mathbb{N})$. We call this method \emph{operatio
 This approach is illustrated for several examples of effects in~\cite{gom}. 
 The main goal of the section is to demonstrate the approach using a different example, the signature
 $\Sigma_\prnd = \{\prEff,\orEff\}$ from Example~\ref{example:prnd}, which is of interest because of the 
-interplay between probabilistic and nondeterministic effects. However, we first
+interplay between probabilistic and nondeterministic effects. 
+
+I THINK FOR SPACE REASONS WE WILL NEED TO JUMP IN STRAIGHT AWAY WITH THE MIXED CASE. SO THE FOLLOWING DISCUSSION NEEDS TO BE CUT OUT WITH SOME REQUIRED PARTS MOVED TO THE MIXED CASE
+
+However, we first
 briefly review the simpler cases, $\Sigma_\pr = \{\prEff\}$ and $\Sigma_\nd = \{\orEff\}$, of purely probabilistic and 
-purely nondeterministic computation. These two cases are already covered in~\cite{gom}, and are 
-relatively simple, so our treatment will be brief. 
+purely nondeterministic computation. These two cases are already covered in~\cite{gom}, so our treatment will be brief. 
 
 First, we  consider the case $\Sigma_\pr = \{\prEff\}$. Every internal node in a  tree $t \in \Trees(\mathbb{N})$  is a binary branching node labelled with $\prEff$ representing a probabilistic choice with each branch having probability $\frac{1}{2}$. The tree can thus be interpreted as a (countable state) Markov-chain, that determines a discrete subprobability distribution over the set $\mathbb{N}$.
 (It is a subprobability distribution because there can be a positive probability of nontermination, both silent and noisy.) We write
@@ -24,7 +27,7 @@ t \Basicleq_\pr t' ~~ \Leftrightarrow ~~ &  \forall n ~ ~ \mathbf{P}_t (\{n\}) \
 \end{align*}
 Here one can view $H$ as a test set of desirable results, and $h$ as a function that assigns (possibly infinite) desirability weights 
 to result values in $\mathbb{N}$. The first alternative above has the advantage of simplicity. The second strengthens the definition by testing the probability of arbitrary properties. The third further strengthens it by using quantitative properties.
-\begin{proposition}
+\begin{proposition}[\cite{gom}]
 The preorder $\Basicleq_\pr$ is admissible and compositional. 
 \end{proposition}
 %\noindent
@@ -34,7 +37,7 @@ The preorder $\Basicleq_\pr$ is admissible and compositional.
 %\]
 
 Next, we consider the case $\Sigma_\nd = \{\orEff\}\,$, in which every internal node in a tree is a binary nondeterministic choice.
-Although this signature is considered in~\cite{gom}, we here give a more directly operational treatment in terms of 
+Compared with~\cite{gom}, we give a more directly operational treatment in terms of 
  \emph{schedulers}, namely external agents that resolve nondeterministic choices.
 We model the scheduler as a 
 function $s: \{l,r\}^* \to \{l,r\}$. The idea is that a word $w \in \{l,r\}^*$ represents a finite path of left/right choices from the root of a 
@@ -73,13 +76,15 @@ t \Basicleq_\dem t' ~ \Leftrightarrow ~ ~& \forall H \subseteq \mathbb{N}~~ (\fo
 \\
 ~ \Leftrightarrow ~ ~& \forall h\colon \mathbb{N}\to [0,\infty]~~ \inf_s  h_\bot(t@s)~ \leq ~ \inf_s h_\bot(t'@s)
 \end{align*}
-\begin{proposition}
+\begin{proposition}[\cite{gom}]
 The preorders $\Basicleq_\ang$  and $\Basicleq_\dem$ are admissible and compositional. 
 \end{proposition}
 \noindent
-Since admissible compositional preorders are closed under intersection, the relation ${\Basicleq_\ang} \cap {\Basicleq_\dem}$ is also an admissible compositional preorder. This gives a basic operational preorder corresponding to a neutral view of nondeterminism that takes account of both possibility and necessity.
+Because admissible compositional preorders are closed under intersection, 
+the relation ${\Basicleq_\ang} \cap {\Basicleq_\dem}$ is an admissible compositional preorder too. This gives a basic operational preorder corresponding to a neutral view of nondeterminism that takes account of both possibility and necessity.
 
-We now turn to the case of principal interest in this paper, the signature $\Sigma_\prnd = \{\prEff,\orEff\}$.
+
+We now turn to the main example of interest in this paper, the signature $\Sigma_\prnd = \{\prEff,\orEff\}$.
 In this case, trees in $\Trees(\mathbb{N})$ have both probabilistic and nondeterministic branching nodes.
 It is thus natural to consider them as (countable state) Markov Decision Processes. Once again the 
 scheduler resolving nondeterministic
@@ -96,7 +101,7 @@ It is now natural to interpret the combination of probability with angelic nonde
 by giving the scheduler the aim of maximising the probability of landing in any specified goal set. Similarly, in the demonic case, the scheduler should minimise the probability. However, as the proposition below shows, 
 this does not work in the form stated. 
 \begin{proposition}
-Neither of the preorders defined below between $t,t' \in \Trees(\mathbb{N})$ is compositional.
+Neither of the preorders below between $t,t' \in \Trees(\mathbb{N})$ is compositional.
 \begin{align*}
 & \forall H \subseteq \mathbb{N}  ~~ \sup_s  \mathbf{P}_{t\#s} (H)~ \leq~ \sup_s \mathbf{P}_{t'\#s} (H)
 \\
@@ -104,18 +109,20 @@ Neither of the preorders defined below between $t,t' \in \Trees(\mathbb{N})$ is 
 \end{align*}
 \end{proposition}
 
-[[GIVE BRIEF PROOF]]
+\begin{proof}
+GIVE BRIEF PROOF, REFERRING TO FIG.~\ref{fig:exampletrees}.
+\end{proof}
 
 The situation is rescued by generalising the test properties $H$ to 
 quantitative properties $h \colon \mathbb{N} \to [0,\infty]$. 
 Accordingly, we define:
 \begin{align*}
-t \Basicleq_\prang t' ~ \Leftrightarrow ~ ~& \forall h \colon \mathbb{N} \to [0,\infty]~~ \sup_s  \mathbf{E}_{t\#s} (h)~ \leq~ \sup_s \mathbf{E}_{t'\#s} (h)
+t \Basicleq^\Op_\prang t' ~ \Leftrightarrow ~ ~& \forall h \colon \mathbb{N} \to [0,\infty]~~ \sup_s  \mathbf{E}_{t\#s} (h)~ \leq~ \sup_s \mathbf{E}_{t'\#s} (h)
 \\
-t \Basicleq_\prdem t' ~ \Leftrightarrow ~ ~& \forall g \colon \mathbb{N} \to [0,\infty]~~ \inf_s  \mathbf{E}_{t\#s} (h)~ \leq~ \inf_s \mathbf{E}_{t'\#s} (h)
+t \Basicleq^\Op_\prdem t' ~ \Leftrightarrow ~ ~& \forall g \colon \mathbb{N} \to [0,\infty]~~ \inf_s  \mathbf{E}_{t\#s} (h)~ \leq~ \inf_s \mathbf{E}_{t'\#s} (h)
 \end{align*}
 \begin{proposition}
-The preorders $\Basicleq_\prang$ and $\Basicleq_\prdem$ are admissible and compositional.
+The preorders $\Basicleq^\Op_\prang$ and $\Basicleq^\Op_\prdem$ are admissible and compositional.
 \end{proposition}
 
 [[GIVE PROOF]]

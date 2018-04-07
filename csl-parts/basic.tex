@@ -1,7 +1,30 @@
-\section{The basic operational preorder}
+\section{Basic operational preorders}
 
+Our interest in effect trees is that they provide a 
+uniform template for defining 
+ \emph{contextual equivalence} for programming languages with algebraic effect operations
+specified by signature $\Sigma$. This idea was developed in~\cite{gom}, in the specific case of a polymorphically typed call-by-name functional language with algebraic effects. However, it is not language specific, and we now explain it in a general language-independent way.
 
+We consider how to define a notion of \emph{contextual preorder} between programs in some unspecified programming language with algebraic effects from signature $\Sigma$. (Notions of \emph{contextual equivalence}
+are included as a special cases, as any equivalence relation is a preorder.) The general idea of a contextual preorder, is to relate comparable programs $P_1$ and $P_2$ (in a typed language, programs of different type would not be considered comparable), by considering how they behave in any program context $C[-]$ that produces `observable' behaviour. One thing that can certainly be observed is the return value (if any) of a computation, as long as this it is discrete. In any sufficiently expressive language, such discrete values should be convertible to natural numbers. So it is a not unreasonable  restriction to consider contexts whose return values (if any) are natural numbers. Furthermore, the effects performed by the computations $C[P_1]$ and $C[P_2]$ may themselves have `observable' consequences. 
 
+REDUCE $\sqsubseteq_\text{ctxt}$ TO GROUND COMPUTATIONS
+
+FOR THIS ASK FOR BASIC PREORDER $\Basicleq$  ON GROUND COMPUTATIONS, I.E., $\Trees(\Nat)$.
+
+OPERATION SEMANTICS GIVES  MAPPING $|(\cdot)|$ FROM  GROUND PROGRAMS TO $\Trees(\Nat)$
+
+DEFINE:
+\[ P_1 \sqsubseteq_\text{ctxt} P_2 ~ \iff ~
+\text{for all ground contexts $C[-]$, $~ |C[P_1]| \Basicleq |C[P_2]|$}\]
+
+RESULT IN~\cite{gom}:  $\sqsubseteq_\text{ctxt}$ THIS HAS GOOD PROPERTIES IF $\Basicleq$ ADMISSIBLE AND COMPOSITIONAL. (THIS IN CASE OF SPECIFIC LANGUAGE.)
+
+WE CLAIM THIS NOT (ESPECIALLY) LANGUAGE SPECIFIC. (I THINK IT MAINLY RELIES ON THE EFFECT OPERATIONS BEING ALGEBRAIC IN THE SENSE OF PLOTKIN AND POWER.)
+
+THUS WE SEE DEFINING ADMISS AND COMP PREORDER AS KEY TO OBTAINING GOOD NOTIONS OF CONTEXTUAL PREORDER FOR GIVEN SET OF EFFECTS, LARGELY INDEPENDENTLY OF PROGRAMMING LANGUAGE
+
+REST OF SECTION EXPLORES THE RELEVANT TECHNICAL NOTIONS
 
 \begin{definition}[Admissibility]
     A binary relation $R$ on $\Trees(X)$ is \emph{admissible} if,

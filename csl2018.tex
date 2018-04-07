@@ -62,6 +62,10 @@
 \newcommand{\prang}{\text{pr/ang}}
 \newcommand{\prdem}{\text{pr/dem}}
 
+\newcommand{\Op}{\text{op}}
+\newcommand{\Den}{\text{den}}
+\newcommand{\Ax}{\text{ax}}
+
 % Denotational
 
 \newcommand{\Sem}[1]{\llbracket #1 \rrbracket}
@@ -116,13 +120,13 @@ combined probability and nondeterminism in particular}
 
 \funding{}%optional, to capture a funding statement, which applies to all authors. Please enter author specific funding statements as fifth argument of the \author macro.
 
-\acknowledgements{We thank Niels Voorneveld for helpful discussions.}%optional
+\acknowledgements{We thank Gordon Plotkin and Niels Voorneveld for helpful discussions.}%optional
 
 %Editor-only macros:: begin (do not touch as author)%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \EventEditors{John Q. Open and Joan R. Access}
 \EventNoEds{2}
 \EventLongTitle{42nd Conference on Very Important Topics (CVIT 2016)}
-\EventShortTitle{CVIT 2016}
+\EventShortTitle{For review}
 \EventAcronym{CVIT}
 \EventYear{2016}
 \EventDate{December 24--27, 2016}
@@ -142,8 +146,9 @@ combined probability and nondeterminism in particular}
 The ``generic operational metatheory'' of  Johann, Simpson and Voigtl\"{a}nder (LiCS 2010) defines
 contextual equivalence, 
 in the presence of algebraic effects, in terms of a
-\emph{basic operational preorder} on ground-type effect trees. We propose three approaches to 
-specifying such preorders: (i)~operational (ii)~denotational, and (iii)~axiomatic; coinciding with the three major styles of program semantics. We illustrate these via a nontrivial case study: the combination of probabilistic choice with nondeterminism, for which we show that  the three specification methods (operational in terms of Markov decision processes, denotational using  a powerdomain, and axiomatic) all determine the same canonical preorder.
+\emph{basic operational preorder} on ground-type effect trees. We propose three general approaches to 
+specifying such preorders: (i)~operational (ii)~denotational, and (iii)~axiomatic; coinciding with the three major styles of program semantics. We illustrate these via a nontrivial case study: the combination of probabilistic choice with nondeterminism, for which we show that  the three specification methods (operational in terms of Markov decision processes, denotational using  a powerdomain, and axiomatic) all determine the same canonical preorder. We do this in the case of both angelic and demonic nondeterminism. 
+I DO NOT THINK WE WILL HAVE SPACE FOR:
 We further show how basic operational preorders support a manageable theory of contextual equivalence for call-by-value languages, complementing the call-by-name case previously treated in the literature.
  \end{abstract}
 
@@ -160,22 +165,7 @@ We further show how basic operational preorders support a manageable theory of c
 
 \input{csl-parts/axiomatic-order}
 
-\input{csl-parts/pcf}
-
-\input{csl-parts/rewriting}
-
-\input{csl-parts/contextual}
-
-\input{csl-parts/logical}
-
-\input{csl-parts/domains}
-
-\input{csl-parts/free}
-
-\input{csl-parts/mixed}
-
-\input{csl-parts/conclusion}
-%
+\input{csl-parts/equivalence-theorem}
 
 
 
@@ -186,6 +176,30 @@ We further show how basic operational preorders support a manageable theory of c
 %% Please use bibtex, 
 
 \bibliography{bibliographie}
+
+\newpage
+
+\appendix
+
+\input{csl-parts/pcf}
+
+\input{csl-parts/rewriting}
+
+\input{csl-parts/contextual}
+
+\input{csl-parts/logical}
+
+
+
+\input{csl-parts/domains}
+
+\input{csl-parts/free}
+
+\input{csl-parts/mixed}
+
+\input{csl-parts/conclusion}
+
+\input{csl-parts/appendix}
 
 
 

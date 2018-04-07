@@ -4,26 +4,26 @@ It is worth noticing that the lifting operation $f \mapsto \hat{f}$ is
 a continuous functional. A consequence of this is the following monotonicity 
 property of the lifting.
 
-\begin{alemma}[Order preserving lift]
+\begin{lemma}[Order preserving lift]
     \label{lem:orderpreservinglift}
     If $\sigma_1 : \Nat \to A$ and $\sigma_2 : \Nat \to A$ 
     are two functions such that $\sigma_1 \leq \sigma_2$ pointwise,
     then $\hat{\sigma_1} \leq \hat{\sigma_2}$ pointwise.
-\end{alemma}
+\end{lemma}
 
 We can already see the usefulness of this definition 
 when looking at the construction of substitution:
 given abstractly, in full generality and 
 guaranteed to be continuous without any hassle. 
 
-\begin{adefinition}[Substitution]
+\begin{definition}[Substitution]
     Let $t \in \textnormal{Tree}_X$ 
     and $\sigma : X \to \textnormal{Tree}_Y$.
     Using the universal property, there exists a
     unique lift $\hat{\sigma} : \textnormal{Tree}_X \to \textnormal{Tree}_Y$,
     which is the substitution. We write $t\sigma$ as a shorthand for 
     $\hat{\sigma}t$.
-\end{adefinition}
+\end{definition}
 
 
 Using this new construction it is now possible  
@@ -89,7 +89,7 @@ Using this set, one can define the set of paths as $\{ L; R \}^*$. A
 strategy can be seen as a function that takes a path as input (position 
 in a tree) and outputs the direction to choose.
 
-\begin{adefinition}[Strategies]
+\begin{definition}[Strategies]
      The set of strategies is 
      defined by $\mathcal{S} = \{ L;R\}^* \to \{ L; R\}$.
      This set is compact for the topology induced by the 
@@ -99,7 +99,7 @@ in a tree) and outputs the direction to choose.
          d(s_1,s_2) = \inf_{n \geq 1} \left\{ \frac{1}{n} ~|~ \forall p \in \{ L;R\}^*,
                                          |p| \leq n, s_1(p) = s_2(p) \right\}
      \end{equation*}
-\end{adefinition}
+\end{definition}
 
 \begin{proof}
     The function $d$ is clearly a distance and a converging sequence 
@@ -115,7 +115,7 @@ functions from the cantor space to trees.
 This construction may seem unnatural, but it is the simplest 
 way to get continuity of strategy application to a tree.
 
-\begin{adefinition}[Application space]
+\begin{definition}[Application space]
     The space $\mathcal{C}(S,\Tree_\Nat)$ is a $\Sigma$-continuous 
     algebra where:
 
@@ -135,13 +135,13 @@ way to get continuity of strategy application to a tree.
     With $L$ and $R$ being considered interpreted as the function 
     from paths to paths that appends the corresponding letter in front of 
     the path.
-\end{adefinition}
+\end{definition}
 
 Now that we have this space of function, we can define the 
 homomorphism that maps a tree to a function from strategies 
 to trees, that is the curryfication of the function we want to build.
 
-\begin{adefinition}[Strategy Application]
+\begin{definition}[Strategy Application]
     We define the function $*$ from $\Tree_\Nat$ to $\mathcal{C}(\mathcal{S},\Tree_\Nat)$
     as the unique homomorphism such that:
 
@@ -149,20 +149,20 @@ to trees, that is the curryfication of the function we want to build.
         \item $n* = s \mapsto n$
         \item $\bot* = s \mapsto \bot$
     \end{enumerate}
-\end{adefinition}
+\end{definition}
 
 Note that during this definition, we actually defined very precisely 
 how strategies apply, and it is straightforward to check that 
 application works as expected.
 
-\begin{alemma}[Continuity]
+\begin{lemma}[Continuity]
     Given a tree $t$ and a strategy $s$ we can 
     build a tree $(t*) (s)$. The function 
     $\operatorname{app}(t,s) = (t*)(s)$ written sometimes
     $(t*s)$ 
     is continuous 
     from $\Tree_\Nat \times \mathcal{S}$ to $\Tree_\Nat$.
-\end{alemma}
+\end{lemma}
 
 \begin{proof}
     It is clear that $(t*s)$ is continuous in each of it's 
@@ -179,17 +179,17 @@ Now that we can get a tree without \texttt{or} nodes,
 we can define the probability space we are using, mainly 
 infinite paths on binary trees, corresponding to real numbers.
 
-\begin{adefinition}[Probability Space]
+\begin{definition}[Probability Space]
     We define the probability space $\Omega$
     to be $\{0,1\}^\mathbb{N}$, the 
     $\sigma$-algebra to be the Borel sets 
     and use the uniform probability measure on them.
-\end{adefinition}
+\end{definition}
 
 Any tree can then be turned into a random variable in 
 a very natural way. 
 
-\begin{adefinition}[Turning a tree into a random variable]
+\begin{definition}[Turning a tree into a random variable]
     Given a tree $t$ with only \texttt{or} nodes we 
     build a measurable function $va(t)$ from $\Omega$ to $\Tree_\Nat$:
 
@@ -199,7 +199,7 @@ a very natural way.
             \bot & \text{ otherwise } 
         \end{cases}
     \end{equation*}
-\end{adefinition}
+\end{definition}
 
 %\begin{proof}
     %The random variable for a given tree is a measurable function 
@@ -210,7 +210,7 @@ a very natural way.
 
 We now have all the constructions needed to define the preorder
 
-\begin{adefinition}[Preorder]
+\begin{definition}[Preorder]
     The preorder is defined by
 
     \begin{equation*}
@@ -223,19 +223,19 @@ We now have all the constructions needed to define the preorder
     \begin{equation*}
         F(t,s,h) = \mathbb{E}(h \circ va(t * s))
     \end{equation*}
-\end{adefinition}
+\end{definition}
 
 To prove the admissibility, it suffices to prove that the function 
 is Scott-continuous, and we made sure that this fact is easy to prove.
 
-\begin{alemma}[Scott-continuity]
+\begin{lemma}[Scott-continuity]
     Given a cost function $h$, the function 
     $(t,s) \mapsto F(t,s,h)$ is continuous from $\Tree_\Nat \times
     \mathcal{S}$ with the product topology to $\overline{\mathbb{R}_+}$ with the 
     Scott topology.
 
     Moreover, given $t$ and $s$, the function $h \mapsto F(t,s,h)$ is monotone.
-\end{alemma}
+\end{lemma}
 
 \begin{proof}
     We write $RV(X)$ for the space of random variables 
@@ -275,12 +275,12 @@ This follows from a general result using the compactness of the
 set of strategies and the continuity of the functions 
 \cite{AndreaShalk} (Theorem 7.31).
 
-\begin{alemma}[Taking the infimum]
+\begin{lemma}[Taking the infimum]
     \label{lem:mixedscottcontinuous}
     Fixing $h$ and $s$, 
     the function $t \mapsto \inf_s \mathbb{E} (h \circ va(t*s))$
     is Scott-continuous.
-\end{alemma}
+\end{lemma}
 
 \begin{proof}
     It is possible to use a result from Andrea Shalk's thesis 
@@ -363,7 +363,7 @@ set of strategies and the continuity of the functions
 We can reuse the lemma \ref{lem:continuousadm} to deduce 
 that the preorder is admissible. But about compositionality ?
 
-\begin{alemma}[Decomposition]
+\begin{lemma}[Decomposition]
     \label{lem:mixeddecomposition}
     Given a function $h$, a tree $t$ and a substitution $\sigma$,
     the following equality holds:
@@ -374,7 +374,7 @@ that the preorder is admissible. But about compositionality ?
     \begin{equation*}
         h_\sigma (n) = \inf_s F(\sigma(n),s,h)
     \end{equation*}
-\end{alemma}
+\end{lemma}
 
 \begin{proof}
 
@@ -467,10 +467,10 @@ that the preorder is admissible. But about compositionality ?
     \qed
 \end{proof}
 
-\begin{alemma}[Compositionality]
+\begin{lemma}[Compositionality]
     \label{lem:operiscomp}
     The preorder $\sqeq_b$ is compositional
-\end{alemma}
+\end{lemma}
 
     \begin{proof}
         Let $t \sqeq_b t'$ and $\sigma \sqeq_b \sigma'$ pointwise.
@@ -593,14 +593,14 @@ preorders for probability (resp. non determinism) using
 Lemma \ref{lem:probpreo} (resp. Lemma \ref{lem:demopreo}), 
 and we are going to show the following theorem.
 
-\begin{atheorem}[Equality of preorders]
+\begin{theorem}[Equality of preorders]
 The 
 free preorder of the joint theories as described in Figure \ref{fig:mixtheory}
 is the one that was obtained 
 operationally which is itself equal to the preorder 
 obtained by the interpretation inside the free 
 algebra for this theory in $\omega$CPPO.
-\end{atheorem}
+\end{theorem}
 
 \begin{proof}
     
@@ -967,7 +967,7 @@ for both trees.
         \orEff (\prEff (1,2), 3) \quad \quad \prEff (\orEff (1,3), \orEff (2,3))
     \end{equation*}
     \caption{The two trees from the counterexample}
-    \label{fig:counterexampletree}
+ %   \label{fig:counterexampletree}
 \end{figure}
 
 We can see that the two trees in Figure \ref{fig:counterexampletree} 
