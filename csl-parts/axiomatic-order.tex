@@ -74,3 +74,30 @@ $\Basicleq^\Ax_\prdem$}
 \todo[inline]{OBSERVE EQUIVALENCE OF INFINITARY EQUATIONAL AXIOM WITH HORN
 CLAUSE AXIOM?}
 
+\begin{definition}
+    Let $t$ be a tree, $t^n$ is inductively defined as 
+    $t^0 = \bot$ and $t^{n+1} = t \prEff t^n$. The
+    tree $t^\infty$ is defined as $\sqcup_n t^n$.
+\end{definition}
+
+\begin{proposition}[Removing Horn-Clauses]
+    The preorder $\Basicleq^{\Ax'}_\prdem$ obtained 
+    by replacing the Horn-clause $a \prEff b \leq b \implies a \leq b$ by 
+    the infinitary axiom $t^\infty = t$.
+\end{proposition}
+
+\begin{proof}
+    \todo[inline]{Explain a bit more}
+    It is clear that $t^n \Basicleq^\Ax_\prdem t$ forall $n$,
+    and therefore $t^\infty \Basicleq^\Ax_\prdem t$. 
+    We have $t \prEff t^n \Basicleq^\Ax_\prdem t^{n+1}$,
+    and by admissibility we then deduce $t \prEff t^\infty \Basicleq^\Ax_\prdem
+    t^\infty$, which using the Horn-clause axiom allows us to derive $t
+    \Basicleq^\Ax_\prdem t^\infty$.
+
+
+    For the converse inclusion assume $t \prEff t' \leq t'$,
+    then $t \prEff (t \prEff t') \leq t \prEff t' \leq t'$.
+    By induction and admissibility one deduces $t^\infty \leq t'$,
+    and then $t = t^\infty$.
+\end{proof}

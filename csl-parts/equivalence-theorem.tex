@@ -29,7 +29,66 @@ for mixed probability and demonic nondeterminism, coincide.
     \end{enumerate}
 
     \begin{description}
-        \item[Finite disjunction]
+        \item[Trees with no disjunction]
+
+    \todo[inline]{Remove this part of the proof, it is only here to show that it
+    works for probabilities only ... Which is going to be assumed. However
+    it is clearly the same proof in some sense when extending from finite 
+    trees to infinite trees. It could be a more general lemma}
+
+    For such trees, $\inf_s \mathbf{E}_{ t \# s } (h)
+    = \mathbf{E}_{ t } (h)$.
+    If both trees are finite, they can be put into 
+    a normal form using the axioms concerning the 
+    probability constructor: two complete binary trees 
+    of same height,
+    with leafs ordered by increasing number, and 
+    such that a given leaf is $\bot$ the same 
+    in both trees.
+
+    It is easy to prove that two trees with 
+    only $\prEff$ nodes are ordered for $\Basicleq^\Op_\prdem$
+    if and only if their normal forms are ordered,
+    and it only takes a simple induction to 
+    deduce that they are ordered for $\Basicleq^\Ax_\prdem$.
+
+    Now, if $t$ and $t'$ are infinite, 
+    we approximate them with finite trees $(t_i)$ and 
+    $(t_i')$.
+    
+    Given a tree $T$ we build $T^n$ as $\bot$ if $n = 0$, and $T \prEff T^{n-1}$
+    otherwise. 
+
+    It is clear that $T^n \Basicleq^\Op_\prdem T$ in a \emph{strict fashion}:
+    the inequality is strict for all test function $h$.
+
+    Therefore $t_i \prEff (t_i')^n \Basicleq^\Op_\prdem t_i$
+    with a \emph{strict inequality for all tests functions h}.
+    
+    Let us fix $i \in \mathbb{N}$, and a $n \in \mathbb{N}$: 
+
+    \begin{equation*}
+        t_i \prEff (t_i')^n \Basicleq^\Op_\prdem t_i \prEff t_i'
+        \Basicleq^\Op_\prdem t \prEff t' \Basicleq^\Op_\prdem t'
+    \end{equation*}
+
+    For any given test function $h$ we therefore have a strict 
+    inequality between $t_i \prEff (t_i')^n$ and $t'$, however 
+    $t'$ is the supremum of the family $(t_i')$ and the function 
+    $ t \mapsto (h \mapsto \mathbf{E}_{ t } (h))$ is scott-continuous.
+
+    Therefore, there exists \emph{a finite $j$} such that 
+    $t_i \prEff (t_i')^n \Basicleq^\Op_\prdem t_j'$.
+    All of the above inequalities are between finite trees, and 
+    therefore are also true using $\Basicleq^\Ax_\prdem$.
+    Using admissibility with a supremum over $n$ 
+    one deduces $t_i \prEff t_i' \Basicleq^\Ax_\prdem t_j'$
+    and using admissibility with a supremum over $i$ we can finally conclude
+    $t \prEff t' \Basicleq^\Ax_\prdem t'$.
+    
+      
+
+        \item[Trees with finite disjunction]
 
     Let $t \Basicleq^\Op_\prdem t'$ 
     where $t$ and $t'$ have only a finite number 
