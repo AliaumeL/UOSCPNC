@@ -10,4 +10,110 @@ for mixed probability and demonic nondeterminism, coincide.
 \end{enumerate}
 \end{theorem}
 
-MAIN PROOF HERE
+\begin{proof}
+    We give an outline of the proof in the case of $\Basicleq^\Op_\prdem$.
+    It is easily checked that $\Basicleq^\Op_\prdem$ satisfies the Horn-clause
+    theory of $\Basicleq^\Ax_\prdem$, and we know that $\Basicleq^\Op_\prdem$ is 
+    both admissible and compositional. This gives us the first inclusion.
+    
+    For the other inclusion, the proof sketch is the following one~:
+    \todo[inline]{Explain what is not working on finite trees}
+    \begin{enumerate}
+        \item Prove that both preorders coincide 
+            on trees without $\orEff$ nodes
+        \item Prove that both preorders coincide 
+            on trees with a \emph{finite} number 
+            of $\orEff$ nodes.
+        \item Use finite approximations and admissibility
+            of both preorders to conclude in the general case.
+    \end{enumerate}
+
+    \begin{description}
+        \item[Finite disjunction]
+
+    Let $t \Basicleq^\Op_\prdem t'$ 
+    where $t$ and $t'$ have only a finite number 
+    of disjunction nodes.
+    The proof is done using the following 
+    remarks
+    \begin{enumerate}
+        \item We can first use the axioms of the theory 
+            to put both trees in the form of 
+            a \emph{finite disjunction} over 
+            \emph{possibly infinite probability trees}.
+
+        \item 
+            If for all $t_i'$ 
+            a probability
+            tree of $t'$ there exists 
+            a corresponding tree $t_i$ in $t$ 
+            such that $t_i \Basicleq^\Op_\prdem t_i'$
+            then it is clear that $t \Basicleq^\Ax_\prdem t'$.
+
+        \item 
+            If $t_i$ and $t_j$ are two 
+            probability trees of $t$ 
+            then $t$ is equivalent to 
+            $t \orEff (t_i \prEff t_j)$.
+            This can be extended to any infinite 
+            $\prEff$ combination 
+            of probability trees of $t$.
+
+        \item 
+            If $t_i'$ is a probability tree of $t'$,
+            then there exists an infinite $\prEff$
+            combination of probability trees of $t$
+            noted $\hat{t_i'}$
+            such that $\hat{t_i'} \Basicleq^\Op_\prdem t_i'$.
+
+        \item Because there is only a finite number 
+            of probability trees in $t'$, we can 
+            conclude by induction that 
+            $t \Basicleq^\Ax_\prdem t'$.
+    \end{enumerate}
+
+
+        \item[Extension]
+    Let $t \Basicleq^\Op_\prdem t'$,
+    such that $t = \sqcup_i t_i$ and $t' = \sqcup_i t_i'$ 
+    where both families are composed of \emph{finite} trees.
+
+    The basic idea is to prove that for all $i$ there exists 
+    a $j > i$ such that
+    $t_i \prEff t_i' \Basicleq^\Ax_\prdem t_j'$ $(\dagger)$. Using admissibility
+    this will allow us to conclude that $t \prEff t' \Basicleq^\Ax_\prdem t'$
+    and then use the Horn-clause axiom to conclude $t \Basicleq^\Ax_\prdem t'$
+
+    To obtain $(\dagger)$ we use the equivalence of $\Basicleq^\Op_\prdem$
+    and $\Basicleq^\Ax_\prdem$ on trees with a finite number of $\orEff$ nodes.
+    Given a tree $T$ we build $T^n$ as $\bot$ if $n = 0$, and $T \prEff T^{n-1}$
+    otherwise. 
+
+    It is clear that $T^n \Basicleq^\Op_\prdem T$ in a \emph{strict fashion}:
+    the inequality is strict for all test function $h$.
+
+    Let us fix $i \in \mathbb{N}$, and a $n \in \mathbb{N}$: 
+
+    \begin{equation*}
+        t_i \prEff (t_i')^n \Basicleq^\Op_\prdem t_i \prEff t_i'
+        \Basicleq^\Op_\prdem t \prEff t' \Basicleq^\Op_\prdem t'
+    \end{equation*}
+
+    For any given test function $h$ we therefore have a strict 
+    inequality between $t_i \prEff (t_i')^n$ and $t'$, however 
+    $t'$ is the supremum of the family $(t_i')$ and the function 
+    $ t \mapsto (h \mapsto \inf_s \mathbf{E}_{ t \# s} (h))$ is scott-continuous.
+    \todo[inline]{Was that proven somewhere ?}
+    Therefore, there exists \emph{a finite $j$} such that 
+    $t_i \prEff (t_i')^n \Basicleq^\Op_\prdem t_j'$.
+    All of the above inequalities are between finite trees, and 
+    therefore are also true using $\Basicleq^\Ax_\prdem$.
+    Using admissibility with a supremum over $n$ 
+    one deduces $t_i \prEff t_i' \Basicleq^\Ax_\prdem t_j'$
+    and using admissibility with a supremum over $i$ we can finally conclude
+    $t \prEff t' \Basicleq^\Ax_\prdem t'$.
+    \end{description}
+    
+
+\end{proof}
+

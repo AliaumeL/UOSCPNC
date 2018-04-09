@@ -35,23 +35,31 @@ admissible compositional preorder.
 \begin{figure}[h!]
     \begin{equation*}
         \begin{array}{lrl}
-            \mathcal{P} & a \prEff a &= a \\
+            \text{Probability} & a \prEff a &= a \\
                         & a \prEff b &= b \prEff a \\
                         & (a \prEff b) \prEff (c \prEff d) &= (a \prEff c) \prEff (b \prEff d) \\
                         & a \prEff b \leq b &\implies a \leq b  \\
             %\hline
             \\
-            \mathcal{D} & a \orEff a &= a \\
+        \end{array}
+        \begin{array}{lrl}
+            \text{Non-Determinism} & a \orEff a &= a \\
                         & a \orEff b &= b \orEff a \\
                         & (a \orEff b) \orEff c &= a \orEff (b \orEff c) \\
-                        & a \orEff b &\leq a \\ 
             \\
+        \end{array}
+    \end{equation*}
+    \begin{equation*}
+        \begin{array}{lrl}
+
+            \text{Angelic} & a \orEff b &\leq a \\ 
+            \text{Demonic} & a \orEff b &\geq a \\ 
             %\hline 
             \text{Distributivity}
             & (a \orEff b) \prEff c &= (a \prEff c) \orEff (b \prEff c)
         \end{array}
     \end{equation*}
-    \caption{Inequational theory for mixed probability and demonic non
+    \caption{Inequational theory for mixed probability and non
     determinism}
     \label{fig:axiomsmixed}
 \end{figure}
