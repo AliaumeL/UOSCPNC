@@ -12,19 +12,19 @@ In this case, trees in $\Trees(\mathbb{N})$ have both probabilistic and nondeter
 as in Figure~\ref{fig:exampletrees}.
 
 
-It is natural to consider such trees as (countable state) Markov decision processes. 
-The behaviour of probabilistic nodes is clear. Nondeterministic choices may be thought of as being resolved by an external agent, the scheduler. We can model the actions of the scheduler by a 
+It is natural to consider such trees as (countable state) Markov decision processes, with the leaves representing nodes which either carry an observable value from $\mathbb{N}$, or which represent nontermination $\bot$.
+The behaviour of probabilistic nodes is clear. Nondeterministic choices may be thought of as being resolved by an external agent, the scheduler. We model the actions of the scheduler by a 
 function $s: \{l,r\}^* \to \{l,r\}$. The idea is that a word $w \in \{l,r\}^*$ represents a finite path of left/right choices from the root of a 
 tree $t \in \Trees(\mathbb{N})$. If the computation reaches a nondeterministic choice at the node indexed by 
 $w$ then it takes the left/right branch according to the value of $s(w)$. This way of representing choices has some redundancy
-(in every tree other than the complete infinite binary tree, there will be words $w$ that do not index nodes in the tree; if $s(\varepsilon) = l$ then the value of $s$ on words beginning with $r$ is immaterial; the value of $s(w)$ on words $w$ that index 
+(in every tree that is not a complete infinite binary tree, there will be words $w$ that do not index nodes in the tree; if $s(\varepsilon) = l$ then the value of $s$ on words beginning with $r$ is immaterial; the value of $s(w)$ on words $w$ that index 
 probabilistic nodes in $t$ is irrelevant, etc.), but it is simple and convenient for future purposes. 
 For any given $t \in \Trees(\mathbb{N})$, such a function
 $s: \{l,r\}^* \to \{l,r\}$ can be thought of as a (deterministic) \emph{strategy} for the scheduler, in which the choice of direction at a nondeterministic node  
 can take into account the outcomes of probabilistic nodes higher up the tree.
 
 A strategy $s$ and a tree $t$ in combination determine a subtree $t\#s$, defined by 
-removing, at every nondeterministic node in $t$ with index $w$, the child tree that is not selected by $s(w)$. So $t\#s$ is a tree that has binary branching at probabilistic nodes, and unary branching at nondeterministic nodes. It is thus, in effect, a purely probabilistic tree, and so may be viewed as a Markov chain determining a subprobability distribution over $\mathbb{N}$. 
+removing, at every nondeterministic node in $t$ with index $w$, the child tree that is not selected by $s(w)$. So $t\#s$ is a tree that has binary branching at probabilistic nodes, and unary branching at nondeterministic nodes. It is thus, in effect, a purely probabilistic tree, with leaves in $\mathbb{N}\cup\{\bot\}$, and so may be viewed as a Markov chain, in which the branching nodes are fair binary choices, determining  a subprobability distribution over $\mathbb{N}$. 
 
 %Given such a scheduling function $s$, we write $t@s$ for the result of the computation as scheduled by $s$. This is defined by:
 %\[
@@ -37,69 +37,19 @@ removing, at every nondeterministic node in $t$ with index $w$, the child tree t
 %Here we write $|w|$ for the length of a word, $w_i$ for the $i$-th symbol in a word, and $w \!\restriction_i$ for the prefix of $w$ that has length $i$.
 
 The  \emph{angelic} interpretation of nondeterminism takes into account the possibility of a nondeterministic computation achieving a specified goal, given a cooperative scheduler.  The  \emph{demonic} interpretation, 
-models the {necessity} that a goal will be achieved, however adversarial the scheduler. 
-This suggests the  two  basic operational preorders below. In each case, we take $H \subseteq \mathbb{N}$ to be a desirable set of outcomes, and we define $t \Basicleq t'$ if, for any $H$,we have a greater  `probability' of achieving $H$ with $t'$ than with $t$. Here, `probability' is in inverted commas, because we have to take into account the actions of the scheduler. In the case of 
+models the {certainty} with which a goal can be achieved, however adversarial the scheduler. 
+This suggests the  two  basic operational preorders below. 
+In each case, we consider functions $h \colon \mathbb{N} \to [0,\infty]$ assigning desirability weightings to possible results of a run of the computation. We then define 
+%$H \subseteq \mathbb{N}$ to be a desirable set of outcomes, and we define 
+$t \Basicleq t'$ if, for any $h$, the `expected' desirability weighting of $t'$ exceeds that of $t$. Here, `expected' is in inverted commas, because we have to take into account the actions of the scheduler, so this is not just a probabilistic expectation. In the case of 
 angelic nondeterminism, the scheduler will help us, whereas, under demonic nondeterminism, it will impede us.
-\begin{align*}
-t \Basicleq^\bullet_\prang t' ~ \Leftrightarrow ~ ~& \forall H \subseteq \mathbb{N}  ~~ \sup_s  \mathbf{P}_{t\#s} (H)~ \leq~ \sup_s \mathbf{P}_{t'\#s} (H)
-\\
-t \Basicleq^\bullet_\prdem t' ~ \Leftrightarrow ~ ~&  \forall H \subseteq \mathbb{N}  ~~ \inf_s  \mathbf{P}_{t\#s} (H)~ \leq~ \inf_s \mathbf{P}_{t'\#s} (H)
-\end{align*}
-In Markov-decision-process terminology, each preorder says that the \emph{value} of the MDP $t$, for any goal $H$, is below the value of of $t'$ for $H$. In the angelic case, the value maximises the probability of achieving $H$, in the demonic case, it minimises it. 
-
-Although natural, the above definitions do not work. 
-\begin{proposition}
-Neither $\Basicleq^\bullet_\prang$ nor $\Basicleq^\bullet_\prang$ is compositional. 
-\end{proposition}
-
-\begin{proof}
-    We use the two trees presented figure~\ref{fig:exampletrees},
-    representing the expressions $A = 3 \orEff (1 \prEff 2)$
-    and $B = (3 \orEff 1) \prEff (3 \orEff 2)$.
-
-    To prove that both expressions behave the same on every subset of $\mathbb{N}$,
-    it suffices to check it on every subsets of $\{ 1, 2, 3\}$, and it is clear
-    with both preorders.
-
-    However, we build a family $\{ t_1, t_2, t_3\}$ such that 
-    $A[ i \mapsto t_i] = t_3 \orEff (t_1 \prEff t_3) = C$ is not equivalent to 
-    $B[ i\mapsto t_i] = (t_3 \orEff t_1) \prEff (t_3 \orEff t_2) = D$,
-    which contradicts the compositionality.
-
-    Let $t_1 = 0 \prEff (0 \prEff (0 \prEff (0 \prEff 1)))$,
-    $t_2 = 1$ et $t_3 = 0 \prEff (0 \prEff (0 \prEff 1))$. The distinguishing 
-    factor will be the probability associated with the subset $\{ 1 \}$.
-    We dress a table of the minimal/maximal said probability on the different 
-    trees.
-    
-    \todo[inline]{Remove the table and only give the final probabilities in the
-    four cases}
-    \begin{equation*}
-        \begin{array}{c|c|c}
-                & \textbf{Min} & \textbf{Max} \\ \hline
-            t_1 & 1/8 & - \\
-            t_2 & 1   & -   \\
-            t_3 & 1/4 & - \\
-            t_1 \prEff t_2 & 9 / 16 & - \\
-            t_3 \orEff t_1 & 1/8    & 1/4 \\
-            t_3 \orEff t_2 & 1/4    & 1   \\
-            t_3 \orEff (t_1 \prEff t_3) & 1/4 & 9/16 \\
-            (t_3 \orEff t_1) \prEff (t_3 \orEff t_2) & 3 / 16 & 5/8 \\
-        \end{array}
-    \end{equation*}
-
-    In both preorders, we have $\neg (C = D)$,
-    giving the expected contradiction.
-\end{proof}
-
-The situation is rescued by generalising the boolean-valued test properties $H$ to 
-quantitative properties $h \colon \mathbb{N} \to [0,\infty]$. 
-Accordingly, we define:
+Technically this is taken account of by considering suprema of probabilistic expectations in the angelic case, and infima in the demonic case.
 \begin{align*}
 t \Basicleq^\Op_\prang t' ~ \Leftrightarrow ~ ~& \forall h \colon \mathbb{N} \to [0,\infty]~~ \sup_s  \mathbf{E}_{t\#s} (h)~ \leq~ \sup_s \mathbf{E}_{t'\#s} (h)
 \\
 t \Basicleq^\Op_\prdem t' ~ \Leftrightarrow ~ ~& \forall h \colon \mathbb{N} \to [0,\infty]~~ \inf_s  \mathbf{E}_{t\#s} (h)~ \leq~ \inf_s \mathbf{E}_{t'\#s} (h)
 \end{align*}
+In Markov-decision-process terminology, each preorder says that the \emph{value} of the MDP $t$, for any weighting $h$, is below the value of of $t'$ for $H$. In the angelic case, the value maximises the expectation of $h$, in the demonic case, it minimises it. 
 \begin{proposition}
 The preorders $\Basicleq^\Op_\prang$ and $\Basicleq^\Op_\prdem$ are admissible and compositional.
 \end{proposition}
@@ -196,12 +146,84 @@ The preorders $\Basicleq^\Op_\prang$ and $\Basicleq^\Op_\prdem$ are admissible a
 
 \end{proof}
 
+We end this section by observing that a natural attempt to simplify  the definitions of 
+ $\Basicleq^\Op_\prang$ and $\Basicleq^\Op_\prdem$ does not work. Instead of considering arbitrary weightings
+ $h \colon \mathbb{N} \to [0,\infty]$, one might restrict to  
+ functions $h \colon \mathbb{N} \to \{0,1\}$, which amounts to specifying goal subsets $H \subseteq \mathbb{N}$.
+ Proceeding analogously to above, we compare suprema of probabilities of landing in $H$ in the angelic case, and infima in the demonic case. Whichever definition we take, the desired compositionality property fails.
+\begin{proposition}
+Neither of the formulas below defines a compositional relation $t \Basicleq t'$. %$\Basicleq^\bullet_\prang$ nor $\Basicleq^\bullet_\prang$ is compositional.
+ \begin{align*}
+%t \Basicleq^\bullet_\prang t' ~ \Leftrightarrow ~ ~
+ & \forall H \subseteq \mathbb{N}  ~~ \sup_s  \mathbf{P}_{t\#s} (H)~ \leq~ \sup_s \mathbf{P}_{t'\#s} (H)
+\\
+%t \Basicleq^\bullet_\prdem t' ~ \Leftrightarrow ~ ~
+ & \forall H \subseteq \mathbb{N}  ~~ \inf_s  \mathbf{P}_{t\#s} (H)~ \leq~ \inf_s \mathbf{P}_{t'\#s} (H)
+\end{align*}
+\end{proposition}
+
+
+ 
+ 
+
+
+
+
+%Although natural, the above definitions do not work. 
+
+\begin{proof}
+    We use the two trees presented figure~\ref{fig:exampletrees},
+    representing the expressions $A = 3 \orEff (1 \prEff 2)$
+    and $B = (3 \orEff 1) \prEff (3 \orEff 2)$.
+
+    To prove that both expressions behave the same on every subset of $\mathbb{N}$,
+    it suffices to check it on every subsets of $\{ 1, 2, 3\}$, and it is clear
+    with both preorders.
+
+    However, we build a family $\{ t_1, t_2, t_3\}$ such that 
+    $A[ i \mapsto t_i] = t_3 \orEff (t_1 \prEff t_3) = C$ is not equivalent to 
+    $B[ i\mapsto t_i] = (t_3 \orEff t_1) \prEff (t_3 \orEff t_2) = D$,
+    which contradicts the compositionality.
+
+    Let $t_1 = 0 \prEff (0 \prEff (0 \prEff (0 \prEff 1)))$,
+    $t_2 = 1$ et $t_3 = 0 \prEff (0 \prEff (0 \prEff 1))$. The distinguishing 
+    factor will be the probability associated with the subset $\{ 1 \}$.
+    We dress a table of the minimal/maximal said probability on the different 
+    trees.
+    
+    \todo[inline]{Remove the table and only give the final probabilities in the
+    four cases}
+    \begin{equation*}
+        \begin{array}{c|c|c}
+                & \textbf{Min} & \textbf{Max} \\ \hline
+            t_1 & 1/8 & - \\
+            t_2 & 1   & -   \\
+            t_3 & 1/4 & - \\
+            t_1 \prEff t_2 & 9 / 16 & - \\
+            t_3 \orEff t_1 & 1/8    & 1/4 \\
+            t_3 \orEff t_2 & 1/4    & 1   \\
+            t_3 \orEff (t_1 \prEff t_3) & 1/4 & 9/16 \\
+            (t_3 \orEff t_1) \prEff (t_3 \orEff t_2) & 3 / 16 & 5/8 \\
+        \end{array}
+    \end{equation*}
+
+    In both preorders, we have $\neg (C = D)$,
+    giving the expected contradiction.
+\end{proof}
+
+
+
 We view the fact that the use of quantitative properties is required to obtain a compositional preorder as being
 a mathematical analogue of the situation found in the work of Kozen
 \textbf{[[REF]]} and McIver and Morgan \textbf{[[REF]]}, where 
 logics of quantitative properties are seen to be necessary to obtain compositional reasoning principles for 
-probabilistic program logics.
+probabilistic program logics. The above argument is also curiously  reminiscent of the proof in [[VARACCA PHD]]
+that there is no distributivity law between the finite powerset and distribution monads.
 
+
+%The situation is rescued by generalising the boolean-valued test properties $H$ to 
+%quantitative properties $h \colon \mathbb{N} \to [0,\infty]$. 
+%Accordingly, we define:
 
 %\todo[inline]{I THINK FOR SPACE REASONS WE WILL NEED TO JUMP IN STRAIGHT AWAY
 %    WITH THE MIXED CASE. SO THE FOLLOWING DISCUSSION NEEDS TO BE CUT OUT WITH
