@@ -11,14 +11,35 @@ for mixed probability and demonic nondeterminism, coincide.
 \end{theorem}
 
 \begin{proof}
-    We give an outline of the proof in the case of $\Basicleq^\Op_\prdem$.
+    We give an outline of the proof in the case of demonic non-determinism.
+
+    \begin{itemize}
+        \item 
     It is easily checked that $\Basicleq^\Op_\prdem$ satisfies the Horn-clause
     theory of $\Basicleq^\Ax_\prdem$, and we know that $\Basicleq^\Op_\prdem$ is 
     both admissible and compositional. This gives us the inclusion 
     ${\Basicleq^\Ax_\prdem} \subseteq {\Basicleq^\Op_\prdem}\,$.
-    
-    For the other inclusion, the proof sketch is the following one~:
-    \todo[inline]{Explain what is not working on finite trees}
+
+        \item 
+    Now, we want to prove that $\Basicleq^\Op_\prdem \subseteq
+    \Basicleq^\Den_\prang$. It is easier to notice that both preorders coincide.
+    There is an isomorphism $\Lambda$ between $\mathcal{V}_{\leq 1} \,\mathbb{N}_\bot$
+    and $\mathcal{L}_{sup}^{sne} (\mathcal{L} (\mathbb{N}_\bot),
+    \overline{\mathbb{R}_+})$ \cite{KeimelP2016}. Given a tree $t$, the function  
+    $F_t : h \mapsto \inf_s \mathbf{E}_{t \# s} (h)$ is superlinear and 
+    strongly non-expansive. It can then be shown by induction on $t$ that 
+    $\Lambda (\llbracket t \rrbracket) (h) = F_t (h)$.
+    \todo[inline]{The function is strongly non-expansive if and only if 
+        $F(h + 1) \leq F(h) + 1$ which is clear here \cite{KeimelP2016} page 58}
+    \todo[inline]{$\Lambda (X)(h) = \inf_{\mu \in X} \int h d\mu$, allowing
+        direct translation for the base case of the induction}
+
+    We do conclude that $\Basicleq^\Op_\prang = \Basicleq^\Den_\prang$.
+
+    \item 
+        For the inclusion $\Basicleq^\Den_\prdem \subseteq
+        \Basicleq^\Ax_\prdem$, the proof sketch is the following one:
+
     \begin{enumerate}
         \item Prove that both preorders coincide 
             on trees without $\orEff$ nodes
@@ -173,6 +194,7 @@ for mixed probability and demonic nondeterminism, coincide.
     and using admissibility with a supremum over $i$ we can finally conclude
     $t \prEff t' \Basicleq^\Ax_\prdem t'$.
     \end{description}
+    \end{itemize}
     
 
 \end{proof}
