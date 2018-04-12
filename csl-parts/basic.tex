@@ -11,7 +11,7 @@ are included as a special cases, as any equivalence relation is a preorder.) The
 We thus compare the behaviour of $P_1$ and $P_2$ by wrapping them in ground contexts $C[-]$. Since the programming language contains effects, the `observable'  behaviour of  $C[P_1]$ and $C[P_2]$ will, in general, involve not only return values, but also  the effects performed by the two computations. 
 %Moreover, exactly what counts as  `observable' and how it affects the comparison of ground type computations
 % will be highly dependent on the specific effects present. 
-Independently of the specific effects present, the execution behaviour of a ground type computation $M$ can be captured by an effect tree $|M|$ that represents all effects that may potentially be performed by $M$. This allows a uniform approach to defining contextual equivalence.  As long as we have a specified \emph{basic operational preorder}  $\Basicleq$  on ground  computation trees, that is, on the set $\Trees(\Nat)$, we can define 
+Independently of the specific effects present, the execution behaviour of any ground type computation $M$ can be captured by an effect tree $|M|$ that represents all the effect operations that $M$ might potentially perform, and their dependencies. This suggests the following uniform approach to defining contextual equivalence.  As long as we have a specified \emph{basic operational preorder}  $\Basicleq$  on ground  computation trees, that is, on the set $\Trees(\Nat)$, we can define 
 contextual preorder on comparable programs $P_1,P_2$, by:
 \[ P_1 \sqsubseteq_\text{ctxt} P_2 ~ \iff ~
 \text{for all ground contexts $C[-]$, $~ |C[P_1]| \Basicleq |C[P_2]|$} \enspace . \]
@@ -21,13 +21,13 @@ preorder  $\Basicleq$  on  $\Trees(\Nat)$. Any effect-specific behaviour resulti
 
 In~\cite{gom}, this general approach was developed in detail for 
 a polymorphically typed call-by-name functional language with algebraic effects. 
-The main result was that the resulting contextual preorder is well-behaved if the basic operational preorder satisfies two properties, called \emph{admissibility} and \emph{compositionality}. The well-behaved properties of the contextual preorder, in this case, include that it is definable as a {logical relation} and hence amenable to an important proof technique, and also that, on ground type programs $P_1,P_2$,
+The main result was that the resulting contextual preorder is well-behaved if the basic operational preorder satisfies two properties, called \emph{admissibility} and \emph{compositionality}. Such well-behaved properties include that it the contextual preorder is definable as a {logical relation} (and hence amenable to an important proof technique), and also that, on ground type programs $P_1,P_2$,
 the contextual and basic operational preorders coincide (i.e., $P_1 \sqsubseteq_\text{ctxt} P_2$ iff 
 $|P_1| \Basicleq |P_2|$).
 
-It is our belief that the conditions of admissibility and compositionality are fundamental ones that  are applicable 
-across a range of programming  languages. Indeed, we believe that it holds in broad generality that 
-admissibility and compositionality guarantee a well-behaved notion of contextual preorder. In addition to the 
+It is our belief that the conditions of admissibility and compositionality are fundamental ones that  are applicable
+across a range of programming  languages. Indeed, we believe that it holds in broad generality that any
+admissible, compositional basic operational preorder  give rise  to a well-behaved notion of contextual preorder. In addition to the 
 call-by-name language of~\cite{gom}, we have verified this explicitly in the case of a call-by-value functional language with effects,
 similar to the language in~\cite{plotkin2001adequacy}. More generally, it seems  that the crucial language-independent property required, for this to hold, is that all effect operations are \emph{algebraic} in the sense of Plotkin and Power ~\cite{plotkin2001adequacy} [[CHECK THIS REFERENCE CONTAINS THE RIGHT USE OF ALGEBRAIC]].
 
