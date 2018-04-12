@@ -58,27 +58,25 @@ The preorders $\Basicleq^\Op_\prang$ and $\Basicleq^\Op_\prdem$ are admissible a
 \begin{proof}
     \begin{description}
         \item[Admissibility]
-            We prove that the function $F_h : t \mapsto \inf_s  \mathbf{E}_{t\#s} (h)$
+            It suffices to prove that the function $F_h : t \mapsto \inf_s  \mathbf{E}_{t\#s} (h)$
             is scott-continuous from $\Tree(\Nat)$ to $[0,+\infty]$ with the
-            scott-topology. Therefore, if $t_i \Basicleq^\Op_\prang t_i'$,
+            scott-topology for any given $h$. Indeed, assuming this is true, 
+            if $t_i \Basicleq^\Op_\prang t_i'$,
             then $F_h(t_i) \leq F_h (t_i')$, and using the scott-continuity
             of $F_h$ we deduce $F_h (\sqcup_i t_i) \leq F_h (\sqcup_i t_i')$
             leading to $\sqcup_i t_i \Basicleq^\Op_\prang \sqcup_i t_i'$.
 
-            We use the natural topology on the set $S$ of strategies, where 
-            $S$ is compact. The functions $(s,t) \mapsto t \# s$  
-            and $t \mapsto \mathbf{E}_t (h)$ are clearly continuous.
+            We use the natural topology on the set $S$ of strategies, and notice
+            that $S$ is compact and metric. The functions $(s,t) \mapsto t \# s$  
+            and $t \mapsto \mathbf{E}_t (h)$ are continuous.
             We write $G_h : (s,t) \mapsto \mathbf{E}_{t \# s} (h)$ their composition.
-            \todo[inline]{It is clear if we know that a function continuous in
-                both its argument having values in a continuous domain is 
-            "globally" continuous} 
 
-            It suffices to prove that $t \mapsto \inf_s G(s,t)$ is
+            It suffices to prove that $t \mapsto \inf_s G_h(s,t)$ is
             scott-continuous. This is a consequence of the compactness of $S$ 
-            \cite{AndreaShalk}
-            (Theorem 7.31). 
+            as a metric space \cite{AndreaShalk} (Theorem 7.31). 
 
-            \todo[inline]{Choose one but keeping both is weird}
+            \todo[inline]{Do we need the metric property to use Andrea Shalk's
+            results ?}
             \textbf{Alternate Proof}
 
             It is clear that if $(t_i)$ is an ascending chain of trees
@@ -105,26 +103,21 @@ The preorders $\Basicleq^\Op_\prang$ and $\Basicleq^\Op_\prdem$ are admissible a
             Therefore $t \mapsto \inf_s G(s,t)$ is scott-continuous.
         \item[Compositionality]
 
-            The proof relies on the following key lemma. 
-            If $\sigma$ is a substitution on $\Tree(\Nat)$,
+            The proof relies on the following key lemma.
+            If $\{ t_n \}_{n \in \mathbb{N}}$ is a substitution on
+            $\Tree(\Nat)$, 
             $t$ is a tree, $s$ a strategy and $h$ a weighting function then
             the following equality holds:
 
-            \todo[inline]{I am using the notation $\sigma$ for a substitution 
-                instead of giving a family $\{ t_x \}_{x \in X}$ which is 
-                \emph{way more convenient} in this proof but not consistent 
-                with the rest of the paper}
-
             \begin{equation*}
-                \inf_s \mathbf{E}_{t\sigma \# s } (h)
+                \inf_s \mathbf{E}_{t [ n \mapsto t_n ] \# s } (h)
                 = 
-                \inf_s \mathbf{E}_{t \# s} (h_\sigma)
+                \inf_s \mathbf{E}_{t \# s} (\hat{h})
+                \quad \text{ where } \quad \hat{h} (n) = \inf_s \mathbf{E}_{t_n \# s} (h)
             \end{equation*}
 
-            Where $h_\sigma (n) = \inf_s \mathbf{E}_{\sigma(n) \# s} (h)$.
-
             \todo[inline]{The proof of this lemma is long and not interesting, 
-            should we mention it ?}
+            should we mention it ? Do we need the rest of the proof ?}
             
             Using this key lemma the proof can go smoothly because (by
             definition)
@@ -175,40 +168,39 @@ Neither of the formulas below defines a compositional relation $t \Basicleq t'$.
     We use the two trees presented figure~\ref{fig:exampletrees},
     representing the expressions $A = 3 \orEff (1 \prEff 2)$
     and $B = (3 \orEff 1) \prEff (3 \orEff 2)$.
+    For each preorder, both expressions behave similarly on every subset of $\{ 1, 2, 3 \}$ 
+    and therefore on every subset of $\mathbb{N}$. Thus $A$ is equivalent 
+    to $B$ for both preorders.
 
-    To prove that both expressions behave the same on every subset of $\mathbb{N}$,
-    it suffices to check it on every subsets of $\{ 1, 2, 3\}$, and it is clear
-    with both preorders.
-
-    However, we build a family $\{ t_1, t_2, t_3\}$ such that 
+    However, one can build a family $\{ t_1, t_2, t_3\}$ such that 
     $A[ i \mapsto t_i] = t_3 \orEff (t_1 \prEff t_3) = C$ is not equivalent to 
     $B[ i\mapsto t_i] = (t_3 \orEff t_1) \prEff (t_3 \orEff t_2) = D$,
     which contradicts the compositionality.
-
     Let $t_1 = 0 \prEff (0 \prEff (0 \prEff (0 \prEff 1)))$,
     $t_2 = 1$ et $t_3 = 0 \prEff (0 \prEff (0 \prEff 1))$. The distinguishing 
     factor will be the probability associated with the subset $\{ 1 \}$.
     We dress a table of the minimal/maximal said probability on the different 
     trees.
-    
-    \todo[inline]{Remove the table and only give the final probabilities in the
-    four cases}
-    \begin{equation*}
-        \begin{array}{c|c|c}
-                & \textbf{Min} & \textbf{Max} \\ \hline
-            t_1 & 1/8 & - \\
-            t_2 & 1   & -   \\
-            t_3 & 1/4 & - \\
-            t_1 \prEff t_2 & 9 / 16 & - \\
-            t_3 \orEff t_1 & 1/8    & 1/4 \\
-            t_3 \orEff t_2 & 1/4    & 1   \\
-            t_3 \orEff (t_1 \prEff t_3) & 1/4 & 9/16 \\
-            (t_3 \orEff t_1) \prEff (t_3 \orEff t_2) & 3 / 16 & 5/8 \\
-        \end{array}
-    \end{equation*}
 
-    In both preorders, we have $\neg (C = D)$,
-    giving the expected contradiction.
+    A simple calculation shows that $\sup_s  \mathbf{P}_{C\#s} (\{1\}) = 9/16
+    \neq 5/8 = \sup_s \mathbf{P}_{D\#s} (\{ 1\})$. Similarly
+    $\inf_s  \mathbf{P}_{C\#s} (\{1\}) = 1/4 \neq 3/16 =
+     \inf_s \mathbf{P}_{D \#s } (\{1\})$.
+     This contradicts compositionality of both preorders.
+    
+    %\begin{equation*}
+        %\begin{array}{c|c|c}
+                %& \textbf{Min} & \textbf{Max} \\ \hline
+            %t_1 & 1/8 & - \\
+            %t_2 & 1   & -   \\
+            %t_3 & 1/4 & - \\
+            %t_1 \prEff t_2 & 9 / 16 & - \\
+            %t_3 \orEff t_1 & 1/8    & 1/4 \\
+            %t_3 \orEff t_2 & 1/4    & 1   \\
+            %t_3 \orEff (t_1 \prEff t_3) & 1/4 & 9/16 \\
+            %(t_3 \orEff t_1) \prEff (t_3 \orEff t_2) & 3 / 16 & 5/8 \\
+        %\end{array}
+    %\end{equation*}
 \end{proof}
 
 
