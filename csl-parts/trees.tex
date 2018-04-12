@@ -27,7 +27,7 @@ Thirdly, the execution may continue forever without terminating and without invo
 The global behaviour of such a program is captured by the notion of an \emph{effect tree}: a  finitely branching tree, whose 
 internal nodes represent effect operations, and whose leaves represent either termination with a result, or silent nontermination. The branches of the tree represent potential execution sequences of the program. 
 Trees are allowed to be infinitely deep, with their infinite branches representing noisy nontermination.
-Such trees were introduced as \emph{infinitary effect values} in  \cite{plotkin2001adequacy}. In \cite{gom} they are called
+Such trees were introduced as \emph{infinitary effect values} in  \cite{plotkin2001adequacy}, and used extensively in \cite{gom}, where they are called
 \emph{computation trees}. Two example trees, for computations that return natural number values, are drawn in
 Figure~\ref{fig:exampletrees} below. The left-hand tree $\orEff (\prEff (1,2), 3)$ represents a program that first makes a nondeterministic choice and then a potential probabilistic choice, with the choices determining the resulting number. In the second tree $\prEff (\orEff (1,3), \orEff (2,3))$, the probabilistic choice is made first, followed by the relevant nondeterministic choice.
 
