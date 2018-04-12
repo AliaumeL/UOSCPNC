@@ -28,7 +28,12 @@ t \Basicleq_D t' ~~ \Leftrightarrow ~~ \Sem{t} \sqsubseteq \Sem{t' } \enspace .
 The relation $\Basicleq_D$ is admissible pregongruence.
 \end{proposition}
 
-[[PROOF]]
+\begin{proof}
+    \todo[inline]{This proof is trivial ?!}
+    Both admissibility and compatibility follows directly from the 
+    fact that $\llbracket \cdot \rrbracket$ is a continuous 
+    homomorphism of $\Sigma$-algebra.
+\end{proof}
 
 \begin{definition}[Factorisation property]
     The map $j\colon \mathbb{N} \to D$ is said to have  the \emph{factorisation property} if,
@@ -37,7 +42,7 @@ The relation $\Basicleq_D$ is admissible pregongruence.
     \begin{center}
         \begin{tikzcd}
             \mathbb{N} \arrow[r, "j"] 
-                 \arrow[rr, bend right, "h"] &
+                 \arrow[rr, bend right, "f"] &
             D \arrow[r, "h_f", dashed] & 
             D  
         \end{tikzcd}
@@ -48,7 +53,38 @@ If $j\colon \mathbb{N} \to D$ has the factorisation property then
 the relation $\Basicleq_D$ is substitutive, hence it is an admissible compositional precongruence.
 \end{proposition}
 
-[[PROOF]]
+\begin{proof}
+    \begin{itemize}
+        \item Let $f$ be a function from $\mathbb{N}$ to $D$
+            and $\hat{f}$ the unique continuous homomorphism of 
+            $\Sigma$-algebra from $\Tree(\mathbb{N})$ to $D$ associated to $f$.
+            There exists a unique continuous homomorphism of $\Sigma$-algebra 
+            $h_f$ such that $\hat{f} = h_f \circ \llbracket \cdot \rrbracket$.
+
+            Indeed, it suffices to use the analog property on $\mathbb{N}$
+            and the universal property of $\Tree(\mathbb{N})$.
+        
+        \item Let $t,t'$ two trees and $\{ t_n \}_{n \in \mathbb{N}}$
+            a substition noted $\sigma$ as a function from $\mathbb{N}$ to
+            $\Tree(\mathbb{N})$, and $\hat{\sigma}$ the corresponding 
+            lift to trees.
+
+            Using the factorisation property on $\Tree(\mathbb{N})$
+            with $f = \llbracket \cdot \rrbracket \circ \hat{\sigma}$,
+            there exists a unique continuous homomorphism of 
+            $\Sigma$-algebra $h_{\hat{\sigma}}$ such that $\llbracket \cdot
+            \rrbracket \circ \hat{\sigma} = h_{\hat{\sigma}} \circ \llbracket
+            \cdot \rrbracket$.
+
+            It follows that $\llbracket t[n \mapsto t_n] \rrbracket 
+            = \llbracket \hat{\sigma}(t) \rrbracket = h_{\hat{\sigma}} (\llbracket
+            t \rrbracket )$, is monotone in $\llbracket t \rrbracket$.
+
+            This proves the substitutivity.
+            
+    \end{itemize}
+\end{proof}
+
 
 \begin{lemma}
 Let $\mathcal{A}$ be any category given together with a functor $U' \colon \mathcal{A} \to \ContAlg_\Sigma$.
