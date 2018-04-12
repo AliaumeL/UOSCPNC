@@ -87,17 +87,18 @@ CLAUSE AXIOM?}
 \end{proposition}
 
 \begin{proof}
-    \todo[inline]{Explain a bit more}
     It is clear that $t^n \Basicleq^\Ax_\prdem t$ forall $n$,
     and therefore $t^\infty \Basicleq^\Ax_\prdem t$. 
     We have $t \prEff t^n \Basicleq^\Ax_\prdem t^{n+1}$,
     and by admissibility we then deduce $t \prEff t^\infty \Basicleq^\Ax_\prdem
     t^\infty$, which using the Horn-clause axiom allows us to derive $t
-    \Basicleq^\Ax_\prdem t^\infty$.
+    \Basicleq^\Ax_\prdem t^\infty$. The rule $t = t^\infty$ is therefore admissible
+    in $\Basicleq^\Ax_\prdem$.
 
-    \todo[inline]{Notations ...}
-    For the converse inclusion assume $t \prEff t' \leq t'$,
-    then $t \prEff (t \prEff t') \leq t \prEff t' \leq t'$.
-    By induction and admissibility one deduces $t^\infty \leq t'$,
-    and then $t = t^\infty$.
+    For the converse inclusion assume $t \prEff t' \Basicleq^{\Ax'}_\prdem t'$.
+    Then it is possible to derive $t \prEff (t \prEff t') \Basicleq^{\Ax'}_\prdem t \prEff t' \Basicleq^{\Ax'}_\prdem t'$.
+    By induction and admissibility one deduces $t^\infty \Basicleq^{\Ax'}_\prdem t'$,
+    and then because $t = t^\infty$ the equation becomes $t
+    \Basicleq^{\Ax'}_\prdem t'$. The rule $a \prEff b \leq b \implies a \leq b$
+    is therefore admissible in $\Basicleq^{\Ax'}_\prdem$.
 \end{proof}
