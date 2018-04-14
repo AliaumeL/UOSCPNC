@@ -1,4 +1,5 @@
 \section{Introduction}
+\label{section:intro}
 
 %\todo[inline]{OBVIOUSLY INTRO NEEDS REVISING. BUT WE SHOULD WRITE THIS TOWARDS THE END}
 
@@ -98,37 +99,31 @@ as is argued in~\cite[\S{V}]{gom}, it can also be given an intrinsic, more conce
 Our general position is that the notion of admissible and  compositional basic operational preorder is a fundamental one. 
 \emph{For any given combination of algebraic effects, one need only define a corresponding admissible and compositional basic operational preorder.} Once this has been done,  one obtains, via (\ref{equation:contextual-preorder-via-trees}), a definition of contextual preorder that can be applied to many programming languages containing those effects, and which will enjoy good properties.
 
-One contribution of the present paper is to clarify general methodologies for defining basic operational preorders. 
-We find that the natural approaches for defining such preorders fall into three categories. The first is an \emph{operational} approach. One explicitly models the execution of the effects in question, and uses this model to determine the preorder. This is the approach that was followed 
+In this paper, we describe three different approaches to defining basic operational preorders. 
+The first is an \emph{operational} approach. One explicitly models the execution of the effects in question, and uses this model to determine the preorder. This is the approach that was followed 
 in~\cite{gom}. Under this approach, admissibility and compositionality do not hold automatically, and so need to be explicitly verified. The second is a  \emph{denotational} approach. One builds a suitable domain-based model of the relevant effect operations. This induces a basic operational preorder on  effect trees that is automatically admissible and compositional. 
 The third is \emph{axiomatic}. One finds a set of (possibly infinitary) Horn-clause axioms asserting desired properties of the intended preorder. The basic operational preorder is then taken to be the smallest admissible preorder satisfying the axioms. In addition to being admissible by definition, the resulting preorder is automatically compositional. 
 
-The second contribution of the paper is to illustrate the above methodological approaches
-with a nontrivial case study: the combination of (finitary) nondeterminism with probabilistic choice, which has a certain notoriety 
-for some of the technical complications it incurs ~\cite{Mislove2000,mislove2004axioms,VW06,tix2009semantic,JGL15,JGL-mscs16,KeimelP2016}.
-We treat this combination of effects from each of the three viewpoints. 
+It will not have escaped the readers attention that our three approaches to defining preorders  parallel the three main styles of program semantics: \emph{operational}, \emph{denotational} and \emph{axiomatic}. Nonetheless, irrespective of how they are defined, we view basic operational preorders as a part of operational semantics, for their purpose is to define the operational notion of contextual preorder. Thus our triptych of approaches shows that operational semantics can itself come in
+ \emph{operational}, \emph{denotational} and \emph{axiomatic} flavours. 
+
+The general identification of these three approaches is the first main contribution of the paper, which is a contribution of a methodological nature. Our second contribution is more technical. We illustrate the three approaches
+with a nontrivial case study: the combination of (finitary) nondeterminism with probabilistic choice, which is a combination of effects that enjoys a certain notoriety 
+for some of the technical complications it incurs~\cite{Mislove2000,mislove2004axioms,VW06,tix2009semantic,JGL15,JGL-mscs16,KeimelP2016}.
+%We treat this combination of effects from each of the three viewpoints. 
 On the operational side, we consider effect trees as Markov decision processes (MDPs), and we define a basic operational preorder based on the comparison of values of MDPs. On the denotational side, we make use of recently developed domain-theoretic models of combined nondeterministic and probabilistic choice~\cite{tix2009semantic,JGL-mscs16,KeimelP2016}.
 On the axiomatic side, we give a simple axiomatisation, similar to axiomatisations in~\cite{KeimelP2016}. [[OTHER REFS]]
 Our main result is that the
 operationally, denotationally and axiomatically-defined basic operational preorders all coincide with each other.
-In fact, we give two different versions of this result. 
-The first is for an \emph{angelic} interpretation of nondeterminism, based on nondeterministic choices being resolved by a cooperative scheduler. The second is for \emph{demonic} nondeterminism, where an antagonistic scheduler is modelled. 
-In each case, our coincidence theorem gives us a single canonical preorder for the form of nondeterminism in question, with each of the three methods of definition providing a different perspective on it. 
+In fact, we give this result in two different versions.
+The first is for an \emph{angelic} interpretation of nondeterminism, in which nondeterministic choices are resolved by a cooperative scheduler. The second is for \emph{demonic} nondeterminism, where an antagonistic scheduler is assumed. 
+In each case, our coincidence theorem suggests the canonicity of the  preorder we obtain for the form of nondeterminism in question, with each of the three methods of definition providing a distinct perspective on it. 
 
-\section*{Conclusions}
+The paper is structured as follows. In Sections~\ref{section:trees} and~\ref{section:basic}, we review the 
+definition of effect trees and basic operational preorders, largely following~\cite{gom}. Our main contribution starts in Sections~\ref{section:operational}, \ref{section:denotational} and~\ref{section:axiomatic}, which discuss the 
+operational, denotational and axiomatic approaches to defining basic operational preorders. In each of these sections, the discussion is illustrated using the example of combined nondeterminism and probabilistic choice. 
+The main coincidence theorem, for this example, is then proved in Section~\ref{section:equivalence}. Finally, in Section~\ref{section:conclusions}, we briefly discuss related and further work.
 
-\todo[inline]{To be moved!}
-
-\todo[inline]{We are proposing operational, denotational and axiomatic approaches to operational semantics}
-\todo[inline]{Compare our axiomatic approach with Plotkin-Power axiomatisations}
-\todo[inline]{Compare our denotational = axiomatic result to freeness in Keimel-Plotkin}
-
-
-\todo[inline]{Limitations of admissibility}
-\todo[inline]{Language settings, e.g., CBV, CBPV}
-
-
- 
 
 
 
