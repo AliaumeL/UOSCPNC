@@ -4,12 +4,15 @@
 Our second approach to defining an admissible and compositional basic operational
 preorder $\Basicleq$ on $\Trees(\mathbb{N})$ is to make use of established constructions from domain theory.
 Under this approach, admissibility and compositionality of the defined preorder $\Basicleq$ hold automatically,
-for general reasons. Since this approach essentially amounts to giving a denotational semantics to effect trees, we call it the 
-\emph{denotational} method of defining a basic operational preorder.
+for general reasons. Since this approach essentially amounts to giving a denotational semantics to effect trees, we call it the \emph{denotational} method of defining a basic operational preorder.
 
-Let $D$ be a continuous $\Sigma$-algebra (see Section~\ref{section:trees}) with a distinguished function 
-$j\colon \mathbb{N} \to D$. Let   $\llbracket \cdot \rrbracket \colon \Trees(\mathbb{N}) \to D$ be the unique continuous homomorphism
-making the diagram below commute.
+
+
+In order to define a basic operational preorder using the denotational method, one needs to merely to provide
+a continuous $\Sigma$-algebra $D$ (see Section~\ref{section:trees}),  together with a function
+% with a distinguished function 
+$j\colon \mathbb{N} \to D$. 
+Then let   $\llbracket \cdot \rrbracket \colon \Trees(\mathbb{N}) \to D$ be the unique continuous homomorphism that makes the diagram below commute.
    \begin{center}
         \begin{tikzcd}
             \mathbb{N}
@@ -20,31 +23,29 @@ making the diagram below commute.
         \end{tikzcd}
     \end{center}
 \noindent
-We use the map $\llbracket \cdot \rrbracket \colon \Trees(\mathbb{N}) \to D$ to define 
-the basic operational preorder $\Basicleq_D$ using the partial order relation on the $\omega$CPO $D$.
+The map $\llbracket \cdot \rrbracket \colon \Trees(\mathbb{N}) \to D$ is used to induce
+the basic operational preorder $\Basicleq_D$ from the partial order relation on the $\omega$CPO $D$.
 \[
 t \Basicleq_D t' ~~ \Leftrightarrow ~~ \Sem{t} \sqsubseteq \Sem{t' } \enspace .
 \]
 \begin{proposition}
 The relation $\Basicleq_D$ is admissible pregongruence.
 \end{proposition}
+%
+The proof is immediate: admissibility follows from the continuity of 
+$\llbracket \cdot \rrbracket$, and compatibility from it being a homomorphism.
 
-\begin{proof}
-    \todo[inline]{This proof is trivial ?!}
-    Both admissibility and compatibility follows directly from the 
-    fact that $\llbracket \cdot \rrbracket$ is a continuous 
-    homomorphism of $\Sigma$-algebra.
-\end{proof}
+In order to obtain substitutivity, hence compositionality, a further property is required.
 
 \begin{definition}[Factorisation property]
     The map $j\colon \mathbb{N} \to D$ is said to have  the \emph{factorisation property} if,
     for every function $f \colon \mathbb{N} \to D$, there exists a 
-    continuous homomorphism $h_f : D \to D$ such that $f = h_f \circ j$.
+    continuous homomorphism $h_{\!f} : D \to D$ such that $f = h_{\!f} \circ j$.
     \begin{center}
         \begin{tikzcd}
             \mathbb{N} \arrow[r, "j"] 
                  \arrow[rr, bend right, "f"] &
-            D \arrow[r, "h_f", dashed] & 
+            D \arrow[r, "h_{\!f}", dashed] & 
             D  
         \end{tikzcd}
     \end{center}
@@ -55,35 +56,25 @@ the relation $\Basicleq_D$ is substitutive, hence it is an admissible compositio
 \end{proposition}
 
 \begin{proof}
-    \begin{itemize}
-        \item Let $f$ be a function from $\mathbb{N}$ to $D$
-            and $\hat{f}$ the unique continuous homomorphism of 
-            $\Sigma$-algebra from $\Tree(\mathbb{N})$ to $D$ associated to $f$.
-            There exists a unique continuous homomorphism of $\Sigma$-algebra 
-            $h_f$ such that $\hat{f} = h_f \circ \llbracket \cdot \rrbracket$.
+Suppose $\sigma: \Nat \to \Tree(\Nat)$ is any  substitution.
+Let $\hat{\sigma} : \Tree(\Nat) \to \Tree(\Nat)$ be the continuous homomorphism
+such that $\hat{\sigma} \circ i = \sigma$. Consider the map $g := \llbracket \cdot \rrbracket \circ \hat{\sigma} \circ i : \Nat \to D$. By the factorisation property, there exists $h_g : D \to D$ such that
+$g = h_g \circ j$. Expanding this, and using the definition of $\Sem{\cdot}$, we have:
+\[
+ \llbracket \cdot \rrbracket \circ \hat{\sigma} \circ i ~ = ~ h_g \circ j ~ = ~  h_g \circ  \llbracket \cdot \rrbracket \circ i \enspace .
+\]
+It then follows from  the uniqueness property of Proposition~\ref{proposition:free} that
+\begin{equation}
+\label{equation:before-pizza}
+\llbracket \cdot \rrbracket \circ \hat{\sigma} ~ = ~ h_g \circ  \llbracket \cdot \rrbracket \enspace ,
+\end{equation}
+because both maps are continuous homomorphisms.
 
-            Indeed, it suffices to use the analog property on $\mathbb{N}$
-            and the universal property of $\Tree(\mathbb{N})$.
-        
-        \item Let $t,t'$ two trees and $\{ t_n \}_{n \in \mathbb{N}}$
-            a substition noted $\sigma$ as a function from $\mathbb{N}$ to
-            $\Tree(\mathbb{N})$, and $\hat{\sigma}$ the corresponding 
-            lift to trees.
-
-            Using the factorisation property on $\Tree(\mathbb{N})$
-            with $f = \llbracket \cdot \rrbracket \circ \hat{\sigma}$,
-            there exists a unique continuous homomorphism of 
-            $\Sigma$-algebra $h_{\hat{\sigma}}$ such that $\llbracket \cdot
-            \rrbracket \circ \hat{\sigma} = h_{\hat{\sigma}} \circ \llbracket
-            \cdot \rrbracket$.
-
-            It follows that $\llbracket t[n \mapsto t_n] \rrbracket 
-            = \llbracket \hat{\sigma}(t) \rrbracket = h_{\hat{\sigma}} (\llbracket
-            t \rrbracket )$, is monotone in $\llbracket t \rrbracket$.
-
-            This proves the substitutivity.
-            
-    \end{itemize}
+Now, for substitutivity, suppose  that $t \Basicleq_D t'$, i.e., $\Sem{t} \leq \Sem{t'}$. Then 
+$h_g (\Sem{t})  \leq h_g(\Sem{t'})$ by monotonicity. That is
+$\Sem{ \hat{\sigma}(t)} \leq \Sem{ \hat{\sigma}(t')}$, by~(\ref{equation:before-pizza}). 
+This says that $\Sem{ t[\sigma]} \leq \Sem{t'[\sigma]}$. That is
+$t[\sigma] \Basicleq_D t'[\sigma]$, as required.
 \end{proof}
 
 
