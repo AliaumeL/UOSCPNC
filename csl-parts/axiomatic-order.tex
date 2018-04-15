@@ -1,11 +1,11 @@
 \section{Axiomatically-defined preorders}
 \label{section:axiomatic}
 
-In this section, we consider a third way of defining a basic operational preorder, by axiomatising
+In this section, we look at the definition of basic operational preorders by axiomatising
 properties of the operations in the effect signature $\Sigma$.
 Since we are defining a preorder, it is appropriate for the axiomatisation to involve inequalities
 specifying desired properties of the operational preorder. As the technical framework for this, we allow
-Horn clause axiomatisations of inequalities between infinitary terms.  This provides a flexible general setting for
+axiomatisations involving infinitary Horn-clauses of inequalities between infinitary terms.  This provides a flexible general setting for
 axiomatising admissible and compositional preorders on 
 $\Trees(\mathbb{N})$. 
 
@@ -22,82 +22,99 @@ An \emph{effect theory} $T$  is a set of Horn clauses.
 A precongruence $\Basicleq$ on $\Trees(X)$ is said to \emph{satisfy} a Horn clause (\ref{equation:horn-clause}) if,
 for every environment $\rho \colon \Vars \to \Trees(X)$, the implication below holds (recall the notation for tree substitution from Section~\ref{section:trees}).
 \[
-\left( \bigwedge_{i \in I} e_i[\rho] \Basicleq e'_i[\rho] \right) ~ \implies ~  e[\rho] \Basicleq e'[\rho] 
+\left( \bigwedge_{i \in I} e_i[\rho] \Basicleq e'_i[\rho] \right) ~ \implies ~  e[\rho] \Basicleq e'[\rho] \enspace .
 \]
 We say that a precongruence $\Basicleq$ is a \emph{model} of a Horn clause theory $T$ if it satisfies every Horn clause in $T$.
 We consider models as subsets of $\Trees(X) \times \Trees(X)$, partially ordered by inclusion. Note that models are precongruences by assumption.
 \begin{proposition}
-Every Horn clause theory $T$ defines a smallest admissible model  ${\Basicleq_T} \subseteq \Trees(X) \times \Trees(X)$. The smallest model
+\label{proposition:axiomatic}
+Every Horn clause theory $T$ has a smallest admissible model  
+\[{\Basicleq_T} ~\subseteq~ \Trees(X) \times \Trees(X) \enspace ,\]
+for any set $X$. The model ${\Basicleq_T}$
 is substitutive. In the case that $X = \mathbb{N}$, the smallest admissible model is thus an
 admissible compositional preorder.
 \end{proposition}
+\begin{proof}
+%The total relation $X \times X$ gives one admissible model. 
+It is easily seen that the intersection of any set of admissible models is itself an admissible model.
+Thus the
+intersection of the set of all admissible models is the required smallest admissible model $\Basicleq_T\,$. For substitutivity, 
+define 
+\begin{equation}
+\label{equation:substitutive-T}
+t \Basicleq_S t' ~ \Leftrightarrow ~ \forall \sigma : X \to \Trees(X). ~ t[\sigma] \Basicleq_T t'[\sigma] \enspace .
+\end{equation}
+Using the substitution $\sigma(x) = x$, we see that ${\Basicleq_S}\, \subseteq\, {\Basicleq_T}$.
+Conversely, it is easily shown that the relation $\Basicleq_S$ is itself an admissible model of $T$. 
+Thus ${\Basicleq_T}\, \subseteq\, {\Basicleq_S}$. Since ${\Basicleq_T}$ and ${\Basicleq_S}$ coincide,
+(\ref{equation:substitutive-T}) asserts the substitutivity of ${\Basicleq_T}$.
+The statement about compositionality now follows from Proposition~\ref{proposition:substitutive}.
+\end{proof}
 
 
+Given the proposition, we can use any effect theory to define an admissible and compositional basic operational preorder, namely the smallest admissible model over $\mathbb{N}$. We now apply this method to our running example of combined nondeterminism and probabilistic choice. The  axioms are given in
+Figure~\ref{fig:axiomsmixed}.
 \begin{figure}[h!]
-    \begin{equation*}
-        \begin{array}{lrl}
-            \text{Probability} & a \prEff a &= a \\
-                        & a \prEff b &= b \prEff a \\
-                        & (a \prEff b) \prEff (c \prEff d) &= (a \prEff c) \prEff (b \prEff d) \\
-                        & a \prEff b \leq b &\implies a \leq b  \\
-            %\hline
-            \\
-        \end{array}
-        \begin{array}{lrl}
-            \text{Non-Determinism} & a \orEff a &= a \\
-                        & a \orEff b &= b \orEff a \\
-                        & (a \orEff b) \orEff c &= a \orEff (b \orEff c) \\
-            \\
-        \end{array}
-    \end{equation*}
-    \begin{equation*}
-        \begin{array}{lrl}
-
-            \text{Angelic} & a \orEff b &\leq a \\ 
-            \text{Demonic} & a \orEff b &\geq a \\ 
-            %\hline 
-            \text{Distributivity}
-            & (a \orEff b) \prEff c &= (a \prEff c) \orEff (b \prEff c)
-        \end{array}
-    \end{equation*}
-    \caption{Inequational theory for mixed probability and non
-    determinism}
+\[
+\begin{array}{ll}
+\text{Bot:} & \bot \leq x
+\\
+\text{Prob:} & x \prEff x = x , ~ x \prEff y = y \prEff x , ~ 
+                                (x \prEff y) \prEff\, (z \prEff w) = (x \prEff z) \prEff\, (y \prEff w)
+\\
+\text{Horn:} & x \prEff y \leq y \implies  x \leq y
+ \\
+\text{Nondet:} & x \orEff x = x, ~ x \orEff y = y \orEff x, ~ ~ x \orEff\, (y \orEff z) = (x \orEff y) \orEff z
+\\
+\text{Ang:} & x \orEff y \leq x \\ 
+\text{Dem:} & x \orEff y \geq x \\ 
+\text{Dist:} & x \prEff\, (y \orEff z) = (x \prEff y) \orEff\, (x \prEff z)
+\end{array}
+\]
+    \caption{Horn theory for mixed probability and non determinism}
     \label{fig:axiomsmixed}
 \end{figure}
 
-\todo[inline]{AXIOMS FOR PROBABILITY PLUS TWO THEORIES OF NONDETERMINISM}
+The axioms include a special axiom for $\bot$, which is legitimate since $\bot$ is a tree, hence an expression.
+The axioms  for probability includes three standard equalities (each of which is given officially as two inequalities), and one Horn axiom, which  is separated out for the sake of Proposition~\ref{proposition:horn} below.
+The axioms for nondeterminism are split into a neutral list,  followed by further axioms  for angelic and demonic nondeterminism respectively. Finally, there is a distributivity axiom that relates
+probabilstic and nondeterministic choice. 
+Our two effect theories of interest are: 
+\begin{align*}
+T_\prang ~ = ~ & \text{Prob}, \, \text{Nondet}, \, \text{Ang},\, \text{Dist} \enspace , \\
+T_\prdem ~ = ~ & \text{Prob}, \, \text{Nondet}, \, \text{Dem},\, \text{Dist} \enspace .
+\end{align*}
+We then define  $\Basicleq^\Ax_\prang$ as the smallest admissible model
+of $T_\prang$ over $\mathbb{N}$, and 
+$\Basicleq^\Ax_\prdem$ as the smallest admissible model
+of $T_\prdem$. By Proposition~\ref{proposition:axiomatic}, both these basic operational preorders are admissible and compositional.
 
-\todo[inline]{USE THE ABOVE TO DEFINE $\Basicleq^\Ax_\prang$ and
-$\Basicleq^\Ax_\prdem$}
+To end the section, we observe that the Horn axiom in Figure~\ref{fig:axiomsmixed} can be replaced with an equational axiom, albeit one involving an infinitary expression.
 
-\todo[inline]{NOTE EXPLICITLY THAT ADMISSIBLE AND COMPOSITIONAL}
+\newcommand{\Iterx}[1]{(1\!-\!2^{- #1})x}
 
 \begin{definition}
     \label{def:probaApproxConstruct}
-    Let $t$ be a tree, $t^n$ is inductively defined as 
-    $t^0 = \bot$ and $t^{n+1} = t \prEff t^n$. The
-    tree $t^\infty$ is defined as $\sqcup_n t^n$.
+    Let $x$ be a variable. For each $n \in \mathbb{N} \cup \{\infty\}$, we define an expression $\Iterx{n}$ inductively by
+    $\Iterx{0} = \bot$ and $\Iterx{(n+1)}  = x\,  \prEff \,\Iterx{n}$. The
+    expression $\Iterx{\infty}$ is defined as $\bigsqcup_n \Iterx{n}$.
 \end{definition}
 
-\begin{proposition}[Removing Horn-Clauses]
-    The preorder $\Basicleq^{\Ax'}_\prdem$ obtained 
-    by replacing the Horn-clause $a \prEff b \leq b \implies a \leq b$ by 
-    the infinitary axiom $t^\infty = t$.
+\begin{proposition}%[Removing Horn-Clauses]
+\label{proposition:horn}
+    For any theory containing the Bot and Prob axioms, an admissible model satisfies the Horn axiom if and only if it satisfies the equation 
+    $\Iterx{\infty}= x$.
 \end{proposition}
 
-\begin{proof}
-    It is clear that $t^n \Basicleq^\Ax_\prdem t$ forall $n$,
-    and therefore $t^\infty \Basicleq^\Ax_\prdem t$. 
-    We have $t \prEff t^n \Basicleq^\Ax_\prdem t^{n+1}$,
-    and by admissibility we then deduce $t \prEff t^\infty \Basicleq^\Ax_\prdem
-    t^\infty$, which using the Horn-clause axiom allows us to derive $t
-    \Basicleq^\Ax_\prdem t^\infty$. The rule $t = t^\infty$ is therefore admissible
-    in $\Basicleq^\Ax_\prdem$.
+\begin{proof} We first derive $\Iterx{\infty}= x$, from the axioms with the Horn clause.
+    It is clear that $\Iterx{n} \leq  x$ for every $n < \infty$,
+    and therefore $\Iterx{\infty} \leq  x$ by admissibility.
+    We also have $x \prEff \Iterx{n} \leq  \Iterx{(n+1)}$,
+    and so, again by admissibility, $x \prEff \Iterx{\infty} \leq \Iterx{\infty}$.
+    Whence, by the Horn axiom, $x  \leq \Iterx{\infty}$. 
+     We have thus derived $\Iterx{\infty}= x$.
 
-    For the converse inclusion assume $t \prEff t' \Basicleq^{\Ax'}_\prdem t'$.
-    Then it is possible to derive $t \prEff (t \prEff t') \Basicleq^{\Ax'}_\prdem t \prEff t' \Basicleq^{\Ax'}_\prdem t'$.
-    By induction and admissibility one deduces $t^\infty \Basicleq^{\Ax'}_\prdem t'$,
-    and then because $t = t^\infty$ the equation becomes $t
-    \Basicleq^{\Ax'}_\prdem t'$. The rule $a \prEff b \leq b \implies a \leq b$
-    is therefore admissible in $\Basicleq^{\Ax'}_\prdem$.
-\end{proof}
+    For the converse, we assume $\Iterx{\infty}= x$ and derive the Horn clause.
+    Suppose $x \prEff y \leq y$.  Then also  $x \prEff \, (x \prEff y) \leq y$, and $x \prEff \, ( x \prEff \, (x \prEff y)) \leq y$, etc. So also $x \prEff \bot \leq y$, and $x \prEff \, (x \prEff \bot) \leq y$, and $x \prEff \, ( x \prEff \, (x \prEff \bot)) \leq y$,
+ etc. That is, $\Iterx{n} \leq y$, for every $n < \infty$. By admissibility, $\Iterx{\infty} \leq y$. Whence, by the assumed axiom, $x \leq y$ as required.
+ \end{proof}
