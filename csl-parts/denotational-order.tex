@@ -33,7 +33,7 @@ The relation $\Basicleq_D$ is admissible pregongruence.
 \end{proposition}
 %
 The proof is immediate: admissibility follows from the continuity of 
-$\llbracket \cdot \rrbracket$, and compatibility from it being a homomorphism.
+$\llbracket \cdot \rrbracket$, and compatibility because  $\llbracket \cdot \rrbracket$ is a homomorphism.
 
 In order to obtain substitutivity, hence compositionality, a further property is required.
 
@@ -77,38 +77,87 @@ This says that $\Sem{ t[\sigma]} \leq \Sem{t'[\sigma]}$. That is
 $t[\sigma] \Basicleq_D t'[\sigma]$, as required.
 \end{proof}
 
+In practice, it is usually not necessary to prove the factorisation property directly. Instead  it holds as a consequence of the continuous algebra $D$ and map $j: \Nat \to D$ being derived from a suitable monad. The next result establishes general conditions under which this holds.
+\begin{proposition}
+\label{proposition:monad}
+Let $\mathbf{S}$ be a category with a faithful functor $U : \mathbf{S} \to \Set$. Suppose also that 
+$\mathbf{S}$ has an object $N$ such that $UN = \mathbb{N}$, and every hom set $\mathbf{S}(N,X)$
+is mapped bijectively by $U$ to $\Set(\Nat,UX)$. Suppose also that $(T,\eta,\mu)$ is a monad on $\mathbf{S}$
+with the following properties: there is a continuous $\Sigma$-algebra structure on $UTN$; and, for 
+every map $f \colon N \to TN$, the induced function $Uf^*$, where 
+$f^* \colon TN \to TN$ is the Kleisli lifting, is a continuous  homomorphism.
+Then defining $D$ to be the continuous $\Sigma$-algebra on $U T N$, and
+$j$ to be $U\eta \colon \mathbb{N} \to UTN$, it follows that $j$ has the factorisation property.
+\end{proposition}
 
-\begin{lemma}
-Let $\mathcal{A}$ be any category given together with a functor $U' \colon \mathcal{A} \to \ContAlg_\Sigma$.
-Suppose it holds that that the
-composite functor $UU' : \mathcal{A} \to \Set$ has a left adjoint $F$, where $U: \ContAlg_\Sigma \to \Set$ is the forgetful functor.
-Then, defining $D$ to be the continuous $\Sigma$-algebra $U' F \, \mathbb{N}$, the unit of the adjunction defines a function
-$j \colon \mathbb{N} \to D$ which has the factorisation property.
-\end{lemma}
-
-[[THE STATEMENT CAN PERHAPS BE IMPROVED. ALSO DOUBLE CHECK WHETHER $U'$ PERHAPS NEEDS TO BE FAITHFUL.]]
+\begin{proof}
+Consider any function $f \colon \mathbb{N} \to UTN$. This is the $U$ image of a unique morphism 
+$g : N \to TN$ in $\mathbf{S}$. Let $g^*: TN \to TN$ be the Kleisli lifting of $g$, which satisfies $g^* \circ \eta = g$. Defining $h_f = Ug^*$, we indeed have  that $h_f$ is a continuous algebra homomorphism, and
+$h_f \circ j = f$.
+\end{proof}
 
 
-\begin{lemma}
-Let $T$ be a monad on the category $\wCPO$.  Suppose that for every $\omega$CPO $X$, we have a 
-continuous $\Sigma$-algebra structure on TX. Suppose also that all Kleisli liftings of 
-$f^* \colon TX \to TY$, of maps $f \colon X \to TY$, are  continuous  homomorphisms. Then,
-defining $D$ to be the continuous $\Sigma$-algebra $T \mathbb{N}$, the unit of the adjunction defines a function
-$j \colon \mathbb{N} \to D$ which has the factorisation property.
-\end{lemma}
+\noindent
+Although the statement of the proposition is verbose, the result is relatively easy to apply in practice, as the examples we consider next will show.
 
-MOTIVATE THE DEFINITIONS BELOW, REFER TO KEIMEL/PLOTKIN AND JEAN G-L
+%
+%\begin{lemma}
+%Let $\mathcal{A}$ be any category given together with a functor $U' \colon \mathcal{A} \to \ContAlg_\Sigma$.
+%Suppose it holds that that the
+%composite functor $UU' : \mathcal{A} \to \Set$ has a left adjoint $F$, where $U: \ContAlg_\Sigma \to \Set$ is the forgetful functor.
+%Then, defining $D$ to be the continuous $\Sigma$-algebra $U' F \, \mathbb{N}$, the unit of the adjunction defines a function
+%$j \colon \mathbb{N} \to D$ which has the factorisation property.
+%\end{lemma}
+%
+%\begin{lemma}
+%Let $T$ be a monad on the category $\wCPO$.  Suppose that for every $\omega$CPO $X$, we have a 
+%continuous $\Sigma$-algebra structure on TX. Suppose also that all Kleisli liftings of 
+%$f^* \colon TX \to TY$, of maps $f \colon X \to TY$, are  continuous  homomorphisms. Then,
+%defining $D$ to be the continuous $\Sigma$-algebra $T \mathbb{N}$, the unit of the adjunction defines a function
+%$j \colon \mathbb{N} \to D$ which has the factorisation property.
+%\end{lemma}
 
+In the remainder of the section, we return to our main example, and again define basic operational preorders for the combination of probabilistic choice and nondeterminism (both angelic and demonic), but this time we use the denotational method. Accordingly, we call the defined preorders
+$\Basicleq^\Den_\prang$ and $\Basicleq^\Den_\prdem$
+
+We use the powerdomains combining probabilistic choice and nondeterminism
+defined in~\cite[\S3.4]{KeimelP2016}, although our setting is simpler because we only need to apply them to sets.
 Let $\mathcal{V}_{\leq 1} \,X$ be the $\omega$CPO of (discrete) subprobability distributions on a set $X$.
 We write $\mathcal{H}\mathcal{V}_{\leq 1} \,X$ for the $\omega$CPO of nonempty Scott-closed convex subsets
 of  $\mathcal{V}_{\leq 1} \,X$  ordered by subset inclusion $\subseteq$. 
 We write $\mathcal{S}\mathcal{V}_{\leq 1} \,X$ for the $\omega$CPO of nonempty Scott-compact convex upper-closed subsets
 of  $\mathcal{V}_{\leq 1} \,X$  ordered by reverse inclusion $\supseteq$.
+The $\omega$CPOs $\mathcal{H}\mathcal{V}_{\leq 1} \,X$ and $\mathcal{S}\mathcal{V}_{\leq 1} \,X$ are both continuous algebras for $\Sigma_\prnd$. In both cases, the operations are defined by:
+\begin{align*}
+\orEff(A,B) ~ = ~ & \Conv(A \cup B)  
+% & & \text{(definition for $\mathcal{H}\mathcal{V}_{\leq 1} \,X$)}
+% \\ \orEff(A,B) ~ = ~ & & & \text{(definition for $\mathcal{S}\mathcal{V}_{\leq 1} \,X$)}
+& 
+\prEff(A,B) ~ = ~ & \{\frac{1}{2}a + \frac{1}{2}b \mid a \in A, b \in B\} \enspace ,
+% & & \text{(definition for both cases)}
+\end{align*}
+where $\Conv$ is the convex closure operation. 
+We remark that these straightforward uniform definitions are possible because of the simple structure of the 
+domains  $\mathcal{H}\mathcal{V}_{\leq 1} \,X$ and $\mathcal{S}\mathcal{V}_{\leq 1} \,X$, over a set $X$. For the more general 
+lower and upper `Kegelspitze' considered in \cite{KeimelP2016}, additional order-theoretic and topological closure operations need to be applied.
 
-DEFINE THE OPERATIONS ON THE ABOVE
+To apply the above in the angelic case, we use the fact that $\mathcal{H}\mathcal{V}_{\leq 1} \,X$  is the free 
+Kegelspitze join semilattice over a set $X$  \cite[Corollary 3.15]{KeimelP2016} (where the result is proved more generally for domains). It follows that $\mathcal{H}\mathcal{V}_{\leq 1} $ is
+a monad on  $\Set$ itself  satisfying the conditions
+of Proposition~\ref{proposition:monad}. Thus defining 
+$D_\prang = \mathcal{H}\mathcal{V}_{\leq 1} \,\mathbb{N}$, and
+$j(n) = \downarrow\!\delta(n)$ (where $\delta(n)$ is the Dirac probability distribution that assigns probability 1 to $n$ and $0$ to all other numbers, and $\downarrow\!x$ is the down-closure $\{y \mid y \leq x\}$), the induced $\Sem{\cdot}_\prang : \Tree(\Nat) \to  D_\prang$ defines an admissible and compositional preorder
+\[
+t \Basicleq^\Den_\prang t' ~~ \Leftrightarrow ~~ \Sem{t}_\prang  \leq \Sem{t'}_\prang \enspace .
+\]
 
-USE THE ABOVE TO DEFINE $\Basicleq^\Den_\prang$ and $\Basicleq^\Den_\prdem$
+Similarly, in the demonic case, we use \cite[Corollary 3.15]{KeimelP2016} that characterises $\mathcal{S}\mathcal{V}_{\leq 1} \,X$ as the free Kegelspitze meet semilattice over $X$. Again $\mathcal{S}\mathcal{V}_{\leq 1}$ is a monad
+on  $\Set$ to which Proposition~\ref{proposition:monad} applies. In this case, we define 
+$D_\prang = \mathcal{S}\mathcal{V}_{\leq 1} \,\mathbb{N}$, and
+$j(n) = \{\delta(n)\}$. Then the induced $\Sem{\cdot}_\prdem : \Tree(\Nat) \to  D_\prdem$ defines an admissible and compositional preorder
+\[
+t \Basicleq^\Den_\prdem t' ~~ \Leftrightarrow ~~ \Sem{t}_\prang  \leq \Sem{t'}_\prdem \enspace .
+\]
 
-FOLLOWS FROM THE GENERAL MATERIAL ABOVE THAT THESE RELATIONS ADMISSIBLE AND COMPOSITIONAL
 
 
