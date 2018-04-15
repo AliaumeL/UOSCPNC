@@ -122,6 +122,13 @@ $\Basicleq^\Den_\prang$ and $\Basicleq^\Den_\prdem$
 
 We use the powerdomains combining probabilistic choice and nondeterminism
 defined in~\cite[\S3.4]{KeimelP2016}, although our setting is simpler because we only need to apply them to sets.
+The basic idea of these constructions is that a computation with probabilistic and nondeterministic choice is modelled as a set of subprobability distributions, where the set collects the possible nondeterministic outcomes, each lof which is probabilistic in nature. As is standard, 
+the sets relevant to angelic nondeterminism are the closed sets in the Scott topology, whereas those relevant to demonic nondeterminism are the compact upper-closed sets, see~\cite{smyth}.
+Due to the combination with probabilistic choice,  sets are further required to be convex; see, for example, the discussion in~\cite{KeimelP2016}.
+% suggested by Smyth, the sets relevant to demonic nondeterminism are the compact upper-closed sets, 
+
+
+
 Let $\mathcal{V}_{\leq 1} \,X$ be the $\omega$CPO of (discrete) subprobability distributions on a set $X$.
 We write $\mathcal{H}\mathcal{V}_{\leq 1} \,X$ for the $\omega$CPO of nonempty Scott-closed convex subsets
 of  $\mathcal{V}_{\leq 1} \,X$  ordered by subset inclusion $\subseteq$. 
@@ -151,12 +158,12 @@ $j(n) = \downarrow\!\delta(n)$ (where $\delta(n)$ is the Dirac probability distr
 t \Basicleq^\Den_\prang t' ~~ \Leftrightarrow ~~ \Sem{t}_\prang  \leq \Sem{t'}_\prang \enspace .
 \]
 
-Similarly, in the demonic case, we use \cite[Corollary 3.15]{KeimelP2016} that characterises $\mathcal{S}\mathcal{V}_{\leq 1} \,X$ as the free Kegelspitze meet semilattice over $X$. Again $\mathcal{S}\mathcal{V}_{\leq 1}$ is a monad
+Similarly, in the demonic case, we use \cite[Corollary 3.16]{KeimelP2016}, which characterises $\mathcal{S}\mathcal{V}_{\leq 1} \,X$ as the free Kegelspitze meet semilattice over $X$. Again $\mathcal{S}\mathcal{V}_{\leq 1}$ is a monad
 on  $\Set$ to which Proposition~\ref{proposition:monad} applies. In this case, we define 
-$D_\prang = \mathcal{S}\mathcal{V}_{\leq 1} \,\mathbb{N}$, and
+$D_\prdem = \mathcal{S}\mathcal{V}_{\leq 1} \,\mathbb{N}$, and
 $j(n) = \{\delta(n)\}$. Then the induced $\Sem{\cdot}_\prdem : \Tree(\Nat) \to  D_\prdem$ defines an admissible and compositional preorder
 \[
-t \Basicleq^\Den_\prdem t' ~~ \Leftrightarrow ~~ \Sem{t}_\prang  \leq \Sem{t'}_\prdem \enspace .
+t \Basicleq^\Den_\prdem t' ~~ \Leftrightarrow ~~ \Sem{t}_\prdem  \leq \Sem{t'}_\prdem \enspace .
 \]
 
 
