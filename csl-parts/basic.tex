@@ -64,10 +64,10 @@ In this section, we review the definitions of these and related notions.
 \end{definition}
 If a compatible relation is a preorder then it is called a \emph{precongruence}. If it is an equivalence relation it is called a \emph{congruence}.
 
-\noindent
+
 The next two definitions make use of the substitution operation on trees defined at the end of
 Section~\ref{section:trees}.
-\begin{definition}[Substitutive]
+\begin{definition}[Substitutivity]
     A binary relation $R$ on $\Trees(X)$ is  \emph{substitutive} if,
     for all trees $t$, $t'$ and $\{t_x\}_{x \in X}$, we have:
     \[ \text{$\,t\, R \, t'$} ~ \implies ~ 
@@ -87,88 +87,83 @@ Section~\ref{section:trees}.
 
 
 
-\begin{proposition} Let $\Basicleq$ be a preorder  on $\Trees(\mathbb{N})$.
+\begin{proposition} 
+\label{proposition:substitutive}
+Let $\Basicleq$ be a preorder  on $\Trees(\mathbb{N})$.
 \begin{enumerate} 
 \item If  $\Basicleq$ is compositional then it is a substitutive precongruence.
 \item If $\Basicleq$ is an admissible substitutive precongruence then it is compositional.
 \end{enumerate}
 \end{proposition}
 
-\noindent
-\todo[inline]{Only give the ideas of the proof to gain space}
+%\noindent
+%\todo[inline]{Only give the ideas of the proof to gain space}
 \begin{proof}
     \begin{enumerate}
         \item 
-            The proof in this case relies on the fact that $\Basicleq$ is reflexive.
-            Suppose $\Basicleq$ is compositional, then 
-            it is substitutive because if $t \Basicleq t'$, and $\{ t_x \}_{x
-            \in X}$ is a family of trees we can use the reflexivity to derive 
-            $t_x \Basicleq t_x$, and thus 
-            by compositionality $t[ x \mapsto t_x] \Basicleq t'[x \mapsto t_x]$.
-            Compatibility relies on the exact same method using reflexivity on 
-            the effect operation $t = o((x)_{x \in X})$.
+             Suppose $\Basicleq$ is compositional. 
+            %It is substitutive because if $t \Basicleq t'$ and $\{ t_n \}_{n
+            %\in \mathbb{N}}$ is a family of trees then, since 
+            %$t_n \Basicleq t_n$,  we have 
+            $t[ n \mapsto t_n] \Basicleq t'[n \mapsto t_n]$ by compositionality.
+            For compatibility, if $o$ is an operation of arity $n$, and $t_i \Basicleq t'_i$ for $i = 1 \dots n$, then since $o(1,\dots, n) \Basicleq o(1,\dots, n)$,
+             we indeed have $o(t_1, \dots, t_n) \, \Basicleq \; o(t'_1, \dots, t'_n)$, by compositionality.
+             Substitutivity is by a similar argument, also using reflexivity.
 
         \item 
             Suppose $\Basicleq$ is admissible, substitutive and compatible. 
-            Let $t \Basicleq t'$ and $t_x \Basicleq t_x'$, then substitutivity 
-            gives the following relation 
-            \begin{equation}
-                t[x \mapsto t_x] \Basicleq t'[x \mapsto t_x]
-            \end{equation}
-
-            We would like to use compatibility to derive 
-            the second equation $t'[x \mapsto t_x] \Basicleq t'[x \mapsto
-            t_x']$, however this is only possible if $t'$ is finite. 
-            The solution is to use finite approximations $(t_n')$ of $t'$
-            satisfying $\sqcup_n t_n' = t'$. For each finite tree $t_n'$
-            we have the desired equation, and we can conclude using 
-            the admissibility of $\Basicleq$.
-
-            Combining the two inequalities, and using the fact that 
-            $\Basicleq$ is transitive we get the desired inequality
-            $t[x \mapsto t_x] \Basicleq t'[x \mapsto t_x']$.
-    \end{enumerate}
+            Suppose also that $t \Basicleq t'$ and $t_n \Basicleq t_n'$, for all $n \in \mathbb{N}$.
+            By substitutivity, we have $t[n \mapsto t_n] \Basicleq t'[n \mapsto t_n]$.
+             We would like to use compatibility to derive 
+            that also $t'[n \mapsto t_n] \Basicleq t'[n \mapsto
+            t_n']$, however this is only possible if $t'$ is finite. 
+            The solution is to use finite approximations $(s_i')$ of $t'$
+            satisfying $\sqcup_i s_i' = t'$. For each finite tree $s_i'$
+            we have that $s_i'[n \mapsto t_n] \Basicleq s_i'[n \mapsto t_n']$, by compatibility.
+            Hence, by admissibility, $t'[n \mapsto t_n] \Basicleq t'[n \mapsto
+            t_n']$, whence $t[n \mapsto t_n] \Basicleq t'[n \mapsto t_n']$ by transitivity.
+        \end{enumerate}
 \end{proof}
 
 
-
-\todo[inline]{[[MOTIVATE]]}
-Following~\cite{gom}, we consider the basic ingredient for specifying  a notion of
-contextual equivalence for a programming language to be a preorder $\Basicleq$ on $\Trees(\mathbb{N})$.
-As long as the preorder is both admissible and compositional (equivalently an
-admissible substitutive precongruence), the mathematical tools of~\cite{gom} and
-Sections \textbf{[[WHICH]]} of the present paper are applicable. These allow fundamental properties of contextual equivalence to be proved.
-
-We observe that admissible compositional preorders are closed under arbitrary intersection. That is, if
-$\mathcal{R} \subseteq \mathcal{P}(\mathbb{N} \times \mathbb{N})$ is a family of admissible compositional preorders
-then so is $\bigcap \mathcal{R}$.
-
-Every family $\mathcal{O} \subseteq \mathcal{P}(\Trees(\mathbb{N}))$ determines a preorder $\Basicleq_\mathcal{O}$ on 
-$\Trees(\mathbb{N})$ by
-\begin{equation}
-\label{equation:observational-preorder}
-t \Basicleq_\mathcal{O} t' ~ \Leftrightarrow ~ \forall U \in \mathcal{O}~ (t \in U ~ \Rightarrow ~ t' \in U) \enspace .
-\end{equation}
-
-\begin{proposition} 
-The following are equivalent for
-any admissible  preorder  $\Basicleq$ on $\Trees(\mathbb{N})$.
-\begin{enumerate} 
-\item $\bot \Basicleq t$,  for every $t \in \Trees(\mathbb{N})$.
-\item $t \Treeleq t'$ implies $t \Basicleq t'$ for all $t,t' \in \Trees(\mathbb{N})$.
-\end{enumerate}
-For an arbitrary preorder $\Basicleq$, the following are equivalent.
-\begin{enumerate}
-\setcounter{enumi}{2}
-\item $\Basicleq$ is admissible and satisfies 1 (equivalently 2) above.
-\item $\Basicleq$ arises as $\Basicleq_\mathcal{O}$ for some family $\mathcal{O}$ of Scott-open subsets
-of $\Trees(\mathbb{N})$.
-\end{enumerate}
-\end{proposition}
-
-It is possible to characterise the compositionality property for relations of the form $\Basicleq_\mathcal{O}$, using a notion of \emph{decomposability} of $\mathcal{O}$, see~\cite{gom}. 
-\todo[inline]{[[IT WOULD POSSIBLY BE NICE TO REPEAT THIS AND REFINE IT, E.G., TO
-REFLECT THE SUBSTITUTIVE PRECONGRUENCE DEFINITION OF COMPOSITIONALITY.]]}
-
+%
+%\todo[inline]{[[MOTIVATE]]}
+%Following~\cite{gom}, we consider the basic ingredient for specifying  a notion of
+%contextual equivalence for a programming language to be a preorder $\Basicleq$ on $\Trees(\mathbb{N})$.
+%As long as the preorder is both admissible and compositional (equivalently an
+%admissible substitutive precongruence), the mathematical tools of~\cite{gom} and
+%Sections \textbf{[[WHICH]]} of the present paper are applicable. These allow fundamental properties of contextual equivalence to be proved.
+%
+%We observe that admissible compositional preorders are closed under arbitrary intersection. That is, if
+%$\mathcal{R} \subseteq \mathcal{P}(\mathbb{N} \times \mathbb{N})$ is a family of admissible compositional preorders
+%then so is $\bigcap \mathcal{R}$.
+%
+%Every family $\mathcal{O} \subseteq \mathcal{P}(\Trees(\mathbb{N}))$ determines a preorder $\Basicleq_\mathcal{O}$ on 
+%$\Trees(\mathbb{N})$ by
+%\begin{equation}
+%\label{equation:observational-preorder}
+%t \Basicleq_\mathcal{O} t' ~ \Leftrightarrow ~ \forall U \in \mathcal{O}~ (t \in U ~ \Rightarrow ~ t' \in U) \enspace .
+%\end{equation}
+%
+%\begin{proposition} 
+%The following are equivalent for
+%any admissible  preorder  $\Basicleq$ on $\Trees(\mathbb{N})$.
+%\begin{enumerate} 
+%\item $\bot \Basicleq t$,  for every $t \in \Trees(\mathbb{N})$.
+%\item $t \Treeleq t'$ implies $t \Basicleq t'$ for all $t,t' \in \Trees(\mathbb{N})$.
+%\end{enumerate}
+%For an arbitrary preorder $\Basicleq$, the following are equivalent.
+%\begin{enumerate}
+%\setcounter{enumi}{2}
+%\item $\Basicleq$ is admissible and satisfies 1 (equivalently 2) above.
+%\item $\Basicleq$ arises as $\Basicleq_\mathcal{O}$ for some family $\mathcal{O}$ of Scott-open subsets
+%of $\Trees(\mathbb{N})$.
+%\end{enumerate}
+%\end{proposition}
+%
+%It is possible to characterise the compositionality property for relations of the form $\Basicleq_\mathcal{O}$, using a notion of \emph{decomposability} of $\mathcal{O}$, see~\cite{gom}. 
+%\todo[inline]{[[IT WOULD POSSIBLY BE NICE TO REPEAT THIS AND REFINE IT, E.G., TO
+%REFLECT THE SUBSTITUTIVE PRECONGRUENCE DEFINITION OF COMPOSITIONALITY.]]}
+%
 
 

@@ -20,8 +20,8 @@
 
 
 % Syntax 
-\newcommand{\Nat}{\textnormal{Nat}}
-
+%\newcommand{\Nat}{\textnormal{Nat}}
+\newcommand{\Nat}{\mathbb{N}}
 
 \newcommand{\Succ}{\operatorname{S}}
 \newcommand{\Zero}{\textnormal{Z}}
@@ -41,7 +41,7 @@
 % Trees
 
 \newcommand{\Trees}{\textnormal{Trees}}
-\newcommand{\Tree}{\textnormal{Tree}}
+\newcommand{\Tree}{\textnormal{Trees}} %%%!!!
 
 \newcommand{\Treeleq}{\sqsubseteq}
 
@@ -51,9 +51,9 @@
 \newcommand{\res}{\operatorname{results}}
 
 % Effects 
-\newcommand{\prEff}{\operatorname{\mathit{pr}}}
-\newcommand{\orEff}{\operatorname{\mathit{or}}}
-\newcommand{\exEff}{\operatorname{\mathit{raise}}}
+\newcommand{\prEff}{\operatorname{\textsf{pr}}}
+\newcommand{\orEff}{\operatorname{\textsf{or}}}
+\newcommand{\exEff}{\operatorname{\textsf{raise}}}
 
 \newcommand{\prnd}{\text{pr/nd}}
 \newcommand{\pr}{\text{pr}}
@@ -92,6 +92,7 @@
 \newcommand{\even}{\operatorname{even}}
 
 % Theorem environments
+\theoremstyle{plain}
 \newtheorem{proposition}[theorem]{Proposition}
 
 \title{Basic operational preorders  for algebraic effects in general, and for

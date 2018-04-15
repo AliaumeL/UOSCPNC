@@ -4,8 +4,10 @@
 In this section, we consider our first approach to defining an admissible and compositional basic operational
 preorder $\Basicleq$ on $\Trees(\mathbb{N})$. We call this method \emph{operational}. Its characteristic is that the preorder
  $\Basicleq$ is directly defined using a mathematical model of the way that an effect tree in $\Trees(\mathbb{\Nat})$ will be executed.
+There is not much to say in general about this approach, since such execution models vary enormously from one effect to another.
+The main point to emphasise is that there is no general reason for  admissibility and compositionality to hold for such operationally defined preorders. Accordingly, these properties need to be established on a case-by-case basis.
 
-This approach is illustrated for several examples of effects in~\cite{gom}. 
+The operatuional approach to defining basic preorders is illustrated for several examples of effects in~\cite{gom}. 
 The main goal of the section is to demonstrate the approach using a different example, the signature
 $\Sigma_\prnd = \{\prEff,\orEff\}$ from Example~\ref{example:prnd}, which is of interest because of the 
 interplay between probabilistic and nondeterministic effects. 
@@ -14,7 +16,8 @@ as in Figure~\ref{fig:exampletrees}.
 
 
 It is natural to consider such trees as (countable state) Markov decision processes, with the leaves representing nodes which either carry an observable value from $\mathbb{N}$, or which represent nontermination $\bot$.
-The behaviour of probabilistic nodes is clear. Nondeterministic choices may be thought of as being resolved by an external agent, the scheduler. We model the actions of the scheduler by a 
+%The behaviour of probabilistic nodes is clear. 
+Nondeterministic choices may be thought of as being resolved by an external agent, the scheduler. We model the actions of the scheduler by a 
 function $s: \{l,r\}^* \to \{l,r\}$. The idea is that a word $w \in \{l,r\}^*$ represents a finite path of left/right choices from the root of a 
 tree $t \in \Trees(\mathbb{N})$. If the computation reaches a nondeterministic choice at the node indexed by 
 $w$ then it takes the left/right branch according to the value of $s(w)$. This way of representing choices has some redundancy
@@ -22,10 +25,10 @@ $w$ then it takes the left/right branch according to the value of $s(w)$. This w
 probabilistic nodes in $t$ is irrelevant, etc.), but it is simple and convenient for future purposes. 
 For any given $t \in \Trees(\mathbb{N})$, such a function
 $s: \{l,r\}^* \to \{l,r\}$ can be thought of as a (deterministic) \emph{strategy} for the scheduler, in which the choice of direction at a nondeterministic node  
-can take into account the outcomes of probabilistic nodes higher up the tree.
+can respond to  the outcomes of probabilistic nodes higher up the tree.
 
-A strategy $s$ and a tree $t$ in combination determine a subtree $t\#s$, defined by 
-removing, at every nondeterministic node in $t$ with index $w$, the child tree that is not selected by $s(w)$. So $t\#s$ is a tree that has binary branching at probabilistic nodes, and unary branching at nondeterministic nodes. It is thus, in effect, a purely probabilistic tree, with leaves in $\mathbb{N}\cup\{\bot\}$, and so may be viewed as a Markov chain, in which the branching nodes are fair binary choices, determining  a subprobability distribution over $\mathbb{N}$. 
+A strategy $s$ and a tree $t$ in combination determine a subtree $t\restriction s$, defined by 
+removing, at every nondeterministic node in $t$ with index $w$, the child tree that is not selected by $s(w)$. So $t\restriction s$ is a tree that has binary branching at probabilistic nodes, and unary branching at nondeterministic nodes. It is thus, in effect, a purely probabilistic tree, with leaves in $\mathbb{N}\cup\{\bot\}$, and so may be viewed as a Markov chain, in which the branching nodes are fair binary choices, determining  a subprobability distribution over $\mathbb{N}$. Specifically, each $n \in \mathbb{N}$ is assigned the probability that a run of the Markov chain will end at a leaf labelled with $n$. This is a subprobability distribution in general because there can  be a positive probability of nontermination (either at a $\bot$ leaf, or along an infinite branch).
 
 %Given such a scheduling function $s$, we write $t@s$ for the result of the computation as scheduled by $s$. This is defined by:
 %\[
@@ -46,113 +49,113 @@ $t \Basicleq t'$ if, for any $h$, the `expected' desirability weighting of $t'$ 
 angelic nondeterminism, the scheduler will help us, whereas, under demonic nondeterminism, it will impede us.
 Technically this is taken account of by considering suprema of probabilistic expectations in the angelic case, and infima in the demonic case.
 \begin{align*}
-t \Basicleq^\Op_\prang t' ~ \Leftrightarrow ~ ~& \forall h \colon \mathbb{N} \to [0,\infty]~~ \sup_s  \mathbf{E}_{t\#s} (h)~ \leq~ \sup_s \mathbf{E}_{t'\#s} (h)
+t \Basicleq^\Op_\prang t' ~ \Leftrightarrow ~ ~& \forall h \colon \mathbb{N} \to [0,\infty]~~ \sup_s  \mathbf{E}_{t\restriction\!s} (h)~ \leq~ \sup_s \mathbf{E}_{t'\restriction s} (h)
 \\
-t \Basicleq^\Op_\prdem t' ~ \Leftrightarrow ~ ~& \forall h \colon \mathbb{N} \to [0,\infty]~~ \inf_s  \mathbf{E}_{t\#s} (h)~ \leq~ \inf_s \mathbf{E}_{t'\#s} (h)
+t \Basicleq^\Op_\prdem t' ~ \Leftrightarrow ~ ~& \forall h \colon \mathbb{N} \to [0,\infty]~~ \inf_s  \mathbf{E}_{t\restriction s} (h)~ \leq~ \inf_s \mathbf{E}_{t'\restriction s} (h)
 \end{align*}
-In Markov-decision-process terminology, each preorder says that the \emph{value} of the MDP $t$, for any weighting $h$, is below the value of of $t'$ for $H$. In the angelic case, the value maximises the expectation of $h$, in the demonic case, it minimises it. 
+In Markov-decision-process terminology, each preorder says that the \emph{value} of the MDP $t$, for any weighting $h$, is below the value of of $t'$ for $h$. In the angelic case the value maximises the expectation of $h$, in the demonic case it minimises it. 
 \begin{proposition}
 The preorders $\Basicleq^\Op_\prang$ and $\Basicleq^\Op_\prdem$ are admissible and compositional.
 \end{proposition}
 
-
+We outline the proof of this proposition in the case of $\Basicleq^\Op_\prdem$. The proof for  $\Basicleq^\Op_\prang$ is easier, largely because the analogue of the lemma below is trivial in the case of angelic nondeterminism.
+\begin{lemma} 
+\label{lemma:F-continuous}
+Consider $\Tree(\mathbb{N})$ and $[0,+\infty]$ as $\omega$CPOs. Then,
+for any $h \colon \mathbb{N} \to [0,\infty]$, 
+the value-finding function \[F_h : t \mapsto \inf_s  \mathbf{E}_{t\restriction s} (h) : \Tree(\mathbb{N}) \to [0,+\infty]\]
+is continuous.
+\end{lemma}
 \begin{proof}
-    \begin{description}
-        \item[Admissibility]
-            It suffices to prove that the function $F_h : t \mapsto \inf_s  \mathbf{E}_{t\#s} (h)$
-            is scott-continuous from $\Tree(\Nat)$ to $[0,+\infty]$ with the
-            scott-topology for any given $h$. Indeed, assuming this is true, 
-            if $t_i \Basicleq^\Op_\prang t_i'$,
-            then $F_h(t_i) \leq F_h (t_i')$, and using the scott-continuity
-            of $F_h$ we deduce $F_h (\sqcup_i t_i) \leq F_h (\sqcup_i t_i')$
-            leading to $\sqcup_i t_i \Basicleq^\Op_\prang \sqcup_i t_i'$.
+The set $S = \{l,r\}^{\{l,r\}^*}$ of strategies is a countably-based compact Hausdorff space under the product topology. (It is Cantor space.)
+It is easy to see that  the function 
+\[G_h \colon (s,t) \mapsto \mathbf{E}_{t\restriction s} (h) : S \times \Tree(\mathbb{N})  \to [0,+\infty] \]
+is continuous.
+Then $F_h$ is continuous because it is defined from $G_h$ by taking an infimum over a compact set. 
+This follows, for example, from Section 7.3 of~\cite{AndreaShalk}. For completeness, we give a self-contained argument. 
 
-            We use the natural topology on the set $S$ of strategies, and notice
-            that $S$ is compact and metric. The functions $(s,t) \mapsto t \# s$  
-            and $t \mapsto \mathbf{E}_t (h)$ are continuous.
-            We write $G_h : (s,t) \mapsto \mathbf{E}_{t \# s} (h)$ their composition.
-
-            It suffices to prove that $t \mapsto \inf_s G_h(s,t)$ is
-            scott-continuous. This is a consequence of the compactness of $S$ 
-            as a metric space \cite{AndreaShalk} (Theorem 7.31). 
-
-            \todo[inline]{Do we need the metric property to use Andrea Shalk's
-            results ?}
-            \textbf{Alternate Proof}
-
-            It is clear that if $(t_i)$ is an ascending chain of trees
-            then 
-            $\inf_s \sup_i G(s,t_i) \geq \sup_i \inf_s G(s,t_i)$,
-            however, $\inf_s G(s,t_i) = G(s_i, t_i)$ because $S$ is compact.
-            Now, using the fact that $S$ is metric and compact
-            \textbf{(It would be best to specify this beforehand)}, we can extract 
-            a subsequence such that $s_i \rightarrow s_\infty$ in $S$. Then
-            it is clear that the following inequalities hold:
-
-            \begin{equation*}
-                \inf_s \sup_i G(s,t_i)
-                \geq 
-                \sup_i \inf_s G(s,t_i)
-                \geq 
-                \sup_i G(s_i, t_i)
-                \geq 
-                G(s_\infty, \sup_i t_i)
-                \geq
-                \inf_s \sup_i G(s,t_i)
+Suppose $(t_i)$ is an ascending chain of trees.
+ %Clearly $\inf_s \sup_i G_h(s,t_i) \geq \sup_i \inf_s G_h(s,t_i)$.
+Because $S$ is compact,  there is $s_i \in S$ with $\inf_s G_h(s,t_i) = G_h(s_i, t_i)$,
+and we can then extract a convergent 
+subsequence  $(s_{a_i})$ of $(s_i)$ such that $s_{a_i} \rightarrow s_\infty$ in $S$. Then:
+%it is clear that the following inequalities hold:
+\begin{equation*}
+                \sup_i \inf_s G_h(s,t_i)
+                \, =\, 
+                \sup_i G_h(s_i, t_i)
+                \, = \,
+                \sup_i G_h(s_{a_i}, t_{a_i})
+                \, = \,
+                G_h(s_\infty, \, \sqcup_i t_i)
+                \, \geq \,
+                \inf_s  G_h(s, \, \sqcup_i t_i)\, ,
             \end{equation*}
-
-            Therefore $t \mapsto \inf_s G(s,t)$ is scott-continuous.
-        \item[Compositionality]
-
-            The proof relies on the following key lemma.
-            If $\{ t_n \}_{n \in \mathbb{N}}$ is a substitution on
-            $\Tree(\Nat)$, 
-            $t$ is a tree, $s$ a strategy and $h$ a weighting function then
-            the following equality holds:
-
-            \begin{equation*}
-                \inf_s \mathbf{E}_{t [ n \mapsto t_n ] \# s } (h)
-                = 
-                \inf_s \mathbf{E}_{t \# s} (\hat{h})
-                \quad \text{ where } \quad \hat{h} (n) = \inf_s \mathbf{E}_{t_n \# s} (h)
-            \end{equation*}
-
-            \todo[inline]{The proof of this lemma is long and not interesting, 
-            should we mention it ? Do we need the rest of the proof ?}
-            
-            Using this key lemma the proof can go smoothly because (by
-            definition)
-            if $\sigma \Basicleq^\Op_\prang \sigma'$ then 
-            $h_\sigma \leq h_\sigma'$.
-
-            \begin{align*}
-                \inf_s \mathbf{E}_{t\sigma \# s} (h)
-                 & = \inf_s \mathbf{E}_{t \# s} (h_\sigma)       & \text{ key lemma }  \\
-                 & \leq \inf_s \mathbf{E}_{t \# s} (h_{\sigma'}) & \text{ monotonicity wrt the weighting function } \\
-                 & \leq \inf_s \mathbf{E}_{t'\# s} (h_{\sigma'}) & \text{ monotonicity wrt the tree } \\
-                 & = \inf_s \mathbf{E}_{t'\sigma' \# s} (h )     & \text{ key lemma } \\
-            \end{align*}
-
-            Therefore $ t \Basicleq^\Op_\prang t'$ and $\sigma
-            \Basicleq^\Op_\prang \sigma'$ implies $t\sigma \Basicleq^\Op_\prang
-            t'\sigma'$.
-    \end{description}
-
+where the second equality holds because $G_h(s_i, t_i)$ is an ascending sequence, and the third by the continuity of  $G_h$.
+We have shown that $ \sup_i  \inf_s G_h(s,t_i) \geq \inf_s  G_h(s, \sqcup_i t_i)$, i.e., 
+$ \sup_i  F_h(t_i) \geq F_h(\sqcup_i t_i)$. 
+Therefore $F_h$ is continuous (since it is obviously monotone).
 \end{proof}
+
+\noindent
+The admissibility of $\Basicleq^\Op_\prdem$ follows easily from the lemma.
+Suppose $t_i \Basicleq^\Op_\prdem t_i'$, for ascending chains $(t_i)$ and $(t'_i)$.
+Then $F_h(t_i) \leq F_h (t_i')$, for all $i$ and $h$. By the lemma, 
+ $F_h (\sqcup_i t_i) \leq F_h (\sqcup_i t_i')$, for all $h$.
+So indeed  $\sqcup_i t_i \Basicleq^\Op_\prdem \sqcup_i t_i'$.
+
+For compositionality, by Proposition~\ref{proposition:substitutive}, it suffices to show
+that $\Basicleq^\Op_\prdem$ is a substitutive precongruence. The compatibility properties 
+of a precongruence are easily shown. Substitutivity follows from the lemma below.
+%
+\begin{lemma}
+Suppose $t$ and 
+$\{ t_n \}_{n \in \mathbb{N}}$ are trees in 
+            $\Tree(\Nat)$ then, for any weighting $h$,
+             \begin{equation*}
+                \inf_s \mathbf{E}_{t [ n \mapsto t_n ] \restriction  s } (h)
+                = 
+                \inf_s \mathbf{E}_{t \restriction  s} (\hat{h})
+                \quad \text{ where } \quad \hat{h} (n) = \inf_s \mathbf{E}_{t_n \restriction  s} (h) \enspace .
+            \end{equation*}
+\end{lemma}
+This lemma is proved first for finite trees, by induction on the height of the tree. It is then extended to infinite trees
+by expressing them as suprema of finite trees, and applying Lemma~\ref{lemma:F-continuous}.
+%
+%            \todo[inline]{The proof of this lemma is long and not interesting, 
+%            should we mention it ? Do we need the rest of the proof ?}
+%            
+%            Using this key lemma the proof can go smoothly because (by
+%            definition)
+%            if $\sigma \Basicleq^\Op_\prang \sigma'$ then 
+%            $h_\sigma \leq h_\sigma'$.
+%
+%            \begin{align*}
+%                \inf_s \mathbf{E}_{t\sigma \restriction  s} (h)
+%                 & = \inf_s \mathbf{E}_{t \restriction  s} (h_\sigma)       & \text{ key lemma }  \\
+%                 & \leq \inf_s \mathbf{E}_{t \restriction  s} (h_{\sigma'}) & \text{ monotonicity wrt the weighting function } \\
+%                 & \leq \inf_s \mathbf{E}_{t'\restriction  s} (h_{\sigma'}) & \text{ monotonicity wrt the tree } \\
+%                 & = \inf_s \mathbf{E}_{t'\sigma' \restriction  s} (h )     & \text{ key lemma } \\
+%            \end{align*}
+%
+%            Therefore $ t \Basicleq^\Op_\prang t'$ and $\sigma
+%            \Basicleq^\Op_\prang \sigma'$ implies $t\sigma \Basicleq^\Op_\prang
+%            t'\sigma'$.
+% 
 
 We end this section by observing that a natural attempt to simplify  the definitions of 
  $\Basicleq^\Op_\prang$ and $\Basicleq^\Op_\prdem$ does not work. Instead of considering arbitrary weightings
  $h \colon \mathbb{N} \to [0,\infty]$, one might restrict to  
- functions $h \colon \mathbb{N} \to \{0,1\}$, which amounts to specifying goal subsets $H \subseteq \mathbb{N}$.
- Proceeding analogously to above, we compare suprema of probabilities of landing in $H$ in the angelic case, and infima in the demonic case. Whichever definition we take, the desired compositionality property fails.
+ functions $h \colon \mathbb{N} \to \{0,1\}$, which can be viewed as specifying goal subsets $H \subseteq \mathbb{N}$.
+ Proceeding analogously to above, we compare suprema of probabilities of landing in $H$ in the angelic case, and infima in the demonic case. For both the angelic and demonic versions, the desired compositionality property fails.
 \begin{proposition}
 Neither of the formulas below defines a compositional relation $t \Basicleq t'$. %$\Basicleq^\bullet_\prang$ nor $\Basicleq^\bullet_\prang$ is compositional.
  \begin{align*}
 %t \Basicleq^\bullet_\prang t' ~ \Leftrightarrow ~ ~
- & \forall H \subseteq \mathbb{N}  ~~ \sup_s  \mathbf{P}_{t\#s} (H)~ \leq~ \sup_s \mathbf{P}_{t'\#s} (H)
+ & \forall H \subseteq \mathbb{N}  ~~ \sup_s  \mathbf{P}_{t\restriction s} (H)~ \leq~ \sup_s \mathbf{P}_{t'\restriction s} (H)
 \\
 %t \Basicleq^\bullet_\prdem t' ~ \Leftrightarrow ~ ~
- & \forall H \subseteq \mathbb{N}  ~~ \inf_s  \mathbf{P}_{t\#s} (H)~ \leq~ \inf_s \mathbf{P}_{t'\#s} (H)
+ & \forall H \subseteq \mathbb{N}  ~~ \inf_s  \mathbf{P}_{t\restriction s} (H)~ \leq~ \inf_s \mathbf{P}_{t'\restriction s} (H)
 \end{align*}
 \end{proposition}
 
@@ -166,28 +169,28 @@ Neither of the formulas below defines a compositional relation $t \Basicleq t'$.
 %Although natural, the above definitions do not work. 
 
 \begin{proof}
-    We use the two trees presented figure~\ref{fig:exampletrees},
+    We use the two trees in Figure~\ref{fig:exampletrees},
     representing the expressions $A = 3 \orEff (1 \prEff 2)$
-    and $B = (3 \orEff 1) \prEff (3 \orEff 2)$.
-    For each preorder, both expressions behave similarly on every subset of $\{ 1, 2, 3 \}$ 
-    and therefore on every subset of $\mathbb{N}$. Thus $A$ is equivalent 
-    to $B$ for both preorders.
+    and $B = (3 \orEff 1) \prEff (3 \orEff 2)$. It is easily checked that, for every subset $H \subseteq \{ 1, 2, 3 \}$,
+    it holds that $\sup_s  \mathbf{P}_{A\restriction s} (H) =  \sup_s \mathbf{P}_{B\restriction s} (H)$ and
+    $\inf_s  \mathbf{P}_{A\restriction s} (H) =  \inf_s \mathbf{P}_{B\restriction s} (H)$.
+     Thus $A$ is equivalent 
+    to $B$ under  both preorders.
 
     However, one can build a family $\{ t_1, t_2, t_3\}$ such that 
     $A[ i \mapsto t_i] = t_3 \orEff (t_1 \prEff t_3) = C$ is not equivalent to 
     $B[ i\mapsto t_i] = (t_3 \orEff t_1) \prEff (t_3 \orEff t_2) = D$,
-    which contradicts the compositionality.
+    which contradicts substitutivity.
     Let $t_1 = 0 \prEff (0 \prEff (0 \prEff (0 \prEff 1)))$,
-    $t_2 = 1$ et $t_3 = 0 \prEff (0 \prEff (0 \prEff 1))$. The distinguishing 
+    $t_2 = 1$ and $t_3 = 0 \prEff (0 \prEff (0 \prEff 1))$. The distinguishing 
     factor will be the probability associated with the subset $\{ 1 \}$.
-    We dress a table of the minimal/maximal said probability on the different 
-    trees.
+    %We dress a table of the minimal/maximal said probability on the different  trees.
 
-    A simple calculation shows that $\sup_s  \mathbf{P}_{C\#s} (\{1\}) = 9/16
-    \neq 5/8 = \sup_s \mathbf{P}_{D\#s} (\{ 1\})$. Similarly
-    $\inf_s  \mathbf{P}_{C\#s} (\{1\}) = 1/4 \neq 3/16 =
-     \inf_s \mathbf{P}_{D \#s } (\{1\})$.
-     This contradicts compositionality of both preorders.
+    A simple calculation shows that $\sup_s  \mathbf{P}_{C\restriction s} (\{1\}) = 9/16
+    \neq 5/8 = \sup_s \mathbf{P}_{D\restriction s} (\{ 1\})$. Similarly
+    $\inf_s  \mathbf{P}_{C\restriction s} (\{1\}) = 1/4 \neq 3/16 =
+     \inf_s \mathbf{P}_{D \restriction s } (\{1\})$.
+     This contradicts the substitutivity and hence also the compositionality of both preorders.
     
     %\begin{equation*}
         %\begin{array}{c|c|c}
@@ -207,11 +210,10 @@ Neither of the formulas below defines a compositional relation $t \Basicleq t'$.
 
 
 We view the fact that the use of quantitative properties is required to obtain a compositional preorder as being
-a mathematical analogue of the situation found in the work of Kozen
-\textbf{[[REF]]} and McIver and Morgan \textbf{[[REF]]}, where 
-logics of quantitative properties are seen to be necessary to obtain compositional reasoning principles for 
-probabilistic program logics. The above argument is also curiously  reminiscent of the proof in [[VARACCA PHD]]
-that there is no distributivity law between the finite powerset and distribution monads.
+a mathematical analogue of the situation found in, for example,~\cite{KozenPDL,MciverMorgan}, where it is argued that the use of quantitative rather than Boolean program logics is necessary for obtaining compositional reasoning methods for programs with probabilistic (combined with nondeterministic in~\cite{MciverMorgan}) behaviour.
+
+%The above argument is also curiously  reminiscent of the proof in [[VARACCA PHD]]
+% that there is no distributivity law between the finite powerset and distribution monads.
 
 
 %The situation is rescued by generalising the boolean-valued test properties $H$ to 
