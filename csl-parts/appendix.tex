@@ -1,5 +1,149 @@
 \section{Migrating material}
 
+ \begin{description}
+        \item[Trees with no disjunction]
+
+    \todo[inline]{Remove this part of the proof, it is only here to show that it
+    works for probabilities only ... Which is going to be assumed. However
+    it is clearly the same proof in some sense when extending from finite 
+    trees to infinite trees. It could be a more general lemma}
+
+    For such trees, $\inf_s \mathbf{E}_{ t \# s } (h)
+    = \mathbf{E}_{ t } (h)$.
+    If both trees are finite, they can be put into 
+    a normal form using the axioms concerning the 
+    probability constructor: two complete binary trees 
+    of same height,
+    with leafs ordered by increasing number, and 
+    such that a given leaf is $\bot$ the same 
+    in both trees.
+
+    It is easy to prove that two trees with 
+    only $\prEff$ nodes are ordered for $\Basicleq^\Op_\prdem$
+    if and only if their normal forms are ordered,
+    and it only takes a simple induction to 
+    deduce that they are ordered for $\Basicleq^\Ax_\prdem$.
+
+    Now, if $t$ and $t'$ are infinite, 
+    we approximate them with finite trees $(t_i)$ and 
+    $(t_i')$.
+    
+    Given a tree $T$ we build $T^n$ as $\bot$ if $n = 0$, and $T \prEff T^{n-1}$
+    otherwise. 
+
+    It is clear that $T^n \Basicleq^\Op_\prdem T$ in a \emph{strict fashion}:
+    the inequality is strict for all test function $h$.
+
+    Therefore $t_i \prEff (t_i')^n \Basicleq^\Op_\prdem t_i$
+    with a \emph{strict inequality for all tests functions h}.
+    
+    Let us fix $i \in \mathbb{N}$, and a $n \in \mathbb{N}$: 
+
+    \begin{equation*}
+        t_i \prEff (t_i')^n \Basicleq^\Op_\prdem t_i \prEff t_i'
+        \Basicleq^\Op_\prdem t \prEff t' \Basicleq^\Op_\prdem t'
+    \end{equation*}
+
+    For any given test function $h$ we therefore have a strict 
+    inequality between $t_i \prEff (t_i')^n$ and $t'$, however 
+    $t'$ is the supremum of the family $(t_i')$ and the function 
+    $ t \mapsto (h \mapsto \mathbf{E}_{ t } (h))$ is scott-continuous.
+
+    Therefore, there exists \emph{a finite $j$} such that 
+    $t_i \prEff (t_i')^n \Basicleq^\Op_\prdem t_j'$.
+    All of the above inequalities are between finite trees, and 
+    therefore are also true using $\Basicleq^\Ax_\prdem$.
+    Using admissibility with a supremum over $n$ 
+    one deduces $t_i \prEff t_i' \Basicleq^\Ax_\prdem t_j'$
+    and using admissibility with a supremum over $i$ we can finally conclude
+    $t \prEff t' \Basicleq^\Ax_\prdem t'$.
+    
+    
+        \item[Trees with finite disjunction]
+
+    Let $t \Basicleq^\Op_\prdem t'$ 
+    where $t$ and $t'$ have only a finite number 
+    of disjunction nodes.
+    The proof is done using the following 
+    remarks
+    \begin{enumerate}
+        \item We can first use the axioms of the theory 
+            to put both trees in the form of 
+            a \emph{finite disjunction} over 
+            \emph{possibly infinite probability trees}.
+
+        \item 
+            If for all $t_i'$ 
+            a probability
+            tree of $t'$ there exists 
+            a corresponding tree $t_i$ in $t$ 
+            such that $t_i \Basicleq^\Den_\prdem t_i'$
+            then it is clear that $t \Basicleq^\Ax_\prdem t'$.
+
+        \item 
+            If $t_i$ and $t_j$ are two 
+            probability trees of $t$ 
+            then $t$ is equivalent to 
+            $t \orEff (t_i \prEff t_j)$ 
+            in both preorders.
+            This can be extended to any infinite 
+            $\prEff$ combination 
+            of probability trees of $t$.
+
+        \item 
+            \todo[inline]{Precise how it is done.
+                It directly derives from the definition 
+                as a compact-convex-upward-closed subset,
+                which will contain all such combination 
+                of probability distributions of the $t_i'$}
+            If $t_i'$ is a probability tree of $t'$,
+            then there exists an infinite $\prEff$
+            combination of probability trees of $t$
+            noted $\hat{t_i'}$
+            such that $\hat{t_i'} \Basicleq^\Den_\prdem t_i'$.
+
+
+        \item Because there is only a finite number 
+            of probability trees in $t'$, we can 
+            conclude by induction on their number that 
+            $t \Basicleq^\Ax_\prdem t'$.
+    \end{enumerate}
+
+
+        \item[Extension]
+            \todo[inline]{Use the definition of the 
+                way below relation in the semantics 
+                instead of "showing" how to do it}
+    Let $t \Basicleq^\Den_\prdem t'$,
+    such that $t = \sqcup_i t_i$ and $t' = \sqcup_i t_i'$ 
+    where both families are composed of \emph{finite} trees.
+
+    It is clear that for every tree $t$
+    \textbf{(Maybe explain this)} $\llbracket t^n \rrbracket <\!\!< \llbracket t \rrbracket$ 
+    in the domain $\mathcal{S}\mathcal{V}_{\leq 1} \mathbb{N}_\bot$, 
+    where $t^n$ is obtain using definition~\ref{def:probaApproxConstruct}.
+
+    \todo[inline]{Use the following lemma: way-below is preserved by sum}
+    Therefore at any given $i,n \in \mathbb{N}^2$, 
+    $\llbracket t_i \prEff (t_i')^n \rrbracket <\!\!< \llbracket t' \rrbracket$
+
+    We can conclude that for all $(i,n) \in \mathbb{N}$ there exists a 
+    $j \geq i$ such that $\llbracket t_i \prEff (t_i')^n \rrbracket \leq
+    \llbracket t_j' \rrbracket$ (way below relation).
+
+    Now, this translates into inequalities between \emph{finite trees}
+    and therefore between trees with finite disjunction, and thus 
+    $ t_i \prEff (t_i')^n \Basicleq^\Ax_\prdem t_j'$.
+
+    Using admissibility with a supremum over $n$ 
+    one deduces $t_i \prEff t_i' \Basicleq^\Ax_\prdem t_j'$
+    and using admissibility with a supremum over $i$ we can finally conclude
+    $t \prEff t' \Basicleq^\Ax_\prdem t'$.
+      
+\end{description}
+
+
+
 It is worth noticing that the lifting operation $f \mapsto \hat{f}$ is
 a continuous functional. A consequence of this is the following monotonicity 
 property of the lifting.

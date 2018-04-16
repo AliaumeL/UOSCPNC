@@ -76,14 +76,14 @@ Figure~\ref{fig:axiomsmixed}.
 \end{figure}
 
 The axioms include a special axiom for $\bot$, which is legitimate since $\bot$ is a tree, hence an expression.
-The axioms  for probability includes three standard equalities (each of which is given officially as two inequalities), and one Horn axiom, which  is separated out for the sake of Proposition~\ref{proposition:horn} below.
+The axioms  for probability includes three standard equalities (each of which is given officially as two inequalities), and one Horn approximation axiom, $\text{Appr}$, which  is separated out for the sake of Proposition~\ref{proposition:horn} below.
 The axioms for nondeterminism are split into a neutral list,  followed by further axioms  for angelic and demonic nondeterminism respectively. Finally, there is a distributivity axiom that relates
 probabilstic and nondeterministic choice. 
 Our two effect theories of interest are: 
-\begin{align*}
-T_\prang ~ = ~ & \text{Prob}, \, \text{Nondet}, \, \text{Ang},\, \text{Dist} \enspace , \\
-T_\prdem ~ = ~ & \text{Prob}, \, \text{Nondet}, \, \text{Dem},\, \text{Dist} \enspace .
-\end{align*}
+\[
+T_\prang \!=\!  \text{Bot},  \text{Prob},  \text{Appr}, \text{Nondet}, \text{Ang},\text{Dist} \quad
+T_\prdem\! = \!\text{Bot},  \text{Prob},  \text{Appr},  \text{Nondet},  \text{Dem},\text{Dist}\,.
+\]
 We then define  $\Basicleq^\Ax_\prang$ as the smallest admissible model
 of $T_\prang$ over $\mathbb{N}$, and 
 $\Basicleq^\Ax_\prdem$ as the smallest admissible model
@@ -91,18 +91,18 @@ of $T_\prdem$. By Proposition~\ref{proposition:axiomatic}, both these basic oper
 
 To end the section, we observe that the Horn axiom in Figure~\ref{fig:axiomsmixed} can be replaced with an equational axiom, albeit one involving an infinitary expression.
 
-\newcommand{\Iterx}[1]{(1\!-\!2^{- #1})x}
+
 
 \begin{definition}
     \label{def:probaApproxConstruct}
-    Let $x$ be a variable. For each $n \in \mathbb{N} \cup \{\infty\}$, we define an expression $\Iterx{n}$ inductively by
-    $\Iterx{0} = \bot$ and $\Iterx{(n+1)}  = x\,  \prEff \,\Iterx{n}$. The
-    expression $\Iterx{\infty}$ is defined as $\bigsqcup_n \Iterx{n}$.
+    Let $t$ be a  tree. For each $n \in \mathbb{N} \cup \{\infty\}$, we define a tree $\Iter{t}{n}$ inductively by
+    $\Iter{t}{0} = \bot$ and $\Iter{t}{(n+1)}  = t\,  \prEff \,\Iter{t}{n}$. The
+    tree $\Iter{t}{\infty}$ is defined as $\bigsqcup_n \Iter{t}{n}$.
 \end{definition}
 
 \begin{proposition}%[Removing Horn-Clauses]
 \label{proposition:horn}
-    For any theory containing the Bot and Prob axioms, an admissible model satisfies the Horn axiom if and only if it satisfies the equation 
+    For any effect theory containing the Bot and Prob axioms, an admissible model satisfies the Horn axiom if and only if it satisfies the equation 
     $\Iterx{\infty}= x$.
 \end{proposition}
 

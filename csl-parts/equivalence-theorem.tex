@@ -1,136 +1,108 @@
 \section{The equivalence theorem}
 \label{section:equivalence}
 
-Our main theorem is that our operational, denotational and axiomatic preorders for combined probability and nondeterminism all coincide, in the case of both angelic and demonic nondeterminism.
+Our main theorem is that our operational, denotational and axiomatic preorders for combined probability and nondeterminism all coincide, in both the angelic and demonic cases.
 \begin{theorem}[Equivalence theorem] \leavevmode
 \begin{enumerate} 
-\item The preorders $\Basicleq^\Op_\prang$, $\Basicleq^\Den_\prang$ and $\Basicleq^\Ax_\prang$, for mixed probability and angelic nondeterminism, coincide.
+\item The three preorders $\Basicleq^\Op_\prang$, $\Basicleq^\Den_\prang$ and $\Basicleq^\Ax_\prang$, for mixed probability and angelic nondeterminism, coincide.
 
 \item Similarly, the preorders $\Basicleq^\Op_\prdem$, $\Basicleq^\Den_\prdem$ and $\Basicleq^\Ax_\prdem$,
 for mixed probability and demonic nondeterminism, coincide.
 \end{enumerate}
 \end{theorem}
 
+\noindent
+We outline the proof of the theorem in the demonic case, which we split into three lemmas. The proof for the angelic case is similar. 
+\begin{lemma}
+${\Basicleq^\Ax_\prdem} \, \subseteq \, \, \Basicleq^\Op_\prdem\,$.
+\end{lemma}
 \begin{proof}
-    We give an outline of the proof in the case of demonic non-determinism.
+ It is easily checked that $\Basicleq^\Op_\prdem$ satsfies the axioms
+ of $T_\prdem$.  Since $\Basicleq^\Op_\prdem$ is admissible and 
+$\Basicleq^\Ax$ is the smallest admissible model, ${\Basicleq^\Ax_\prdem} \, \subseteq \, \Basicleq^\Op_\prdem\,$.
+\end{proof}
+%
+\noindent
+We remark on the following aspect of the above result.
+The distributivity axiom Dist of Figure~\ref{fig:axiomsmixed} is sometimes discussed as expressing that  nondeterministic choices  are  resolved before probabilistic ones; see, e.g., \cite{KeimelP2016}. Such statements need careful interpretation. 
+The definition of $\Basicleq^\Op_\prdem$, which is based on implementing nondeterministic schedulers as strategies for MDPs,
+explicitly allows the  scheduler's choices to take account of the outcomes of probabilistic choices that precede it. Nevertheless, the distributivity axiom is sound.
 
-    \begin{itemize}
-        \item 
-    It is easily checked that $\Basicleq^\Op_\prdem$ satisfies the Horn-clause
-    theory of $\Basicleq^\Ax_\prdem$, and we know that $\Basicleq^\Op_\prdem$ is 
-    both admissible and compositional. This gives us the inclusion 
-    ${\Basicleq^\Ax_\prdem} \subseteq {\Basicleq^\Op_\prdem}\,$.
+\begin{lemma}
+${\Basicleq^\Op_\prdem} \, = \,\, \Basicleq^\Den_\prdem\,$.
+\end{lemma}
+\begin{proof}
+We make use of the functional representation of $\mathcal{S}\mathcal{V}_{\leq 1}\, \mathbb{N}$ from \cite{KeimelP2016} (see also~\cite{JGL-mscs16}). 
+For any topological space $X$, we write $\mathcal{L}(X)$ for the space of all
+\emph{lower semicontinuous} functions from $X$ to $[0,\infty]$ (i.e., functions that are continuous with respect to the Scott topology on $[0,\infty]$), and we endow $\mathcal{L}(X)$ itself with the Scott topology. The space
+$D' = \mathcal{L}(\mathcal{L}(\mathbb{N}))$ carries a continuous $\Sigma_\prnd$-algebra structure
+\[
+(F \orEff G)(f) ~ = ~ \min(F(f), G(f)) \qquad 
+(F \prEff G)(f) ~ = ~ \frac{1}{2}F(f) + \frac{1}{2}G(f) \enspace .
+\]
+(There is another $\Sigma_\prnd$-algebra structure, relevant to angelic nondeterminism, in which  $\min$ is replaced with $\max$.) Define $j' : \mathbb{N} \to D'$ by $j'(n)(f) = f(n)$. This induces $\Sem{\cdot}'_\prdem : \Tree(\mathbb{N}) \to D'$
+satisfying  $\Sem{\cdot}'_\prdem \circ i = j'$, as in Section~\ref{section:denotational}.
+We show that $\Sem{t}'_\prdem (h) = F_h (t)$, where $F_h$ is defined as in
+Lemma~\ref{lemma:F-continuous}. For this, the function $t \mapsto (h \mapsto F_h (t)$ is easily shown to be a $\Sigma_\prnd$-algebra homomorphism
+satisfying $F_h(i(n)) = j'(n)$. Moreover, it is continuous by 
+Lemma~\ref{lemma:F-continuous}. Thus it indeed coincides with 
+$\Sem{\cdot}'_\prdem$. By the definition of $F_h$, if follows that that
+$t \Basicleq^\Op_\prdem t'$ if and only if 
+$\Sem{t}'_\prdem \leq \Sem{t'}'_\prdem \,$.
 
-        \item 
-    Now, we want to prove that $\Basicleq^\Op_\prdem \subseteq
-    \Basicleq^\Den_\prang$. It is easier to notice that both preorders coincide.
-    There is an isomorphism $\Lambda$ between $\mathcal{V}_{\leq 1} \,\mathbb{N}_\bot$
-    and $\mathcal{L}_{sup}^{sne} (\mathcal{L} (\mathbb{N}_\bot),
-    \overline{\mathbb{R}_+})$ \cite{KeimelP2016}. Given a tree $t$, the function  
-    $F_t : h \mapsto \inf_s \mathbf{E}_{t \# s} (h)$ is superlinear and 
-    strongly non-expansive. It can then be shown by induction on $t$ that 
-    $\Lambda (\llbracket t \rrbracket) (h) = F_t (h)$.
-    \todo[inline]{The function is strongly non-expansive if and only if 
-        $F(h + 1) \leq F(h) + 1$ which is clear here \cite{KeimelP2016} page 58}
-    \todo[inline]{$\Lambda (X)(h) = \inf_{\mu \in X} \int h d\mu$, allowing
-        direct translation for the base case of the induction}
+Theorem~[[WHAT]] of \cite{KeimelP2016} provides a functional representation of 
+$\mathcal{S}\mathcal{V}_{\leq 1}\, X$ inside $\mathcal{L}(\mathcal{L}(X))$. In the case $X = \mathbb{N}$, consider the function
+\[
+\Lambda : A \mapsto \left(f \mapsto \inf_{p \in A} 
+  \mathbf{E}_p\, f 
+% \left( \sum_{n \in \mathbb{N}} f(n)\, . \, p(n) \right)
+\right) 
+ : \; \mathcal{S}\mathcal{V}_{\leq 1}\, \mathbb{N} \;  \to \; D' \enspace .
+\]
+It is shown in  \cite{KeimelP2016} that $\Lambda$  is a continuous $\Sigma_\prnd$-algebra homomorphism, and also an order embedding (i.e., $\Lambda(A) \leq \Lambda(B)$ implies $A \supseteq B$). 
+%(Furthermore, the image of $\Lambda$ can be characterised as exactly the \emph{superlinear strongly non-expansive} functionals.) 
+By the uniqueness property of Proposition~\ref{proposition:free}, it thus holds that $\Lambda \circ \Sem{\cdot}_\prdem = \Sem{\cdot}'_\prdem$. We therefore have
+\[
+t \Basicleq^\Op_\prdem t' ~~ \Leftrightarrow ~ ~
+  \Sem{t}'_\prdem \leq \Sem{t'}'_\prdem 
+   ~~ \Leftrightarrow ~ ~
+   \Sem{t}_\prdem \leq \Sem{t'}_\prdem 
+      ~ ~\Leftrightarrow ~ ~
+  t \Basicleq^\Den_\prdem t' \enspace ,
+   \]
+where the middle equivalence holds because $\Lambda$ is an order embedding.
+\end{proof}
 
-    We do conclude that $\Basicleq^\Op_\prang = \Basicleq^\Den_\prang$.
-
-    \item 
-        For the inclusion $\Basicleq^\Den_\prdem \subseteq
-        \Basicleq^\Ax_\prdem$, the proof sketch is the following one:
-
+\begin{lemma}
+${\Basicleq^\Den_\prdem} \, \subseteq \, \, \Basicleq^\Ax_\prdem\,$.
+\end{lemma}
+\begin{proof}
+The proof proceeds in three steps.
     \begin{enumerate}
         \item Prove that both preorders coincide 
-            on trees without $\orEff$ nodes
+            on \emph{probability trees} (i.e., trees without $\orEff$ nodes).
         \item Prove that both preorders coincide 
             on trees with a \emph{finite} number 
             of $\orEff$ nodes.
         \item Use finite approximations and admissibility
-            of both preorders to conclude in the general case.
+            to conclude the general case.
     \end{enumerate}
 
-    \begin{description}
-        \item[Trees with no disjunction]
+We omit discussion of the first step, which  is comparatively straightforward.
 
-    \todo[inline]{Remove this part of the proof, it is only here to show that it
-    works for probabilities only ... Which is going to be assumed. However
-    it is clearly the same proof in some sense when extending from finite 
-    trees to infinite trees. It could be a more general lemma}
-
-    For such trees, $\inf_s \mathbf{E}_{ t \# s } (h)
-    = \mathbf{E}_{ t } (h)$.
-    If both trees are finite, they can be put into 
-    a normal form using the axioms concerning the 
-    probability constructor: two complete binary trees 
-    of same height,
-    with leafs ordered by increasing number, and 
-    such that a given leaf is $\bot$ the same 
-    in both trees.
-
-    It is easy to prove that two trees with 
-    only $\prEff$ nodes are ordered for $\Basicleq^\Op_\prdem$
-    if and only if their normal forms are ordered,
-    and it only takes a simple induction to 
-    deduce that they are ordered for $\Basicleq^\Ax_\prdem$.
-
-    Now, if $t$ and $t'$ are infinite, 
-    we approximate them with finite trees $(t_i)$ and 
-    $(t_i')$.
-    
-    Given a tree $T$ we build $T^n$ as $\bot$ if $n = 0$, and $T \prEff T^{n-1}$
-    otherwise. 
-
-    It is clear that $T^n \Basicleq^\Op_\prdem T$ in a \emph{strict fashion}:
-    the inequality is strict for all test function $h$.
-
-    Therefore $t_i \prEff (t_i')^n \Basicleq^\Op_\prdem t_i$
-    with a \emph{strict inequality for all tests functions h}.
-    
-    Let us fix $i \in \mathbb{N}$, and a $n \in \mathbb{N}$: 
-
-    \begin{equation*}
-        t_i \prEff (t_i')^n \Basicleq^\Op_\prdem t_i \prEff t_i'
-        \Basicleq^\Op_\prdem t \prEff t' \Basicleq^\Op_\prdem t'
-    \end{equation*}
-
-    For any given test function $h$ we therefore have a strict 
-    inequality between $t_i \prEff (t_i')^n$ and $t'$, however 
-    $t'$ is the supremum of the family $(t_i')$ and the function 
-    $ t \mapsto (h \mapsto \mathbf{E}_{ t } (h))$ is scott-continuous.
-
-    Therefore, there exists \emph{a finite $j$} such that 
-    $t_i \prEff (t_i')^n \Basicleq^\Op_\prdem t_j'$.
-    All of the above inequalities are between finite trees, and 
-    therefore are also true using $\Basicleq^\Ax_\prdem$.
-    Using admissibility with a supremum over $n$ 
-    one deduces $t_i \prEff t_i' \Basicleq^\Ax_\prdem t_j'$
-    and using admissibility with a supremum over $i$ we can finally conclude
-    $t \prEff t' \Basicleq^\Ax_\prdem t'$.
-    
-      
-
-        \item[Trees with finite disjunction]
-
-    Let $t \Basicleq^\Op_\prdem t'$ 
-    where $t$ and $t'$ have only a finite number 
-    of disjunction nodes.
-    The proof is done using the following 
-    remarks
-    \begin{enumerate}
-        \item We can first use the axioms of the theory 
-            to put both trees in the form of 
-            a \emph{finite disjunction} over 
-            \emph{possibly infinite probability trees}.
+For step 2, suppose $t \Basicleq^\Den_\prdem t'$ where $t,t'$ are 
+trees with finitely many $\orEff$ nodes. We proceed as follows.
+    \begin{enumerate}[(a)]
+        \item For each of $t, t'$, we use the distributivity axiom to rewrite the tree
+          as an $\orEff$-combination of finitely many (possibly infinite) {probability trees}.
 
         \item 
-            If for all $t_i'$ 
-            a probability
-            tree of $t'$ there exists 
+            If for every 
+            probability
+            tree $t_i'$ in $t'$ there exists 
             a corresponding tree $t_i$ in $t$ 
-            such that $t_i \Basicleq^\Den_\prdem t_i'$
-            then it is clear that $t \Basicleq^\Ax_\prdem t'$.
+            such that $t_i \Basicleq^\Den_\prdem t_i'$,
+            then we have that $t \Basicleq^\Ax_\prdem t'$, using the $\texttt{Dem}$ axiom, and  step 1 above.
 
         \item 
             If $t_i$ and $t_j$ are two 
@@ -160,6 +132,16 @@ for mixed probability and demonic nondeterminism, coincide.
             conclude by induction on their number that 
             $t \Basicleq^\Ax_\prdem t'$.
     \end{enumerate}
+
+  
+\begin{description}
+        \item[Trees with finite disjunction]
+
+    Let $t \Basicleq^\Op_\prdem t'$ 
+    where $t$ and $t'$ have only a finite number 
+    of disjunction nodes.
+    The proof is done using the following 
+    remarks
 
 
         \item[Extension]
@@ -192,8 +174,5 @@ for mixed probability and demonic nondeterminism, coincide.
     and using admissibility with a supremum over $i$ we can finally conclude
     $t \prEff t' \Basicleq^\Ax_\prdem t'$.
     \end{description}
-    \end{itemize}
-    
-
-\end{proof}
+ \end{proof}
 
