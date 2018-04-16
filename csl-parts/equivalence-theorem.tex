@@ -1,8 +1,8 @@
-\section{The equivalence theorem}
+\section{The coincidence theorem}
 \label{section:equivalence}
 
 Our main theorem is that our operational, denotational and axiomatic preorders for combined probability and nondeterminism all coincide, in both the angelic and demonic cases.
-\begin{theorem}[Equivalence theorem] \leavevmode
+\begin{theorem}[Coincidence theorem] \leavevmode
 \begin{enumerate} 
 \item The three preorders $\Basicleq^\Op_\prang$, $\Basicleq^\Den_\prang$ and $\Basicleq^\Ax_\prang$, for mixed probability and angelic nondeterminism, coincide.
 
@@ -50,7 +50,7 @@ $\Sem{\cdot}'_\prdem$. By the definition of $F_h$, if follows that that
 $t \Basicleq^\Op_\prdem t'$ if and only if 
 $\Sem{t}'_\prdem \leq \Sem{t'}'_\prdem \,$.
 
-Theorem~[[WHAT]] of \cite{KeimelP2016} provides a functional representation of 
+Corollary 4.7 of \cite{KeimelP2016} provides a functional representation of 
 $\mathcal{S}\mathcal{V}_{\leq 1}\, X$ inside $\mathcal{L}(\mathcal{L}(X))$. In the case $X = \mathbb{N}$, consider the function
 \[
 \Lambda : A \mapsto \left(f \mapsto \inf_{p \in A} 
@@ -74,6 +74,7 @@ where the middle equivalence holds because $\Lambda$ is an order embedding.
 \end{proof}
 
 \begin{lemma}
+\label{lemma:completeness}
 ${\Basicleq^\Den_\prdem} \, \subseteq \, \, \Basicleq^\Ax_\prdem\,$.
 \end{lemma}
 \begin{proof}

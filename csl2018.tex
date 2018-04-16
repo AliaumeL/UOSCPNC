@@ -176,17 +176,38 @@ specifying such preorders: (i)~operational (ii)~denotational, and (iii)~axiomati
 \input{csl-parts/equivalence-theorem}
 
 
-\section{Conclusions}
+\section{Brief comments on related and future work}
 \label{section:conclusions}
 
-\todo[inline]{To be moved!}
+The results in this paper concern three methods of defining \emph{basic operational preorders} on effect trees, which we claim to be a useful abstraction for defining contextual preorder for programming languages with algebraic effects. This has been verified for simple call-by-name~\cite{gom} and call-by-value\footnotemark[3] languages, but needs further substantiation.
 
-\todo[inline]{Compare our axiomatic approach with Plotkin-Power axiomatisations}
-\todo[inline]{Compare our denotational = axiomatic result to freeness in Keimel-Plotkin}
+The axiomatic approach to defining basic operational preorders in Section~\ref{section:axiomatic} is close in spirit to the algebraic axiomatisation of effects of Plotkin and Power~\cite{PlotkinPower2002}, but with a different focus. 
+In~\cite{PlotkinPower2002}, equational axiomatisations are required in order to determine a
+free-algebra monad modelling denotational equality of programs. Such axiomatisations have also been used to combine effects~\cite{hyland2006combining},
+ and to induce a logic of effects~\cite{PlotkinPretnarLogic}; but they have not 
+ hitherto been explicated as a method for defining  contextual preorder/equivalence. 
+ In this paper, we have used  infinitary Horn clause axioms between infinitary terms for this purpose, with the notion of admissible model playing an important role.
+ 
+ The main coincidence theorem in Section~\ref{section:equivalence} has some precursors in the literature. 
+ The characterisations of  $\mathcal{H}\mathcal{V}_{\leq 1} \mathbb{N}$
+ and  $\mathcal{S}\mathcal{V}_{\leq 1} \mathbb{N}$ as free Kegelspitze in~\cite{KeimelP2016} can be viewed as completeness theorems for inequational axiomatisations, analogous to our Lemma~\ref{lemma:completeness},
+ but in the context of domains (that is, continuous dcpos). We wonder if our result can be related to theirs in the following way. Are the quotients of 
+ $\Tree(\mathbb{N})$ by $\Basicleq_\prang$ and $\Basicleq_\prdem$ isomorphic to
+  $\mathcal{H}\mathcal{V}_{\leq 1} \mathbb{N}$
+ and  $\mathcal{S}\mathcal{V}_{\leq 1} \mathbb{N}\,$?
+ Another related completeness result is given in~\cite{mislove2004axioms},  where inequational axioms for 
+ a simple process algebra with nondeterministic and probabilistic choice are proved
+ complete with respect to a domain-theoretic semantics. Translated into our setting, their process algebra corresponds to  \emph{regular trees} combining
+ the operations $\orEff$, $\prEff$ with an additional prefix operation and zero constant.
+In~\cite{mislove2004axioms} a convex powerdomain is used, rather than the upper $\mathcal{S}$ and lower $\mathcal{H}$ ones we consider. In this paper, we have 
+not considered  convex powerdomains and the associated \emph{neutral} (as opposed to angelic or demonic) nondeterminism, but it would be a natural extension to do so.
 
-\todo[inline]{Neutral nndeterminism}
-\todo[inline]{Limitations of admissibility}
-\todo[inline]{Language settings, e.g., CBV, CBPV}
+The main limitation we see of the approach of  this paper is the restriction throughout to \emph{admissible} basic operational preorders. The admissibility condition plays a fundamental role in almost everything we do. It is, however, violated by some natural operational preorders; for example, that for countable demonic nondeterminism. 
+It is an open question how to incorporate such preorders into our general theory.
+
+
+
+
 
 
 
