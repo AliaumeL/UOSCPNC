@@ -81,8 +81,8 @@ The proof proceeds in three steps.
     \begin{enumerate}
         \item Prove that both preorders coincide 
             on \emph{probability trees} (i.e., trees without $\orEff$ nodes).
-        \item Prove that both preorders coincide 
-            on trees with a \emph{finite} number 
+        \item Prove the inclusion of preorders for
+             trees with a \emph{finite} number 
             of $\orEff$ nodes.
         \item Use finite approximations and admissibility
             to conclude the general case.
@@ -91,12 +91,10 @@ The proof proceeds in three steps.
 We omit discussion of the first step, which  is comparatively straightforward.
 
 For step 2, suppose $t \Basicleq^\Den_\prdem t'$ where $t,t'$ are 
-trees with finitely many $\orEff$ nodes. We proceed as follows.
+trees with finitely many $\orEff$ nodes. For each of $t, t'$, we use the distributivity axiom to rewrite the tree
+          as an $\orEff$-combination of finitely many (possibly infinite) {probability trees}. We then establish the following.
     \begin{enumerate}[(a)]
-        \item For each of $t, t'$, we use the distributivity axiom to rewrite the tree
-          as an $\orEff$-combination of finitely many (possibly infinite) {probability trees}.
-
-        \item 
+         \item 
             If for every 
             probability
             tree $t_i'$ in $t'$ there exists 
@@ -105,74 +103,51 @@ trees with finitely many $\orEff$ nodes. We proceed as follows.
             then we have that $t \Basicleq^\Ax_\prdem t'$, using the $\texttt{Dem}$ axiom, and  step 1 above.
 
         \item 
-            If $t_i$ and $t_j$ are two 
-            probability trees of $t$ 
-            then $t$ is equivalent to 
-            $t \orEff (t_i \prEff t_j)$ 
-            in both preorders.
-            This can be extended to any infinite 
-            $\prEff$ combination 
-            of probability trees of $t$.
+            %If $t_i$ and $t_j$ are two  of the probability trees of $t$,
+            The tree $t$ is equivalent  in both preorders  to 
+            $t \orEff k$, where $k = \lambda_1t_1+ \dots + \lambda_n t_n$
+            is any tree representing a convex combination of the probability trees of $t$.
+            The tree $k$ is defined  using infinite combinations of $\prEff$ nodes to assign the correct weight to each $t_i$.
+    
+        \item Making direct use of the definition of $\mathcal{S}\mathcal{V}_{\leq 1}\, \mathbb{N}$, it follows from $t \Basicleq^\Den_\prdem t'$ that, for every
+            probability tree   $t_i'$ of $t'$,
+            there is a convex combination
+            $k_i := \lambda_1t_1+ \dots + \lambda_n t_n$
+            of probability trees of $t$,
+                        such that $k_i \Basicleq^\Den_\prdem t_i'$.
 
-        \item 
-            \todo[inline]{Precise how it is done.
-                It directly derives from the definition 
-                as a compact-convex-upward-closed subset,
-                which will contain all such combination 
-                of probability distributions of the $t_i'$}
-            If $t_i'$ is a probability tree of $t'$,
-            then there exists an infinite $\prEff$
-            combination of probability trees of $t$
-            noted $\hat{t_i'}$
-            such that $\hat{t_i'} \Basicleq^\Den_\prdem t_i'$.
-
-
-        \item Because there is only a finite number 
-            of probability trees in $t'$, we can 
-            conclude by induction on their number that 
-            $t \Basicleq^\Ax_\prdem t'$.
-    \end{enumerate}
 
   
-\begin{description}
-        \item[Trees with finite disjunction]
-
-    Let $t \Basicleq^\Op_\prdem t'$ 
-    where $t$ and $t'$ have only a finite number 
-    of disjunction nodes.
-    The proof is done using the following 
-    remarks
+      \end{enumerate}
+To complete the argument for step 2, the  tree $t'$ has the form $t'_1 \orEff \dots \orEff t'_m$. By (c), there exist corresponding  $k_1, \dots, k_m$. By (b), $t$ is equivalent to
+$t \orEff k_1 \orEff \dots \orEff k_m$. It now follows from (a) that $t \Basicleq^\Ax_\prdem t'$,
+by the property of the $k_j$ given by (c).
 
 
-        \item[Extension]
-            \todo[inline]{Use the definition of the 
-                way below relation in the semantics 
-                instead of "showing" how to do it}
-    Let $t \Basicleq^\Den_\prdem t'$,
-    such that $t = \sqcup_i t_i$ and $t' = \sqcup_i t_i'$ 
-    where both families are composed of \emph{finite} trees.
+For step 3, suppose 
+$t \Basicleq^\Den_\prdem t'$, where $t,t'$ are arbitrary.
+Take approximating sequences  $t = \bigsqcup_i t_i$ and $t' = \bigsqcup_i t_i'$,
+    where both ascending sequences are composed of {finite} trees.
 
-    It is clear that for every tree $t$
-    \textbf{(Maybe explain this)} $\llbracket t^n \rrbracket <\!\!< \llbracket t \rrbracket$ 
-    in the domain $\mathcal{S}\mathcal{V}_{\leq 1} \mathbb{N}_\bot$, 
-    where $t^n$ is obtain using definition~\ref{def:probaApproxConstruct}.
+We use Definition~\ref{def:probaApproxConstruct} to further restrict the approximations of $t$.
+Using the finiteness of $t_i$,
+we have $\Sem{\Iter{t_i}{n}}_\prdem \ll \Sem{t_i}_\prdem$ in the way-below relation 
+on $\mathcal{S}\mathcal{V}_{\leq 1} \mathbb{N}$, via the explicit characterisation of this relation in~\cite{KeimelP2016}. Also, $(\Iter{t_i}{i})$ is an ascending sequence 
+of finite trees with $\bigsqcup_i \Iter{t_i}{i} = \Iter{t}{\infty}$
+% $ \simeq_\prdem t$.
 
-    \todo[inline]{Use the following lemma: way-below is preserved by sum}
-    Therefore at any given $i,n \in \mathbb{N}^2$, 
-    $\llbracket t_i \prEff (t_i')^n \rrbracket <\!\!< \llbracket t' \rrbracket$
-
-    We can conclude that for all $(i,n) \in \mathbb{N}$ there exists a 
-    $j \geq i$ such that $\llbracket t_i \prEff (t_i')^n \rrbracket \leq
-    \llbracket t_j' \rrbracket$ (way below relation).
-
-    Now, this translates into inequalities between \emph{finite trees}
-    and therefore between trees with finite disjunction, and thus 
-    $ t_i \prEff (t_i')^n \Basicleq^\Ax_\prdem t_j'$.
-
-    Using admissibility with a supremum over $n$ 
-    one deduces $t_i \prEff t_i' \Basicleq^\Ax_\prdem t_j'$
-    and using admissibility with a supremum over $i$ we can finally conclude
-    $t \prEff t' \Basicleq^\Ax_\prdem t'$.
-    \end{description}
+%So $(\Sem{\Iter{t_i}{i}}_\prdem)$ is an ascending sequence in 
+%$\mathcal{S}\mathcal{V}_{\leq 1} \mathbb{N}$ with 
+For every $i$, we have 
+$\Sem{\Iter{t_i}{i}}_\prdem \ll  \Sem{t_i}_\prdem \leq \Sem{t}_\prdem \leq \Sem{t'}_\prdem$. That is $\Sem{\Iter{t_i}{i}}_\prdem \ll  \Sem{t'}_\prdem$. 
+Since $\Sem{t'}_\prdem = \bigsqcup \Sem{t_i'}_\prdem$, it follows from the way-below property that, for every $i$, 
+$\Sem{\Iter{t_i}{i}}_\prdem \leq \Sem{t'_{j_i}}_\prdem$ for some $j_i$, where the sequence
+ $(j_i)$ can be assumed strictly ascending.
+So, by step 2 above, 
+$\Iter{t_i}{i} \Basicleq^\Ax_\prdem t'_{j_i}$, for every $i$.
+Whence by admissibility, 
+$\bigsqcup_i \Iter{t_i}{i} \Basicleq^\Ax_\prdem  \bigsqcup_i t'_{j_i}$; i.e.,
+$\Iter{t}{\infty}  \Basicleq^\Ax_\prdem  t'$. 
+Thus $t \Basicleq^\Ax_\prdem  t'$, by Proposition~\ref{proposition:horn}.
  \end{proof}
 
