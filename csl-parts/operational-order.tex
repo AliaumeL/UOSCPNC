@@ -7,7 +7,7 @@ preorder $\Basicleq$ on $\Trees(\mathbb{N})$. We call this method \emph{operatio
 There is not much to say in general about this approach, since such execution models vary enormously from one effect to another.
 The main point to emphasise is that there is no general reason for  admissibility and compositionality to hold for such operationally defined preorders. Accordingly, these properties need to be established on a case-by-case basis.
 
-The operatuional approach to defining basic preorders is illustrated for several examples of effects in~\cite{gom}. 
+The operatuonal approach to defining basic preorders is illustrated for several examples of effects in~\cite{gom}. 
 The main goal of the section is to demonstrate the approach using a different example, the signature
 $\Sigma_\prnd = \{\prEff,\orEff\}$ from Example~\ref{example:prnd}, which is of interest because of the 
 interplay between probabilistic and nondeterministic effects. 
@@ -53,6 +53,7 @@ t \Basicleq^\Op_\prang t' ~ \Leftrightarrow ~ ~& \forall h \colon \mathbb{N} \to
 \\
 t \Basicleq^\Op_\prdem t' ~ \Leftrightarrow ~ ~& \forall h \colon \mathbb{N} \to [0,\infty]~~ \inf_s  \mathbf{E}_{t\restriction s} (h)~ \leq~ \inf_s \mathbf{E}_{t'\restriction s} (h)
 \end{align*}
+Here $\mathbf{E}_{t\restriction\!s} (h)$ means the expectation of the function $h$ under the subprobability distribution on $\mathbb{N}$ induced by the Markov chaic $t  \restriction\! s$.
 In Markov-decision-process terminology, each preorder says that the \emph{value} of the MDP $t$, for any weighting $h$, is below the value of of $t'$ for $h$. In the angelic case the value maximises the expectation of $h$, in the demonic case it minimises it. 
 \begin{proposition}
 The preorders $\Basicleq^\Op_\prang$ and $\Basicleq^\Op_\prdem$ are admissible and compositional.
@@ -63,8 +64,8 @@ We outline the proof of this proposition in the case of $\Basicleq^\Op_\prdem$. 
 \label{lemma:F-continuous}
 Consider $\Tree(\mathbb{N})$ and $[0,+\infty]$ as $\omega$CPOs. Then,
 for any $h \colon \mathbb{N} \to [0,\infty]$, 
-the value-finding function \[F_h : t \mapsto \inf_s  \mathbf{E}_{t\restriction s} (h) : \Tree(\mathbb{N}) \to [0,+\infty]\]
-is continuous.
+the value-finding function $F_h$ is continuous:
+\[F_h : t \mapsto \inf_s  \mathbf{E}_{t\restriction s} (h) : \Tree(\mathbb{N}) \to [0,+\infty]\]
 \end{lemma}
 \begin{proof}
 The set $S = \{l,r\}^{\{l,r\}^*}$ of strategies is a countably-based compact Hausdorff space under the product topology. (It is Cantor space.)
@@ -87,13 +88,13 @@ subsequence  $(s_{a_i})$ of $(s_i)$ such that $s_{a_i} \rightarrow s_\infty$ in 
                 \, = \,
                 \sup_i G_h(s_{a_i}, t_{a_i})
                 \, = \,
-                G_h(s_\infty, \, \sqcup_i t_i)
+                G_h(s_\infty, \, \bigsqcup_i t_i)
                 \, \geq \,
-                \inf_s  G_h(s, \, \sqcup_i t_i)\, ,
+                \inf_s  G_h(s, \, \bigsqcup_i t_i)\, ,
             \end{equation*}
 where the second equality holds because $G_h(s_i, t_i)$ is an ascending sequence, and the third by the continuity of  $G_h$.
-We have shown that $ \sup_i  \inf_s G_h(s,t_i) \geq \inf_s  G_h(s, \sqcup_i t_i)$, i.e., 
-$ \sup_i  F_h(t_i) \geq F_h(\sqcup_i t_i)$. 
+We have shown that $ \sup_i  \inf_s G_h(s,t_i) \geq \inf_s  G_h(s, \bigsqcup_i t_i)$, i.e., 
+$ \sup_i  F_h(t_i) \geq F_h(\bigsqcup_i t_i)$. 
 Therefore $F_h$ is continuous (since it is obviously monotone).
 \end{proof}
 
@@ -101,8 +102,8 @@ Therefore $F_h$ is continuous (since it is obviously monotone).
 The admissibility of $\Basicleq^\Op_\prdem$ follows easily from the lemma.
 Suppose $t_i \Basicleq^\Op_\prdem t_i'$, for ascending chains $(t_i)$ and $(t'_i)$.
 Then $F_h(t_i) \leq F_h (t_i')$, for all $i$ and $h$. By the lemma, 
- $F_h (\sqcup_i t_i) \leq F_h (\sqcup_i t_i')$, for all $h$.
-So indeed  $\sqcup_i t_i \Basicleq^\Op_\prdem \sqcup_i t_i'$.
+ $F_h (\bigsqcup_i t_i) \leq F_h (\bigsqcup_i t_i')$, for all $h$.
+So indeed  $\bigsqcup_i t_i \Basicleq^\Op_\prdem \bigsqcup_i t_i'$.
 
 For compositionality, by Proposition~\ref{proposition:substitutive}, it suffices to show
 that $\Basicleq^\Op_\prdem$ is a substitutive precongruence. The compatibility properties 
@@ -119,7 +120,7 @@ $\{ t_n \}_{n \in \mathbb{N}}$ are trees in
                 \quad \text{ where } \quad \hat{h} (n) = \inf_s \mathbf{E}_{t_n \restriction  s} (h) \enspace .
             \end{equation*}
 \end{lemma}
-This lemma is proved first for finite trees, by induction on the height of the tree. It is then extended to infinite trees
+This lemma is proved first for finite trees, by induction on their height. It is then extended to infinite trees
 by expressing them as suprema of finite trees, and applying Lemma~\ref{lemma:F-continuous}.
 %
 %            \todo[inline]{The proof of this lemma is long and not interesting, 

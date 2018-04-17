@@ -54,7 +54,7 @@ The statement about compositionality now follows from Proposition~\ref{propositi
 
 Given the proposition, we can use any effect theory to define an admissible and compositional basic operational preorder, namely the smallest admissible model over $\mathbb{N}$. We now apply this method to our running example of combined nondeterminism and probabilistic choice. The  axioms are given in
 Figure~\ref{fig:axiomsmixed}.
-\begin{figure}[h!]
+\begin{figure}[t]
 \[
 \begin{array}{ll}
 \text{Bot:} & \bot \leq x
@@ -62,7 +62,7 @@ Figure~\ref{fig:axiomsmixed}.
 \text{Prob:} & x \prEff x = x , ~ x \prEff y = y \prEff x , ~ 
                                 (x \prEff y) \prEff\, (z \prEff w) = (x \prEff z) \prEff\, (y \prEff w)
 \\
-\text{Horn:} & x \prEff y \leq y \implies  x \leq y
+\text{Appr:} & x \prEff y \leq y \implies  x \leq y
  \\
 \text{Nondet:} & x \orEff x = x, ~ x \orEff y = y \orEff x, ~ ~ x \orEff\, (y \orEff z) = (x \orEff y) \orEff z
 \\

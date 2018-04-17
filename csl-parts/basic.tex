@@ -99,18 +99,19 @@ Let $\Basicleq$ be a preorder  on $\Trees(\mathbb{N})$.
 %\noindent
 %\todo[inline]{Only give the ideas of the proof to gain space}
 \begin{proof}
-    \begin{enumerate}
-        \item 
-             Suppose $\Basicleq$ is compositional. 
-            %It is substitutive because if $t \Basicleq t'$ and $\{ t_n \}_{n
-            %\in \mathbb{N}}$ is a family of trees then, since 
-            %$t_n \Basicleq t_n$,  we have 
-            $t[ n \mapsto t_n] \Basicleq t'[n \mapsto t_n]$ by compositionality.
-            For compatibility, if $o$ is an operation of arity $n$, and $t_i \Basicleq t'_i$ for $i = 1 \dots n$, then since $o(1,\dots, n) \Basicleq o(1,\dots, n)$,
-             we indeed have $o(t_1, \dots, t_n) \, \Basicleq \; o(t'_1, \dots, t'_n)$, by compositionality.
-             Substitutivity is by a similar argument, also using reflexivity.
-
-        \item 
+We prove statement 2.
+%    \begin{enumerate}
+%        \item 
+%             Suppose $\Basicleq$ is compositional. 
+%            %It is substitutive because if $t \Basicleq t'$ and $\{ t_n \}_{n
+%            %\in \mathbb{N}}$ is a family of trees then, since 
+%            %$t_n \Basicleq t_n$,  we have 
+%            $t[ n \mapsto t_n] \Basicleq t'[n \mapsto t_n]$ by compositionality.
+%            For compatibility, if $o$ is an operation of arity $n$, and $t_i \Basicleq t'_i$ for $i = 1 \dots n$, then since $o(1,\dots, n) \Basicleq o(1,\dots, n)$,
+%             we indeed have $o(t_1, \dots, t_n) \, \Basicleq \; o(t'_1, \dots, t'_n)$, by compositionality.
+%             Substitutivity is by a similar argument, also using reflexivity.
+%
+%        \item 
             Suppose $\Basicleq$ is admissible, substitutive and compatible. 
             Suppose also that $t \Basicleq t'$ and $t_n \Basicleq t_n'$, for all $n \in \mathbb{N}$.
             By substitutivity, we have $t[n \mapsto t_n] \Basicleq t'[n \mapsto t_n]$.
@@ -118,11 +119,11 @@ Let $\Basicleq$ be a preorder  on $\Trees(\mathbb{N})$.
             that also $t'[n \mapsto t_n] \Basicleq t'[n \mapsto
             t_n']$, however this is only possible if $t'$ is finite. 
             The solution is to use finite approximations $(s_i')$ of $t'$
-            satisfying $\sqcup_i s_i' = t'$. For each finite tree $s_i'$
+            satisfying $\bigsqcup_i s_i' = t'$. For each finite tree $s_i'$
             we have that $s_i'[n \mapsto t_n] \Basicleq s_i'[n \mapsto t_n']$, by compatibility.
             Hence, by admissibility, $t'[n \mapsto t_n] \Basicleq t'[n \mapsto
             t_n']$, whence $t[n \mapsto t_n] \Basicleq t'[n \mapsto t_n']$ by transitivity.
-        \end{enumerate}
+ %       \end{enumerate}
 \end{proof}
 
 
