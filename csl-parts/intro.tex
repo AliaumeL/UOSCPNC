@@ -36,7 +36,7 @@ bisimulations
 and their refinements (applicative/environmental bisimulations, 
 bisimulations up-to), %\cite{koutavas2011applicative}, 
 denotational interpretation in domains, % \cite{scott1982domains}, 
-game semantics %\cite{abramsky1999game}, 
+game semantics, %\cite{abramsky1999game}, 
 program logics,
 %higher order logic on  programs \cite{honda2005observationally} 
 and logical relations. %\cite{Pitts2000}. [[EXPAND REFERENCES]].
@@ -60,7 +60,10 @@ In an effect tree, the effects themselves are uninterpreted, in the sense that n
 As the second step, an interpretation is given to effect trees, by one means or another, from which a semantics for the whole language is extrapolated.
 This methodology was first followed in \cite{plotkin2001adequacy}, where the operational reduction to effect trees (there called \emph{infinitary effect values}) is used as a method for proving the computational adequacy of denotational semantics. 
 In \cite{gom}, effect trees (there called \emph{computation trees}) are used to give a uniform definition of 
-contextual preorder for a language with algebraic effects, and to characterise it as a logical relation.
+contextual preorder, %for a language with algebraic effects, 
+and to characterise it as a logical relation.
+Effect trees have also provide the basis for a general definition of applicative (bi)similarity for effects~\cite{Ugo2017,SV2018,Voor2018}
+
 %In~\cite{Ugo2017}, effect trees implicitly underpin the definition of relator used to give a general definition of applicative (bi)similarity for effects.
 %And in~\cite{SV2018,Voor2018} effect trees are used to specify program logics that characterise applicative (bi)similarity.
 
@@ -130,9 +133,10 @@ In fact, we give this result in two different versions.
 The first is for an \emph{angelic} interpretation of nondeterminism, in which nondeterministic choices are resolved by a cooperative scheduler. The second is for \emph{demonic} nondeterminism, where an antagonistic scheduler is assumed. 
 In each case, our coincidence theorem suggests the canonicity of the  preorder we obtain for the form of nondeterminism in question, with each of the three methods of definition providing a distinct perspective on it. 
 
-The paper is structured as follows. In Sections~\ref{section:trees} and~\ref{section:basic}, we review the 
+%The paper is structured as follows. 
+In Sections~\ref{section:trees} and~\ref{section:basic}, we review the 
 definition of effect trees and basic operational preorders, largely following~\cite{gom}. Our main contribution starts in Sections~\ref{section:operational}, \ref{section:denotational} and~\ref{section:axiomatic}, which discuss the 
-operational, denotational and axiomatic approaches to defining basic operational preorders. In each of these sections, the discussion is illustrated using the example of combined nondeterminism and probabilistic choice. 
+operational, denotational and axiomatic approaches to defining basic operational preorders. The discussion is illustrated using the example of combined nondeterminism and probabilistic choice. 
 The main coincidence theorem, for this example, is then proved in Section~\ref{section:equivalence}. Finally, in Section~\ref{section:conclusions}, we briefly discuss related and further work.
 
 
