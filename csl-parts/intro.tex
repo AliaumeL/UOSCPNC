@@ -20,7 +20,7 @@ they `behave' equivalently when embedded in any suitable context that leads to `
 %However this operational notion of equivalence is rarely usable 
 %as-is because of the quantification over potentially complex 
 %contexts, which can lead to unintuitive results \cite{pitts1997operationally}.
-More generally,\footnote{It is more general, since every equivalence relation is a preorder.} one can defines \emph{contextual preorder} in the same manner. Let $P_1$ and $P_2$ be comparable programs (for example, in a typed language, $P_1$ and $P_2$ would  have the same type in order to be comparable). Suppose also that we have some {basic preorder} $\Basicleq$, defined on `observable' computations, according to appropriate behavioural considerations. Then the contextual preorder is defined by
+More generally,\footnote{It is more general, since every equivalence relation is a preorder.} one can define \emph{contextual preorder} in the same manner. Let $P_1$ and $P_2$ be comparable programs (for example, in a typed language, $P_1$ and $P_2$ would  have the same type in order to be comparable). Suppose further  that we have some {basic preorder} $\Basicleq$, defined on `observable' computations, according to appropriate behavioural considerations. Then the contextual preorder is defined by
 \begin{equation}
 \label{equation:contextual-preorder}
 P_1 \sqsubseteq_\text{ctxt} P_2 ~ \iff ~
@@ -62,7 +62,7 @@ This methodology was first followed in \cite{plotkin2001adequacy}, where the ope
 In \cite{gom}, effect trees (there called \emph{computation trees}) are used to give a uniform definition of 
 contextual preorder, %for a language with algebraic effects, 
 and to characterise it as a logical relation.
-Effect trees have also provide the basis for a general definition of applicative (bi)similarity for effects~\cite{Ugo2017,SV2018,Voor2018}
+Effect trees also allow a general definition of applicative (bi)similarity for effects~\cite{SV2018,Voor2018} (but see \cite{Ugo2017} for another approach).
 
 %In~\cite{Ugo2017}, effect trees implicitly underpin the definition of relator used to give a general definition of applicative (bi)similarity for effects.
 %And in~\cite{SV2018,Voor2018} effect trees are used to specify program logics that characterise applicative (bi)similarity.

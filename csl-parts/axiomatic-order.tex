@@ -102,11 +102,12 @@ To end the section, we observe that the Horn axiom in Figure~\ref{fig:axiomsmixe
 
 \begin{proposition}%[Removing Horn-Clauses]
 \label{proposition:horn}
-    For any effect theory containing the Bot and Prob axioms, an admissible model satisfies the Horn axiom if and only if it satisfies the equation 
+    For any effect theory containing the Bot and Prob axioms, an admissible model satisfies the $\text{Appr}$
+     axiom if and only if it satisfies the equation 
     $\Iterx{\infty}= x$.
 \end{proposition}
 
-\begin{proof} We first derive $\Iterx{\infty}= x$, from the axioms with the Horn clause.
+\begin{proof} We first derive $\Iterx{\infty}= x$, from the axioms with $\text{Appr}$.
     It is clear that $\Iterx{n} \leq  x$ for every $n < \infty$,
     and therefore $\Iterx{\infty} \leq  x$ by admissibility.
     We also have $x \prEff \Iterx{n} \leq  \Iterx{(n+1)}$,
@@ -114,7 +115,7 @@ To end the section, we observe that the Horn axiom in Figure~\ref{fig:axiomsmixe
     Whence, by the Horn axiom, $x  \leq \Iterx{\infty}$. 
      We have thus derived $\Iterx{\infty}= x$.
 
-    For the converse, we assume $\Iterx{\infty}= x$ and derive the Horn clause.
+    For the converse, we assume $\Iterx{\infty}= x$ and derive  $\text{Appr}$.
     Suppose $x \prEff y \leq y$.  Then also  $x \prEff \, (x \prEff y) \leq y$, and $x \prEff \, ( x \prEff \, (x \prEff y)) \leq y$, etc. So also $x \prEff \bot \leq y$, and $x \prEff \, (x \prEff \bot) \leq y$, and $x \prEff \, ( x \prEff \, (x \prEff \bot)) \leq y$,
  etc. That is, $\Iterx{n} \leq y$, for every $n < \infty$. By admissibility, $\Iterx{\infty} \leq y$. Whence, by the assumed axiom, $x \leq y$ as required.
  \end{proof}
