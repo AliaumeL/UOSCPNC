@@ -44,7 +44,7 @@ These techniques are all reasonably general, in the sense that they adapt to dif
 %A major reason for this is that it is difficult to give mathematical definitions that apply uniformly across a range of languages and features. 
 
 One direction for the systematisation of a range of programming features has been provided by Plotkin and Power through their work on
- \emph{algebraic effects}~\cite{plotkin2001adequacy,PlotkinPower2002}. Broadly speaking, effects are interactions between a  program and/or its environment (including the machine state), and include features such as
+ \emph{algebraic effects}~\cite{plotkin2001adequacy,PlotkinPower2002}. Broadly speaking, effects are interactions between a  program and its environment (including the machine state), and include features such as
  error raising, global/local state, input/output, nondeterminism and probabilistic choice. 
  Plotkin and Power realised that the majority of effects (including all the aforementioned ones) are \emph{algebraic}, in the sense that the operations that trigger them %can be given in an algebraic signature, and also 
  satisfy a certain natural behavioural constraint.\footnote{In operational terms, the constraint  is that the behaviour of the operation does not depend on the content of the continuation at the time the operation is triggered.} 
@@ -62,7 +62,7 @@ This methodology was first followed in \cite{plotkin2001adequacy}, where the ope
 In \cite{gom}, effect trees (there called \emph{computation trees}) are used to give a uniform definition of 
 contextual preorder, %for a language with algebraic effects, 
 and to characterise it as a logical relation.
-Effect trees also allow a general definition of applicative (bi)similarity for effects~\cite{SV2018,Voor2018} (but see \cite{Ugo2017} for another approach).
+Effect trees also allow a general definition of applicative (bi)similarity for effects~\cite{SV2018,Voor2018} (see \cite{Ugo2017} for a related approach not based on trees).
 
 %In~\cite{Ugo2017}, effect trees implicitly underpin the definition of relator used to give a general definition of applicative (bi)similarity for effects.
 %And in~\cite{SV2018,Voor2018} effect trees are used to specify program logics that characterise applicative (bi)similarity.
@@ -70,9 +70,10 @@ Effect trees also allow a general definition of applicative (bi)similarity for e
 In this paper, as in  \cite{gom}, our aim is to exploit the notion of effect tree for the purpose of 
 giving a unified theory of contextual preorders for programming languages with algebraic effects.
 In~\cite{gom}, this was carried out in the context of a specific polymorphically-typed call-by-name functional language with general recursion, to which algebraic effects were added. In this paper, we build on the technical work of~\cite{gom}, but an important departure is that we detach the development from any fixed choice of background programming language. This is based on the following general considerations. In order to define contextual preorder via~(\ref{equation:contextual-preorder}) above, one needs to specify what constitutes an observation context, and also the basic behavioural relation $\Basicleq$ on the computations such contexts induce. In the case of a language with algebraic effects, we can observe two things about a computation. Firstly, we can observe any discrete return value. 
-In any sufficiently expressive language, discrete values should be convertible to natural numbers. So it is a not unreasonable  restriction to restrict observation contexts to \emph{ground contexts} whose return values (if any) are natural numbers.  The process of comptation for such a context can be  modelled as an effect tree with natural-number-labelled leaves.
-%We call such contexts \emph{ground contexts}.
+In any sufficiently expressive language, discrete values should be convertible to natural numbers. So it is a not unreasonable  restriction to restrict observation contexts to \emph{ground contexts} whose return values (if any) are natural numbers.  
 Secondly, we can also potentially observe aspects of effectful behaviour of such  computations, with exactly what is observable very much depending on the effects in question. 
+%Since process of computation for such a context can be  modelled as an effect tree with natural-number-labelled leaves.
+%We call such contexts \emph{ground contexts}.
 We thus specify a  \emph{basic operational preorder} 
 $\Basicleq$ on the set
 %$\Trees(\Nat)$ 
@@ -90,7 +91,7 @@ P_1 \sqsubseteq_\text{ctxt} P_2 ~ \iff ~
 
 In~\cite{gom}, this general approach was developed in detail for 
 a polymorphically typed call-by-name functional language with algebraic effects. 
-The main result was that the resulting contextual preorder, defined by (\ref{equation:contextual-preorder-via-trees}), is well behaved if the basic operational preorder satisfies two technical properties, \emph{admissibility} and \emph{compositionality}. In particular, it follows from these conditions that 
+The main result was that the resulting contextual preorder, defined by~(\ref{equation:contextual-preorder-via-trees}), is well behaved if the basic operational preorder satisfies two technical properties, \emph{admissibility} and \emph{compositionality}. In particular, it follows from these conditions that 
 the contextual preorder is characterisable as a {logical relation} (and hence amenable to an important proof technique), and also that, on ground type programs $P_1,P_2$,
 the contextual and basic operational preorders coincide (i.e., $P_1 \sqsubseteq_\text{ctxt} P_2$ if and only if
 $|P_1| \Basicleq |P_2|$). 
@@ -107,7 +108,7 @@ It seems likely that similar results hold for other language variants.
 
 The
 notion of admissible and  compositional basic operational preorder thus provides a uniform and well-behaved definition of contextual preorder, for different languages with algebraic effects. Furthermore,
-as is argued in~\cite[\S{V}]{gom}, it can also be given an intrinsic, more conceptually motivated, justification in terms of an explicit  notion of \emph{observation}. 
+as is argued in~\cite[\S{V}]{gom}, it can also be given an intrinsic, more conceptually motivated justification in terms of an explicit  notion of \emph{observation}. 
 Our general position is that the notion of admissible and  compositional basic operational preorder is a fundamental one. 
 \emph{For any given combination of algebraic effects, one need only define a corresponding admissible and compositional basic operational preorder.} Once this has been done,  one obtains, via (\ref{equation:contextual-preorder-via-trees}), a definition of contextual preorder that can be applied to many programming languages containing those effects, and which will enjoy good properties.
 
@@ -115,7 +116,8 @@ In this paper, we describe three different approaches to defining basic operatio
 The first is an \emph{operational} approach. One explicitly models the execution of the effects in question, and uses this model to determine the preorder. This is the approach that was followed 
 in~\cite{gom}. Under this approach, admissibility and compositionality do not hold automatically, and so need to be explicitly verified. The second is a  \emph{denotational} approach. One builds a suitable domain-based model of the relevant effect operations. This induces a basic operational preorder on  effect trees that is automatically admissible and compositional. 
 The third is \emph{axiomatic}. One finds a set of (possibly infinitary) Horn-clause axioms asserting desired properties of the intended preorder. The basic operational preorder is then taken to be the smallest admissible preorder satisfying the axioms. In addition to being admissible by definition, the resulting preorder is automatically compositional. 
-It will not have escaped the readers attention that our three approaches to defining preorders  parallel the three main styles of program semantics: \emph{operational}, \emph{denotational} and \emph{axiomatic}. Nonetheless, irrespective of how they are defined, we view basic operational preorders as a part of operational semantics, for their purpose is to define the operational notion of contextual preorder. 
+
+It will not have escaped the readers attention that our three approaches to defining preorders  parallel the three main styles of program semantics: \emph{operational}, \emph{denotational} and \emph{axiomatic}. Nonetheless, irrespective of how they are defined, we view basic operational preorders themselves as a part of operational semantics, for their purpose is to define the operational notion of contextual preorder. 
 %Thus our triptych of approaches shows that operational semantics can itself come in
 % \emph{operational}, \emph{denotational} and \emph{axiomatic} flavours. 
 
