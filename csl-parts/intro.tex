@@ -24,7 +24,7 @@ More generally,\footnote{It is more general, since every equivalence relation is
 \begin{equation}
 \label{equation:contextual-preorder}
 P_1 \sqsubseteq_\text{ctxt} P_2 ~ \iff ~
-\text{for all observation contexts $C[-]$, $~ |C[P_1]| \Basicleq |C[P_2]|$} \enspace . 
+\text{for all observation contexts $C[-]$, $~ C[P_1] \Basicleq C[P_2]$} \enspace . 
 \end{equation}
 This method of definition has important consequences. For example, the relation
 $\sqsubseteq_\text{ctxt}$ is guaranteed to be a precongruence with respect 
@@ -32,7 +32,7 @@ to the constructors of the programming language.
 However, the quantification over contexts makes the definition awkward to work with directly.
 So various more manageable techniques for reasoning about contextual preorder relations have been developed, including:
 %The choices of citations below all seem quite arbitrary, so I am removing them
-bisimulations 
+(bi)simulations 
 and their refinements (applicative/environmental bisimulations, 
 bisimulations up-to), %\cite{koutavas2011applicative}, 
 denotational interpretation in domains, % \cite{scott1982domains}, 
@@ -74,11 +74,11 @@ In any sufficiently expressive language, discrete values should be convertible t
 Secondly, we can also potentially observe aspects of effectful behaviour of such  computations, with exactly what is observable very much depending on the effects in question. 
 %Since process of computation for such a context can be  modelled as an effect tree with natural-number-labelled leaves.
 %We call such contexts \emph{ground contexts}.
-We thus specify a  \emph{basic operational preorder} 
+One general approach to taking such effectful behaviour into account is to  specify a  \emph{basic operational preorder} 
 $\Basicleq$ on the set
 %$\Trees(\Nat)$ 
 of effect trees with natural-number-labelled leaves, which implements a desired behavioural preorder on
-effectful computations with natural number return values.
+effectful computations with return values in $\mathbb{N}$.
 % Irrespective of how we actually interpret these effects, (\ref{equation:contextual-preorder}) requires that we specify a relation $\Basicleq$ between effectful computations with natural number return values.
  We are thus 
 led to the following general formulation of contextual equivalence. Given a chosen basic operational preorder
