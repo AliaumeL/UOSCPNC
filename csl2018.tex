@@ -140,8 +140,8 @@ combined probability and nondeterminism in particular}
 \EventDate{December 24--27, 2016}
 \EventLocation{Little Whinging, United Kingdom}
 \EventLogo{}
-\SeriesVolume{42}
-\ArticleNo{23}
+\SeriesVolume{}
+\ArticleNo{28}
 %\nolinenumbers %uncomment to disable line numbering
 %\hideLIPIcs  %uncomment to remove references to LIPIcs series (logo, DOI, ...), e.g. when preparing a pre-final version to be uploaded to arXiv or another public repository
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -160,8 +160,148 @@ specifying such preorders: (i)~operational (ii)~denotational, and (iii)~axiomati
 %We further show how basic operational preorders support a manageable theory of contextual equivalence for call-by-value languages, complementing the call-by-name case previously treated in the literature.
  \end{abstract}
 
+\section{Introduction}
+\label{section:intro}
 
-\input{csl-parts/intro}
+%\todo[inline]{OBVIOUSLY INTRO NEEDS REVISING. BUT WE SHOULD WRITE THIS TOWARDS THE END}
+
+%Contextual equivalence, in the style of Morris,
+%has imposed itself as a very simple and powerful
+%way to express what an equivalence on programs should be. 
+%Two programs are said to be contextually equivalent if 
+%they \emph{behave} equivalently under any context. 
+%However this operational notion of equivalence is rarely usable 
+%as-is because of the quantification over potentially complex 
+%contexts, which can lead to unintuitive results \cite{pitts1997operationally}.
+
+\emph{Contextual equivalence}, in the style of Morris,
+is a powerful and general method for defining program equivalence, applicable to many 
+programming languages. 
+Two programs are said to be contextually equivalent if 
+they `behave' equivalently when embedded in any suitable context that leads to `observable' behaviour. 
+%However this operational notion of equivalence is rarely usable 
+%as-is because of the quantification over potentially complex 
+%contexts, which can lead to unintuitive results \cite{pitts1997operationally}.
+More generally,\footnote{It is more general, since every equivalence relation is a preorder.} one can define \emph{contextual preorder} in the same manner. Let $P_1$ and $P_2$ be comparable programs (for example, in a typed language, $P_1$ and $P_2$ would  have the same type in order to be comparable). Suppose further  that we have some {basic preorder} $\Basicleq$, defined on `observable' computations, according to appropriate behavioural considerations. Then the contextual preorder is defined by
+\begin{equation}
+\label{equation:contextual-preorder}
+P_1 \sqsubseteq_\text{ctxt} P_2 ~ \iff ~
+\text{for all observation contexts $C[-]$, $~ C[P_1] \Basicleq C[P_2]$} \enspace . 
+\end{equation}
+This method of definition has important consequences. For example, the relation
+$\sqsubseteq_\text{ctxt}$ is guaranteed to be a precongruence with respect 
+to the constructors of the programming language.
+However, the quantification over contexts makes the definition awkward to work with directly.
+So various more manageable techniques for reasoning about contextual preorder relations have been developed, including:
+%The choices of citations below all seem quite arbitrary, so I am removing them
+(bi)simulations 
+and their refinements (applicative/environmental bisimulations, 
+bisimulations up-to), %\cite{koutavas2011applicative}, 
+denotational interpretation in domains, % \cite{scott1982domains}, 
+game semantics, %\cite{abramsky1999game}, 
+program logics,
+%higher order logic on  programs \cite{honda2005observationally} 
+and logical relations. %\cite{Pitts2000}. [[EXPAND REFERENCES]].
+These techniques are all reasonably general, in the sense that they adapt to different styles of programming languages, and combinations of programming features. Nonetheless, they are usually studied on a language-by-language basis.
+%A major reason for this is that it is difficult to give mathematical definitions that apply uniformly across a range of languages and features. 
+
+One direction for the systematisation of a range of programming features has been provided by Plotkin and Power through their work on
+ \emph{algebraic effects}~\cite{plotkin2001adequacy,PlotkinPower2002}. Broadly speaking, effects are interactions between a  program and its environment (including the machine state), and include features such as
+ error raising, global/local state, input/output, nondeterminism and probabilistic choice. 
+ Plotkin and Power realised that the majority of effects (including all the aforementioned ones) are \emph{algebraic}, in the sense that the operations that trigger them %can be given in an algebraic signature, and also 
+ satisfy a certain natural behavioural constraint.\footnote{In operational terms, the constraint  is that the behaviour of the operation does not depend on the content of the continuation at the time the operation is triggered.} 
+ %THIS PARAGRAPH: \cite{plotkin2001adequacy} [OTHER REFS]
+
+The algebraic effects  in a programming language can  be supplied via an algebraic signature $\Sigma$ of effect-triggering operations,
+and the operational semantics of the language can then be defined parametrically in $\Sigma$. 
+This is achieved by effectively splitting the semantics of 
+the language into two steps. In the first step, operational rules specify how any program $P$ evaluates 
+to an associated \emph{effect tree} $|P|$, 
+which documents  all the effects that might potentially occur during execution. % and their interdependencies.
+In an effect tree, the effects themselves are uninterpreted, in the sense that no specific execution behaviour is imposed upon them. 
+As the second step, an interpretation is given to effect trees, by one means or another, from which a semantics for the whole language is extrapolated.
+This methodology was first followed in \cite{plotkin2001adequacy}, where the operational reduction to effect trees (there called \emph{infinitary effect values}) is used as a method for proving the computational adequacy of denotational semantics. 
+In \cite{gom}, effect trees (there called \emph{computation trees}) are used to give a uniform definition of 
+contextual preorder, %for a language with algebraic effects, 
+and to characterise it as a logical relation.
+Effect trees also allow a general definition of applicative (bi)similarity for effects~\cite{SV2018,Voor2018} (see \cite{Ugo2017} for a related approach not based on trees).
+
+%In~\cite{Ugo2017}, effect trees implicitly underpin the definition of relator used to give a general definition of applicative (bi)similarity for effects.
+%And in~\cite{SV2018,Voor2018} effect trees are used to specify program logics that characterise applicative (bi)similarity.
+
+In this paper, as in  \cite{gom}, our aim is to exploit the notion of effect tree for the purpose of 
+giving a unified theory of contextual preorders for programming languages with algebraic effects.
+In~\cite{gom}, this was carried out in the context of a specific polymorphically-typed call-by-name functional language with general recursion, to which algebraic effects were added. In this paper, we build on the technical work of~\cite{gom}, but an important departure is that we detach the development from any fixed choice of background programming language. This is based on the following general considerations. In order to define contextual preorder via~(\ref{equation:contextual-preorder}) above, one needs to specify what constitutes an observation context, and also the basic behavioural relation $\Basicleq$ on the computations such contexts induce. In the case of a language with algebraic effects, we can observe two things about a computation. Firstly, we can observe any discrete return value. 
+In any sufficiently expressive language, discrete values should be convertible to natural numbers. So it is a not unreasonable  restriction to restrict observation contexts to \emph{ground contexts} whose return values (if any) are natural numbers.  
+Secondly, we can also potentially observe aspects of effectful behaviour of such  computations, with exactly what is observable very much depending on the effects in question. 
+%Since process of computation for such a context can be  modelled as an effect tree with natural-number-labelled leaves.
+%We call such contexts \emph{ground contexts}.
+One general approach to taking such effectful behaviour into account is to  specify a  \emph{basic operational preorder} 
+$\Basicleq$ on the set
+%$\Trees(\Nat)$ 
+of effect trees with natural-number-labelled leaves, which implements a desired behavioural preorder on
+effectful computations with return values in $\mathbb{N}$.
+% Irrespective of how we actually interpret these effects, (\ref{equation:contextual-preorder}) requires that we specify a relation $\Basicleq$ between effectful computations with natural number return values.
+ We are thus 
+led to the following general formulation of contextual equivalence. Given a chosen basic operational preorder
+$\Basicleq$, we define the induced contextual preorder on programs by:
+\begin{equation}
+\label{equation:contextual-preorder-via-trees}
+P_1 \sqsubseteq_\text{ctxt} P_2 ~ \iff ~
+\text{for all ground contexts $C[-]$, $~ |C[P_1]| \Basicleq |C[P_2]|$} \enspace . 
+\end{equation}
+
+In~\cite{gom}, this general approach was developed in detail for 
+a polymorphically typed call-by-name functional language with algebraic effects. 
+The main result was that the resulting contextual preorder, defined by~(\ref{equation:contextual-preorder-via-trees}), is well behaved if the basic operational preorder satisfies two technical properties, \emph{admissibility} and \emph{compositionality}. In particular, it follows from these conditions that 
+the contextual preorder is characterisable as a {logical relation} (and hence amenable to an important proof technique), and also that, on ground type programs $P_1,P_2$,
+the contextual and basic operational preorders coincide (i.e., $P_1 \sqsubseteq_\text{ctxt} P_2$ if and only if
+$|P_1| \Basicleq |P_2|$). 
+%These results turn out not to be specific to the call-by-name language of~\cite{gom}.
+Recently, we have carried out a similar programme for a call-by-value language,
+similar to the language in~\cite{plotkin2001adequacy}, and obtained analogous results.%
+% :  if the basic operational preorder is admissible and compositional then it is characterisable as a logical relation, 
+% and coincides with the basic preorder at ground type.
+\footnote{\label{footnote:unpublished}Unfortunately, there is no space to include these results, which were obtained while the first author was on an internship in Ljubljana in 2017, in this paper.}
+It seems likely that similar results hold for other language variants.
+% (call-by-push-value~\cite{LevyCBPV}, untyped or with additional type constructors, etc.). %are obtainable for other  %We had hoped to include it in this paper but 
+
+
+
+The
+notion of admissible and  compositional basic operational preorder thus provides a uniform and well-behaved definition of contextual preorder, for different languages with algebraic effects. Furthermore,
+as is argued in~\cite[\S{V}]{gom}, it can also be given an intrinsic, more conceptually motivated justification in terms of an explicit  notion of \emph{observation}. 
+Our general position is that the notion of admissible and  compositional basic operational preorder is a fundamental one. 
+\emph{For any given combination of algebraic effects, one need only define a corresponding admissible and compositional basic operational preorder.} Once this has been done,  one obtains, via (\ref{equation:contextual-preorder-via-trees}), a definition of contextual preorder that can be applied to many programming languages containing those effects, and which will enjoy good properties.
+
+In this paper, we describe three different approaches to defining basic operational preorders. 
+The first is an \emph{operational} approach. One explicitly models the execution of the effects in question, and uses this model to determine the preorder. This is the approach that was followed 
+in~\cite{gom}. Under this approach, admissibility and compositionality do not hold automatically, and so need to be explicitly verified. The second is a  \emph{denotational} approach. One builds a suitable domain-based model of the relevant effect operations. This induces a basic operational preorder on  effect trees that is automatically admissible and compositional. 
+The third is \emph{axiomatic}. One finds a set of (possibly infinitary) Horn-clause axioms asserting desired properties of the intended preorder. The basic operational preorder is then taken to be the smallest admissible preorder satisfying the axioms. In addition to being admissible by definition, the resulting preorder is automatically compositional. 
+
+It will not have escaped the readers attention that our three approaches to defining preorders  parallel the three main styles of program semantics: \emph{operational}, \emph{denotational} and \emph{axiomatic}. Nonetheless, irrespective of how they are defined, we view basic operational preorders themselves as a part of operational semantics, for their purpose is to define the operational notion of contextual preorder. 
+%Thus our triptych of approaches shows that operational semantics can itself come in
+% \emph{operational}, \emph{denotational} and \emph{axiomatic} flavours. 
+
+The general identification of these three approaches is the first main contribution of the paper.
+%which is a contribution of a methodological nature. 
+Our second contribution is more technical. We illustrate the three approaches
+with a nontrivial case study: the combination of (finitary) nondeterminism with probabilistic choice, which is a combination of effects that enjoys a certain notoriety 
+for some of the technical complications it incurs~\cite{Mislove2000,mislove2004axioms,VW06,tix2009semantic,JGL15,JGL-mscs16,KeimelP2016}.
+%We treat this combination of effects from each of the three viewpoints. 
+On the operational side, we consider effect trees as Markov decision processes (MDPs), and we define a basic operational preorder based on the comparison of values of MDPs. On the denotational side, we make use of recently developed domain-theoretic models of combined nondeterministic and probabilistic choice~\cite{tix2009semantic,JGL-mscs16,KeimelP2016}.
+On the axiomatic side, we give a simple axiomatisation, similar to axiomatisations in~\cite{mislove2004axioms,KeimelP2016}. 
+Our main result is that the
+operationally, denotationally and axiomatically-defined basic operational preorders all coincide with each other.
+In fact, we give this result in two different versions.
+The first is for an \emph{angelic} interpretation of nondeterminism, in which nondeterministic choices are resolved by a cooperative scheduler. The second is for \emph{demonic} nondeterminism, where an antagonistic scheduler is assumed. 
+In each case, our coincidence theorem suggests the canonicity of the  preorder we obtain for the form of nondeterminism in question, with each of the three methods of definition providing a distinct perspective on it. 
+
+%The paper is structured as follows. 
+In Sections~\ref{section:trees} and~\ref{section:basic}, we review the 
+definition of effect trees and basic operational preorders, largely following~\cite{gom}. Our main contribution starts in Sections~\ref{section:operational}, \ref{section:denotational} and~\ref{section:axiomatic}, which discuss the 
+operational, denotational and axiomatic approaches to defining basic operational preorders. The discussion is illustrated using the example of combined nondeterminism and probabilistic choice. 
+The main coincidence theorem, for this example, is then proved in Section~\ref{section:equivalence}. Finally, in Section~\ref{section:conclusions}, we briefly discuss related and further work.
 
 \input{csl-parts/trees}
 
