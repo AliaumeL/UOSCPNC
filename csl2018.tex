@@ -116,7 +116,7 @@ combined probability and nondeterminism in particular}
 
 \Copyright{Aliaume Lopez and Alex Simpson}%mandatory, please use full first names. LIPIcs license is "CC-BY";  http://creativecommons.org/licenses/by/3.0/
 
-\subjclass{Dummy classification}% mandatory: Please choose ACM 2012 classifications from https://www.acm.org/publications/class-2012 or https://dl.acm.org/ccs/ccs_flat.cfm . E.g., cite as "General and reference $\rightarrow$ General literature" or \ccsdesc[100]{General and reference~General literature}. 
+\subjclass{\ccsdesc[500]{Theory of computation~Operational semantics}; \ccsdesc[300]{Theory of computation~Denotational semantics}; \ccsdesc[300]{Theory of computation~Axiomatic semantics}}% mandatory: Please choose ACM 2012 classifications from https://www.acm.org/publications/class-2012 or https://dl.acm.org/ccs/ccs_flat.cfm . E.g., cite as "General and reference $\rightarrow$ General literature" or \ccsdesc[100]{General and reference~General literature}. 
 
 \keywords{contextual equivalence, algebraic effects, operational semantics, domain theory, nondeterminism, probabilistic choice, Markov decision process}%mandatory
 
@@ -131,16 +131,17 @@ combined probability and nondeterminism in particular}
 \acknowledgements{We thank Gordon Plotkin, Matija Pretnar  and Niels Voorneveld for helpful discussions.}%optional
 
 %Editor-only macros:: begin (do not touch as author)%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\EventEditors{John Q. Open and Joan R. Access}
+\EventEditors{Dan Ghica and Achim Jung}
 \EventNoEds{2}
-\EventLongTitle{42nd Conference on Very Important Topics (CVIT 2016)}
-\EventShortTitle{For review}
-\EventAcronym{CVIT}
-\EventYear{2016}
-\EventDate{December 24--27, 2016}
-\EventLocation{Little Whinging, United Kingdom}
+\EventLongTitle{27th EACSL Annual Conference on Computer Science Logic (CSL 201}
+\EventShortTitle{CSL 2018}
+\EventAcronym{CSL}
+\EventYear{2018}
+\EventDate{September 4--7, 2018}
+\EventLocation{Birmingham, GB}
 \EventLogo{}
-\SeriesVolume{}
+\SeriesVolume{119}
+%The article number for CSL 2018 proceedings
 \ArticleNo{28}
 %\nolinenumbers %uncomment to disable line numbering
 %\hideLIPIcs  %uncomment to remove references to LIPIcs series (logo, DOI, ...), e.g. when preparing a pre-final version to be uploaded to arXiv or another public repository
@@ -156,8 +157,6 @@ contextual equivalence,
 in the presence of algebraic effects, in terms of a
 \emph{basic operational preorder} on ground-type effect trees. We propose three general approaches to 
 specifying such preorders: (i)~operational (ii)~denotational, and (iii)~axiomatic; coinciding with the three major styles of program semantics. We illustrate these via a nontrivial case study: the combination of probabilistic choice with nondeterminism, for which we show that  natural instantiations of the three specification methods (operational in terms of Markov decision processes, denotational using  a powerdomain, and axiomatic) all determine the same canonical preorder. We do this in the case of both angelic and demonic nondeterminism. 
-%I DO NOT THINK WE WILL HAVE SPACE FOR:
-%We further show how basic operational preorders support a manageable theory of contextual equivalence for call-by-value languages, complementing the call-by-name case previously treated in the literature.
  \end{abstract}
 
 \section{Introduction}
@@ -224,7 +223,7 @@ This methodology was first followed in \cite{plotkin2001adequacy}, where the ope
 In \cite{gom}, effect trees (there called \emph{computation trees}) are used to give a uniform definition of 
 contextual preorder, %for a language with algebraic effects, 
 and to characterise it as a logical relation.
-Effect trees also allow a general definition of applicative (bi)similarity for effects~\cite{SV2018,Voor2018} (see \cite{Ugo2017} for a related approach not based on trees).
+Effect trees also allow a general definition of applicative (bi)similarity for effects~\cite{SV2018} (see \cite{Ugo2017} for a related approach not based on trees).
 
 %In~\cite{Ugo2017}, effect trees implicitly underpin the definition of relator used to give a general definition of applicative (bi)similarity for effects.
 %And in~\cite{SV2018,Voor2018} effect trees are used to specify program logics that characterise applicative (bi)similarity.
@@ -243,7 +242,7 @@ of effect trees with natural-number-labelled leaves, which implements a desired 
 effectful computations with return values in $\mathbb{N}$.
 % Irrespective of how we actually interpret these effects, (\ref{equation:contextual-preorder}) requires that we specify a relation $\Basicleq$ between effectful computations with natural number return values.
  We are thus 
-led to the following general formulation of contextual equivalence. Given a chosen basic operational preorder
+led to the following general formulation of contextual preorder. Given a chosen basic operational preorder
 $\Basicleq$, we define the induced contextual preorder on programs by:
 \begin{equation}
 \label{equation:contextual-preorder-via-trees}
@@ -303,17 +302,899 @@ definition of effect trees and basic operational preorders, largely following~\c
 operational, denotational and axiomatic approaches to defining basic operational preorders. The discussion is illustrated using the example of combined nondeterminism and probabilistic choice. 
 The main coincidence theorem, for this example, is then proved in Section~\ref{section:equivalence}. Finally, in Section~\ref{section:conclusions}, we briefly discuss related and further work.
 
-\input{csl-parts/trees}
+\section{Effect trees}
+\label{section:trees}
 
-\input{csl-parts/basic}
+The general scenario this paper addresses is that of a programming language whose programs may perform effects as they compute. In this paper, we assume that the available effects are  specified 
+by  an \emph{effect signature}: a set $\Sigma$ of operation symbols, each with an associated finite arity. We call the operations in $\Sigma$ \emph{effect operations}. This setting is explicitly that of \cite{plotkin2001adequacy}.
+More general effect signatures appear in the literature, e.g., allowing parameterised operations and infinite arities
+\cite{gom,StatonInstances}. The technical development in this paper can be generalised to such
+more general signatures. Since, however, the main running example considered in this paper has only binary operations, we restrict ourselves to finite arity operations 
+for the sake of presentational convenience. %We now present this example.
+\begin{example}[Signature for combined probabilistic and non-deterministic choice]
+\label{example:prnd}
+    Consider a programming language that can perform two effects: probabilistic and nondeterministic choice.
+    An appropriate signature for such a language is 
+    $\Sigma_{\prnd} = \{ (\prEff,2), (\orEff,2) \}$ containing two binary operations:
+    nondeterministic choice $\orEff$, 
+    and fair probabilistic choice $\prEff$. (As is well known, in programming languages with general recursion, all computable discrete probability distributions can be 
+     simulated using fair probabilistic choice.)
+ \end{example}
 
-\input{csl-parts/operational-order}
+During the execution of a program with effects, three different situations can arise. Firstly, the computation process may
+trigger an effect, represented by some $o \in \Sigma$. The execution will then continue along one of the $n$ possible continuation processes given as arguments to the operation $o$. Secondly, the execution may terminate, 
+in which case it may produce a resulting value. 
+Thirdly, the execution may continue forever without terminating and without invoking any effects. We call this last situation
+ \emph{silent nontermination} to distinguish it from \emph{noisy nontermination}, which occurs
+ when the computation process computes for ever while performing an infinite sequence of effects along the way.
 
-\input{csl-parts/denotational-order}
+The global behaviour of such a program is captured by the notion of an \emph{effect tree}: a  finitely branching tree, whose 
+internal nodes represent effect operations, and whose leaves represent either termination with a result, or silent nontermination. The branches of the tree represent potential execution sequences of the program. 
+Trees are allowed to be infinitely deep, with their infinite branches representing noisy nontermination.
+Such trees were introduced as \emph{infinitary effect values} in  \cite{plotkin2001adequacy}, and used extensively in \cite{gom}, where they are called
+\emph{computation trees}. Two example trees, for computations that return natural number values, are drawn in
+Figure~\ref{fig:exampletrees} below. The left-hand tree $\orEff (\prEff (1,2), 3)$ represents a program that first makes a nondeterministic choice and then a potential probabilistic choice, with the choices determining the resulting number. In the second tree $\prEff (\orEff (1,3), \orEff (2,3))$, the probabilistic choice is made first, followed by the relevant nondeterministic choice.
 
-\input{csl-parts/axiomatic-order}
+\begin{figure}[h]
+\small
+    \begin{center}
+        \begin{tikzpicture}
+            \node [circle,draw] (z){$\orEff$}
+                child { 
+                    node [circle,draw] (a) {$\prEff$}
+                    child { node[circle,draw] (b) {$1$} } 
+                    child { node[circle,draw] (c) {$2$} }
+                }
+                child {
+                    node [circle,draw] (d) {$3$}    
+                };
+        \end{tikzpicture}
+        \hspace*{8ex}
+        \begin{tikzpicture}[level 1/.style={sibling distance=3cm},
+                            level 2/.style={sibling distance=1.5cm}]
+            \node [circle,draw] (z){$\prEff$}
+                child { 
+                    node [circle,draw] (h) {$\orEff$}
+                    child { node[circle,draw] (b) {$1$} } 
+                    child { node[circle,draw] (c) {$3$} }
+                }
+                child {
+                    node [circle,draw] (g) {$\orEff$}
+                    child { node[circle,draw] (e) {$2$} } 
+                    child { node[circle,draw] (f) {$3$} }
+                };
+        \end{tikzpicture}
+    \end{center}
+%  \begin{equation*}
+%        \orEff (\prEff (1,2), 3) \quad \quad \prEff (\orEff (1,3), \orEff (2,3))
+ %   \end{equation*}
+    \caption{Two effect trees}
+    \label{fig:exampletrees}
+\end{figure}
 
-\input{csl-parts/equivalence-theorem}
+
+
+
+
+
+\begin{definition}
+The set $\Trees(X)$ of \emph{effect trees} with values from  the set $X$ is coinductively defined so that
+every tree has one of the following  forms.
+\begin{itemize}
+\item The root of the tree is labelled with an operation $o \in \Sigma$, and the tree has the form
+         $o(t_1, \dots, t_n)$ where $n$ is the arity of $o$ and $t_1, \dots, t_n \in \Trees(X)$; or
+\item the tree is a leaf labelled with a value $x \in X$; or
+\item the tree is a leaf labelled with $\bot$.
+\end{itemize}
+\end{definition}
+As this is a coinductive definition, $\Trees(X)$ contains trees of both finite and infinite depth.
+
+We define a partial order on  $\Trees(X)$ by
+$t_1 \Treeleq t_2$ if and only if $t_2$ can be obtained from $t_1$ by replacing (possibly infinitely many)
+$\bot$-leaves appearing in $t_1$ with arbitrary replacement trees (rooted where the leaves were located). With this ordering,  $\Trees(X)$  is an $\omega$-complete 
+partial order ($\omega$CPO) with least element $\bot$. Furthermore, by considering it as
+a tree constructor,
+every operation $o \in \Sigma$  defines a continuous (i.e., $\omega$-continuous) function $o : \Trees(X)^n \to \Trees(X)$, where $n$ is the arity of $o$.
+(For notational convenience, we use $o$ for both operation symbol and function. The ambiguity can be resolved from the context.) 
+
+The properties described above state that $\Trees(X)$ is a continuous $\Sigma$-algebra. In general,
+a \emph{continuous $\Sigma$-algebra} is a pointed (i.e., with least element) $\omega$CPO $A$ with associated
+continuous functions $o_A : A^n \to A$ for every $o \in \Sigma$ of arity $n$. 
+As morphisms between continuous $\Sigma$-algebras
+$A$ and $B$, we consider functions $h: A \to B$  that are strict (i.e., preserve least element) continuous homomorphisms with respect to the $\Sigma$-algebra structure. 
+We refer to such  functions $h: A \to B$ as \emph{continuous homomorphisms}, leaving the strictness property implicit.
+We write $\ContAlg_\Sigma$ for the category of continuous $\Sigma$-algebras and continuous homomorphisms.
+The characterisation of $\Trees(X)$ below is standard.
+%\todo[inline]{[[REFERENCES]]}
+\begin{proposition}
+\label{proposition:free}
+$\Trees(X)$ is the free
+    continuous $\Sigma$-algebra over the set $X$.
+   \begin{center}
+        \begin{tikzcd}
+            X
+            \arrow[r, "f"] 
+            \arrow[d, hook, "i"]
+            & A \\
+            \Trees(X) \arrow[ru, dashrightarrow, "\hat{f}" below]
+        \end{tikzcd}
+    \end{center}
+    That is, for every function $f : X \to A$, where 
+    $A$ is a continuous $\Sigma$-algebra,
+    there exists a unique continuous homomorphism $$\hat{f} : \Trees(X) \to A$$
+    such that $
+        f = \hat{f} \circ i $, where $i : X \to \Trees(X)$ is the function mapping every $x \in X$ to the 
+        leaf-tree labelled $x$.
+ \end{proposition}
+ 
+ We use the above proposition to define a substitution operation on trees. For any tree $t \in \Trees(X)$, 
+ every function $f \colon X \to \Trees(Y)$ determines a tree $t[f]$ in $\Trees(Y)$ defined by substitution, \emph{viz}:
+ $t[f] ~ := ~ \hat{f}(t)\,$.
+ 
+\section{Basic operational preorders}
+\label{section:basic}
+
+As discussed in Section~\ref{section:intro}, our interest in effect trees is that they provide a 
+uniform template for defining 
+ \emph{contextual preorders} for programming languages with algebraic effect operations
+specified by signature $\Sigma$. 
+As in~\cite{gom}, the crucial data is provided by a 
+preorder  $\Basicleq$  on  $\Trees(\Nat)$, called the \emph{basic operational preorder}.  
+In order for the resulting contextual preorder to be well behaved, we ask for the 
+the basic operational preorder satisfy two properties: \emph{admissibility} and \emph{compositionality}.
+In this section, we review the definitions of these and related notions. 
+
+
+\begin{definition}[Admissibility]
+    A binary relation $R$ on $\Trees(X)$ is \emph{admissible} if,
+    for every ascending chain $(t_i)_{i \geq 0}$ and 
+    $(t_i')_{i\geq 0}$, we have:
+    \[ \text{($\,t_i  R \, t_i'$ for all $i\,$)} ~ \implies~
+        \left(\bigsqcup_{i \geq 0} t_i\right) \, R \, \left(\bigsqcup_{i \geq 0} t_i'\right) \enspace .
+    \]
+\end{definition}
+
+\begin{definition}[Compatibility]
+    A binary relation $R$ on $\Trees(X)$ is  \emph{compatible} if,
+    for every $o \in \Sigma$ of arity $n$, and for all trees 
+     $t_1,\dots, t_n$ and $t'_1, \dots, t'_n$, we have:
+    \[ \text{($\,t_i  R \, t'_i$ for all $i = 1, \dots, n\,$)} ~ \implies ~ 
+        o(t_1, \dots, t_n) \, R \; o(t'_1, \dots, t'_n) \enspace .
+    \]
+\end{definition}
+If a compatible relation is a preorder then it is called a \emph{precongruence}. If it is an equivalence relation it is called a \emph{congruence}.
+
+
+The next two definitions make use of the substitution operation on trees defined at the end of
+Section~\ref{section:trees}.
+\begin{definition}[Substitutivity]
+    A binary relation $R$ on $\Trees(X)$ is  \emph{substitutive} if,
+    for all trees $t$, $t'$ and $\{t_x\}_{x \in X}$, we have:
+    \[ \text{$\,t\, R \, t'$} ~ \implies ~ 
+       t[ x \mapsto t_x] \, R \, t'[ x \mapsto t_x] \enspace .
+    \]
+\end{definition}
+
+
+
+\begin{definition}[Compositionality]
+    A binary relation $R$ on $\Trees(X)$ is \emph{compositional} if, for all 
+    trees $t$, $t'$,  $\{t_x\}_{x \in X}$,  and $\{t'_x\}_{x \in X}$, we have:
+        \[ \text{($\,t \, R \, t'$ and $t_x \, R \, t'_x$ for all $x \in X\,$)} ~ \implies ~ 
+        t[ x \mapsto t_x] \, R \, t'[ x \mapsto t'_x] \enspace .
+    \]
+\end{definition}
+
+
+
+\begin{proposition} 
+\label{proposition:substitutive}
+Let $\Basicleq$ be a preorder  on $\Trees(\mathbb{N})$.
+\begin{enumerate} 
+\item If  $\Basicleq$ is compositional then it is a substitutive precongruence.
+\item If $\Basicleq$ is an admissible substitutive precongruence then it is compositional.
+\end{enumerate}
+\end{proposition}
+
+%\noindent
+%\todo[inline]{Only give the ideas of the proof to gain space}
+\begin{proof}
+We prove statement 2.
+%    \begin{enumerate}
+%        \item 
+%             Suppose $\Basicleq$ is compositional. 
+%            %It is substitutive because if $t \Basicleq t'$ and $\{ t_n \}_{n
+%            %\in \mathbb{N}}$ is a family of trees then, since 
+%            %$t_n \Basicleq t_n$,  we have 
+%            $t[ n \mapsto t_n] \Basicleq t'[n \mapsto t_n]$ by compositionality.
+%            For compatibility, if $o$ is an operation of arity $n$, and $t_i \Basicleq t'_i$ for $i = 1 \dots n$, then since $o(1,\dots, n) \Basicleq o(1,\dots, n)$,
+%             we indeed have $o(t_1, \dots, t_n) \, \Basicleq \; o(t'_1, \dots, t'_n)$, by compositionality.
+%             Substitutivity is by a similar argument, also using reflexivity.
+%
+%        \item 
+            Suppose $\Basicleq$ is admissible, substitutive and compatible. 
+            Suppose also that $t \Basicleq t'$ and $t_n \Basicleq t_n'$, for all $n \in \mathbb{N}$.
+            By substitutivity, we have $t[n \mapsto t_n] \Basicleq t'[n \mapsto t_n]$.
+             We would like to use compatibility to derive 
+            that also $t'[n \mapsto t_n] \Basicleq t'[n \mapsto
+            t_n']$, however this is only possible if $t'$ is finite. 
+            The solution is to use finite approximations $(s_i')$ of $t'$
+            satisfying $\bigsqcup_i s_i' = t'$. For each finite tree $s_i'$
+            we have that $s_i'[n \mapsto t_n] \Basicleq s_i'[n \mapsto t_n']$, by compatibility.
+            Hence, by admissibility, $t'[n \mapsto t_n] \Basicleq t'[n \mapsto
+            t_n']$, whence $t[n \mapsto t_n] \Basicleq t'[n \mapsto t_n']$ by transitivity.
+ %       \end{enumerate}
+\end{proof}
+
+\section{Operationally-defined preorders}
+\label{section:operational}
+
+In this section, we consider our first approach to defining an admissible and compositional basic operational
+preorder $\Basicleq$ on $\Trees(\mathbb{N})$. We call this method \emph{operational}. Its characteristic is that the preorder
+ $\Basicleq$ is directly defined using a mathematical model of the way that an effect tree in $\Trees(\mathbb{\Nat})$ will be executed.
+There is not much to say in general about this approach, since such execution models vary enormously from one effect to another.
+The main point to emphasise is that there is no general reason for  admissibility and compositionality to hold for such operationally defined preorders. Accordingly, these properties need to be established on a case-by-case basis.
+
+The operational approach to defining basic preorders is illustrated for several examples of effects in~\cite{gom}. 
+The main goal of the section is to demonstrate the approach using a different example, the signature
+$\Sigma_\prnd = \{\prEff,\orEff\}$ from Example~\ref{example:prnd}, which is of interest because of the 
+interplay between probabilistic and nondeterministic effects. 
+In this case, trees in $\Trees(\mathbb{N})$ have both probabilistic and nondeterministic branching nodes,
+as in Figure~\ref{fig:exampletrees}.
+
+
+It is natural to consider such trees as (countable state) Markov decision processes, with the leaves representing nodes which either carry an observable value from $\mathbb{N}$, or which represent nontermination $\bot$.
+%The behaviour of probabilistic nodes is clear. 
+Nondeterministic choices may be thought of as being resolved by an external agent, the scheduler. We model the actions of the scheduler by a 
+function $s: \{l,r\}^* \to \{l,r\}$. The idea is that a word $w \in \{l,r\}^*$ represents a finite path of left/right choices from the root of a 
+tree $t \in \Trees(\mathbb{N})$. If the computation reaches a nondeterministic choice at the node indexed by 
+$w$ then it takes the left/right branch according to the value of $s(w)$. This way of representing choices has some redundancy
+(in every tree that is not a complete infinite binary tree, there will be words $w$ that do not index nodes in the tree; if $s(\varepsilon) = l$ then the value of $s$ on words beginning with $r$ is immaterial; the value of $s(w)$ on words $w$ that index 
+probabilistic nodes in $t$ is irrelevant, etc.), but it is simple and convenient for future purposes. 
+For any given $t \in \Trees(\mathbb{N})$, such a function
+$s: \{l,r\}^* \to \{l,r\}$ can be thought of as a (deterministic) \emph{strategy} for the scheduler, in which the choice of direction at a nondeterministic node  
+can respond to  the outcomes of probabilistic nodes higher up the tree.
+
+A strategy $s$ and a tree $t$ in combination determine a subtree $t\restriction s$, defined by 
+removing, at every nondeterministic node in $t$ with index $w$, the child tree that is not selected by $s(w)$. So $t\restriction s$ is a tree that has binary branching at probabilistic nodes, and unary branching at nondeterministic nodes. It is thus, in effect, a purely probabilistic tree, with leaves in $\mathbb{N}\cup\{\bot\}$, and so may be viewed as a Markov chain, in which the branching nodes are fair binary choices, determining  a subprobability distribution over $\mathbb{N}$. Specifically, each $n \in \mathbb{N}$ is assigned the probability that a run of the Markov chain will end at a leaf labelled with $n$. This is a subprobability distribution in general because there can  be a positive probability of nontermination (either at a $\bot$ leaf, or along an infinite branch).
+
+%Given such a scheduling function $s$, we write $t@s$ for the result of the computation as scheduled by $s$. This is defined by:
+%\[
+%t@s ~ = ~ \begin{cases} 
+% n & \text{if there exists $w \in \{l,r\}^*$ indexing an $n$ node in $t$} \\
+%    & ~~~\text{such that, for every $i < |w|$, $~w_{i+1} = s(w\!\restriction_i)\,$;} \\
+%  \bot & \text{otherwise.}
+% \end{cases}
+%\]
+%Here we write $|w|$ for the length of a word, $w_i$ for the $i$-th symbol in a word, and $w \!\restriction_i$ for the prefix of $w$ that has length $i$.
+
+The  \emph{angelic} interpretation of nondeterminism takes into account the possibility of a nondeterministic computation achieving a specified goal, given a cooperative scheduler.  The  \emph{demonic} interpretation, 
+models the {certainty} with which a goal can be achieved, however adversarial the scheduler. 
+This suggests the  two  basic operational preorders below. 
+In each case, we consider functions $h \colon \mathbb{N} \to [0,\infty]$ assigning desirability weightings to possible results of a run of the computation. We then define 
+%$H \subseteq \mathbb{N}$ to be a desirable set of outcomes, and we define 
+$t \Basicleq t'$ if, for any $h$, the `expected' desirability weighting of $t'$ exceeds that of $t$. Here, `expected' is in inverted commas, because we have to take into account the actions of the scheduler, so this is not just a probabilistic expectation. In the case of 
+angelic nondeterminism, the scheduler will help us, whereas, under demonic nondeterminism, it will impede us.
+Technically this is taken account of by considering suprema of probabilistic expectations in the angelic case, and infima in the demonic case.
+\begin{align*}
+t \Basicleq^\Op_\prang t' ~ \Leftrightarrow ~ ~& \forall h \colon \mathbb{N} \to [0,\infty]~~ \sup_s  \mathbf{E}_{t\restriction\!s} (h)~ \leq~ \sup_s \mathbf{E}_{t'\restriction s} (h)
+\\
+t \Basicleq^\Op_\prdem t' ~ \Leftrightarrow ~ ~& \forall h \colon \mathbb{N} \to [0,\infty]~~ \inf_s  \mathbf{E}_{t\restriction s} (h)~ \leq~ \inf_s \mathbf{E}_{t'\restriction s} (h)
+\end{align*}
+Here $\mathbf{E}_{t\restriction\!s} (h)$ means the expectation of the function $h$ under the subprobability distribution on $\mathbb{N}$ induced by the Markov chain $t  \restriction\! s$.
+In Markov-decision-process terminology, each preorder says that the \emph{value} of the MDP $t$, for any weighting $h$, is below the value of of $t'$ for $h$. In the angelic case the value maximises the expectation of $h$, in the demonic case it minimises it. 
+\begin{proposition}
+The preorders $\Basicleq^\Op_\prang$ and $\Basicleq^\Op_\prdem$ are admissible and compositional.
+\end{proposition}
+
+We outline the proof of this proposition in the case of $\Basicleq^\Op_\prdem$. The proof for  $\Basicleq^\Op_\prang$ is easier, largely because the analogue of the lemma below is trivial in the case of angelic nondeterminism.
+\begin{lemma} 
+\label{lemma:F-continuous}
+Consider $\Tree(\mathbb{N})$ and $[0,+\infty]$ as $\omega$CPOs. Then,
+for any $h \colon \mathbb{N} \to [0,\infty]$, 
+the value-finding function $F_h$ is continuous:
+\[F_h : t \mapsto \inf_s  \mathbf{E}_{t\restriction s} (h) : \Tree(\mathbb{N}) \to [0,+\infty]\]
+\end{lemma}
+\begin{proof}
+The set $S = \{l,r\}^{\{l,r\}^*}$ of strategies is a countably-based compact Hausdorff space under the product topology. (It is Cantor space.)
+It is easy to see that  the function 
+\[G_h \colon (s,t) \mapsto \mathbf{E}_{t\restriction s} (h) : S \times \Tree(\mathbb{N})  \to [0,+\infty] \]
+is continuous.
+Essentially, it follows that $F_h$ is continuous because it is defined from $G_h$ by taking an infimum over a compact set. 
+This can be made precise using, e.g.,  the general machinery in Section 7.3 of~\cite{AndreaShalk}. For completeness, we give a self-contained argument. 
+
+Suppose $(t_i)$ is an ascending chain of trees.
+ %Clearly $\inf_s \sup_i G_h(s,t_i) \geq \sup_i \inf_s G_h(s,t_i)$.
+Because $S$ is compact,  there is $s_i \in S$ with $\inf_s G_h(s,t_i) = G_h(s_i, t_i)$,
+and we can then extract a convergent 
+subsequence  $(s_{a_i})$ of $(s_i)$ such that $s_{a_i} \rightarrow s_\infty$ in $S$. Then:
+%it is clear that the following inequalities hold:
+\begin{equation*}
+                \sup_i \inf_s G_h(s,t_i)
+                \, =\, 
+                \sup_i G_h(s_i, t_i)
+                \, = \,
+                \sup_i G_h(s_{a_i}, t_{a_i})
+                \, = \,
+                G_h(s_\infty, \, \bigsqcup_i t_i)
+                \, \geq \,
+                \inf_s  G_h(s, \, \bigsqcup_i t_i)\, ,
+            \end{equation*}
+where the second equality holds because $G_h(s_i, t_i)$ is an ascending sequence, and the third by the continuity of  $G_h$.
+We have shown that $ \sup_i  \inf_s G_h(s,t_i) \geq \inf_s  G_h(s, \bigsqcup_i t_i)$, i.e., 
+$ \sup_i  F_h(t_i) \geq F_h(\bigsqcup_i t_i)$. 
+Therefore $F_h$ is continuous (since it is obviously monotone).
+\end{proof}
+
+\noindent
+The admissibility of $\Basicleq^\Op_\prdem$ follows easily from the lemma.
+Suppose $t_i \Basicleq^\Op_\prdem t_i'$, for ascending chains $(t_i)$ and $(t'_i)$.
+Then $F_h(t_i) \leq F_h (t_i')$, for all $i$ and $h$. By the lemma, 
+ $F_h (\bigsqcup_i t_i) \leq F_h (\bigsqcup_i t_i')$, for all $h$.
+So indeed  $\bigsqcup_i t_i \Basicleq^\Op_\prdem \bigsqcup_i t_i'$.
+
+For compositionality, by Proposition~\ref{proposition:substitutive}, it suffices to show
+that $\Basicleq^\Op_\prdem$ is a substitutive precongruence. The compatibility properties 
+of a precongruence are easily shown. Substitutivity follows from the lemma below.
+%
+\begin{lemma}
+Suppose $t$ and 
+$\{ t_n \}_{n \in \mathbb{N}}$ are trees in 
+            $\Tree(\Nat)$ then, for any weighting $h$,
+             \begin{equation*}
+                \inf_s \mathbf{E}_{t [ n \mapsto t_n ] \restriction  s } (h)
+                = 
+                \inf_s \mathbf{E}_{t \restriction  s} (\hat{h})
+                \quad \text{ where } \quad \hat{h} (n) = \inf_s \mathbf{E}_{t_n \restriction  s} (h) \enspace .
+            \end{equation*}
+\end{lemma}
+This lemma is proved first for finite trees, by induction on their height. It is then extended to infinite trees
+by expressing them as suprema of finite trees, and applying Lemma~\ref{lemma:F-continuous}.
+%
+%            \todo[inline]{The proof of this lemma is long and not interesting, 
+%            should we mention it ? Do we need the rest of the proof ?}
+%            
+%            Using this key lemma the proof can go smoothly because (by
+%            definition)
+%            if $\sigma \Basicleq^\Op_\prang \sigma'$ then 
+%            $h_\sigma \leq h_\sigma'$.
+%
+%            \begin{align*}
+%                \inf_s \mathbf{E}_{t\sigma \restriction  s} (h)
+%                 & = \inf_s \mathbf{E}_{t \restriction  s} (h_\sigma)       & \text{ key lemma }  \\
+%                 & \leq \inf_s \mathbf{E}_{t \restriction  s} (h_{\sigma'}) & \text{ monotonicity wrt the weighting function } \\
+%                 & \leq \inf_s \mathbf{E}_{t'\restriction  s} (h_{\sigma'}) & \text{ monotonicity wrt the tree } \\
+%                 & = \inf_s \mathbf{E}_{t'\sigma' \restriction  s} (h )     & \text{ key lemma } \\
+%            \end{align*}
+%
+%            Therefore $ t \Basicleq^\Op_\prang t'$ and $\sigma
+%            \Basicleq^\Op_\prang \sigma'$ implies $t\sigma \Basicleq^\Op_\prang
+%            t'\sigma'$.
+% 
+
+We end this section by observing that a natural attempt to simplify  the definitions of 
+ $\Basicleq^\Op_\prang$ and $\Basicleq^\Op_\prdem$ does not work. Instead of considering arbitrary weightings
+ $h \colon \mathbb{N} \to [0,\infty]$, one might restrict to  
+ functions $h \colon \mathbb{N} \to \{0,1\}$, which can be viewed as specifying goal subsets $H \subseteq \mathbb{N}$.
+ Proceeding analogously to above, we compare suprema of probabilities of landing in $H$ in the angelic case, and infima in the demonic case. For both the angelic and demonic versions, the desired compositionality property fails.
+\begin{proposition}
+Neither of the formulas below defines a compositional relation $t \Basicleq t'$. %$\Basicleq^\bullet_\prang$ nor $\Basicleq^\bullet_\prang$ is compositional.
+ \begin{align*}
+%t \Basicleq^\bullet_\prang t' ~ \Leftrightarrow ~ ~
+ & \forall H \subseteq \mathbb{N}  ~~ \sup_s  \mathbf{P}_{t\restriction s} (H)~ \leq~ \sup_s \mathbf{P}_{t'\restriction s} (H)
+\\
+%t \Basicleq^\bullet_\prdem t' ~ \Leftrightarrow ~ ~
+ & \forall H \subseteq \mathbb{N}  ~~ \inf_s  \mathbf{P}_{t\restriction s} (H)~ \leq~ \inf_s \mathbf{P}_{t'\restriction s} (H)
+\end{align*}
+\end{proposition}
+
+
+ 
+ 
+
+
+
+
+%Although natural, the above definitions do not work. 
+
+\begin{proof}
+    We use the two trees in Figure~\ref{fig:exampletrees},
+    representing the expressions $A = 3 \orEff (1 \prEff 2)$
+    and $B = (3 \orEff 1) \prEff (3 \orEff 2)$. It is easily checked that, for every subset $H \subseteq \{ 1, 2, 3 \}$,
+    it holds that $\sup_s  \mathbf{P}_{A\restriction s} (H) =  \sup_s \mathbf{P}_{B\restriction s} (H)$ and
+    $\inf_s  \mathbf{P}_{A\restriction s} (H) =  \inf_s \mathbf{P}_{B\restriction s} (H)$.
+     Thus $A$ is equivalent 
+    to $B$ under  both preorders.
+
+    However, one can build a family $\{ t_1, t_2, t_3\}$ such that 
+    $A[ i \mapsto t_i] = t_3 \orEff (t_1 \prEff t_2) = C$ is not equivalent to 
+    $B[ i\mapsto t_i] = (t_3 \orEff t_1) \prEff (t_3 \orEff t_2) = D$,
+    which contradicts substitutivity.
+    Let $t_1 = 0 \prEff (0 \prEff (0 \prEff (0 \prEff 1)))$,
+    $t_2 = 1$ and $t_3 = 0 \prEff (0 \prEff (0 \prEff 1))$. The distinguishing 
+    factor will be the probability associated with the subset $\{ 1 \}$.
+    %We dress a table of the minimal/maximal said probability on the different  trees.
+
+    A simple calculation shows that $\sup_s  \mathbf{P}_{C\restriction s} (\{1\}) = 9/16
+    \neq 5/8 = \sup_s \mathbf{P}_{D\restriction s} (\{ 1\})$. Similarly
+    $\inf_s  \mathbf{P}_{C\restriction s} (\{1\}) = 1/4 \neq 3/16 =
+     \inf_s \mathbf{P}_{D \restriction s } (\{1\})$.
+     This contradicts the substitutivity and hence also the compositionality of both preorders.
+        %\begin{equation*}
+        %\begin{array}{c|c|c}
+                %& \textbf{Min} & \textbf{Max} \\ \hline
+            %t_1 & 1/8 & - \\
+            %t_2 & 1   & -   \\
+            %t_3 & 1/4 & - \\
+            %t_1 \prEff t_2 & 9 / 16 & - \\
+            %t_3 \orEff t_1 & 1/8    & 1/4 \\
+            %t_3 \orEff t_2 & 1/4    & 1   \\
+            %t_3 \orEff (t_1 \prEff t_3) & 1/4 & 9/16 \\
+            %(t_3 \orEff t_1) \prEff (t_3 \orEff t_2) & 3 / 16 & 5/8 \\
+        %\end{array}
+    %\end{equation*}
+\end{proof}
+
+The necessity of using quantitative properties to obtain a compositional preorder is consistent with a general need for quantitative concepts that can be found
+in the literature on
+probabilistic computation. For example, in~\cite{KozenPDL,MciverMorgan}, quantitative logics  are required to obtain compositional reasoning methods.
+% for programs with probabilistic (combined with nondeterministic in~\cite{MciverMorgan}) behaviour. 
+Similarly, in~\cite{MioUpper}, quantitative observations are needed to distinguish non-bisimilar processes combining probabilistic and nondeterministic choice. 
+
+%(combined with nondeterministic in~\cite{MciverMorgan}) behaviour.
+%We view the necessity of using quantitative properties to obtain a compositional preorder as%an analogue of the situation found in, for example, , in, quantitative observations are 
+
+%The above argument is also curiously  reminiscent of the proof in [[VARACCA PHD]]
+% that there is no distributivity law between the finite powerset and distribution monads.
+
+\section{Denotationally-defined preorders}
+\label{section:denotational}
+
+Our second approach to defining an admissible and compositional basic
+denotational 
+preorder $\Basicleq$ on $\Trees(\mathbb{N})$ is to make use of established constructions from domain theory.
+Under this approach, admissibility and compositionality of the defined preorder $\Basicleq$ hold
+for general reasons. Since this approach essentially amounts to giving a denotational semantics to effect trees, we call it the \emph{denotational} method of defining a basic operational preorder.
+
+
+
+In order to define a basic operational preorder using the denotational method, one needs to merely provide
+a continuous $\Sigma$-algebra $D$ (see Section~\ref{section:trees}),  together with a function
+% with a distinguished function 
+$j\colon \mathbb{N} \to D$. 
+Define   $\llbracket \cdot \rrbracket \colon \Trees(\mathbb{N}) \to D$ to be the unique continuous homomorphism that makes the diagram below commute.
+   \begin{center}
+        \begin{tikzcd}
+            \mathbb{N}
+            \arrow[r, "j"] 
+            \arrow[d, hook, "i"]
+            & D \\
+            \Trees(\mathbb{N}) \arrow[ru, dashrightarrow, "\llbracket \cdot \rrbracket" below]
+        \end{tikzcd}
+    \end{center}
+\noindent
+The map $\llbracket \cdot \rrbracket \colon \Trees(\mathbb{N}) \to D$ is used to induce
+the basic operational preorder $\Basicleq_D$ from the partial order relation on the $\omega$CPO $D$.
+\[
+t \Basicleq_D t' ~~ \Leftrightarrow ~~ \Sem{t} \sqsubseteq \Sem{t' } \enspace .
+\]
+\begin{proposition}
+The relation $\Basicleq_D$ is admissible pregongruence.
+\end{proposition}
+%
+The proof is immediate: admissibility follows from the continuity of 
+$\llbracket \cdot \rrbracket$, and compatibility because  $\llbracket \cdot \rrbracket$ is a homomorphism.
+
+In order to obtain substitutivity, hence compositionality, a further property is required.
+
+\begin{definition}[Factorisation property]
+    The map $j\colon \mathbb{N} \to D$ is said to have  the \emph{factorisation property} if,
+    for every function $f \colon \mathbb{N} \to D$, there exists a 
+    continuous homomorphism $h_{\!f} : D \to D$ such that $f = h_{\!f} \circ j$.
+    \begin{center}
+        \begin{tikzcd}
+            \mathbb{N} \arrow[r, "j"] 
+                 \arrow[rr, bend right, "f"] &
+            D \arrow[r, "h_{\!f}", dashed] & 
+            D  
+        \end{tikzcd}
+    \end{center}
+\end{definition}
+\begin{proposition}
+If $j\colon \mathbb{N} \to D$ has the factorisation property then 
+the relation $\Basicleq_D$ is substitutive, hence it is an admissible compositional precongruence.
+\end{proposition}
+
+\begin{proof}
+Suppose $\sigma: \Nat \to \Tree(\Nat)$ is any  substitution.
+Let $\hat{\sigma} : \Tree(\Nat) \to \Tree(\Nat)$ be the continuous homomorphism
+such that $\hat{\sigma} \circ i = \sigma$. Consider the map $g := \llbracket \cdot \rrbracket \circ \hat{\sigma} \circ i : \Nat \to D$. By the factorisation property, there exists $h_g : D \to D$ such that
+$g = h_g \circ j$. Expanding this, and using the definition of $\Sem{\cdot}$, we have:
+\[
+ \llbracket \cdot \rrbracket \circ \hat{\sigma} \circ i ~ = ~ h_g \circ j ~ = ~  h_g \circ  \llbracket \cdot \rrbracket \circ i \enspace .
+\]
+It then follows from  the uniqueness property of Proposition~\ref{proposition:free} that
+\begin{equation}
+\label{equation:before-pizza}
+\llbracket \cdot \rrbracket \circ \hat{\sigma} ~ = ~ h_g \circ  \llbracket \cdot \rrbracket \enspace ,
+\end{equation}
+because both maps are continuous homomorphisms.
+
+Now, for substitutivity, suppose  that $t \Basicleq_D t'$, i.e., $\Sem{t} \leq \Sem{t'}$. Then 
+$h_g (\Sem{t})  \leq h_g(\Sem{t'})$ by monotonicity. That is
+$\Sem{ \hat{\sigma}(t)} \leq \Sem{ \hat{\sigma}(t')}$, by~(\ref{equation:before-pizza}). 
+This says that $\Sem{ t[\sigma]} \leq \Sem{t'[\sigma]}$. That is
+$t[\sigma] \Basicleq_D t'[\sigma]$, as required.
+\end{proof}
+
+In practice, it is usually not necessary to prove the factorisation property directly. Instead  it holds as a consequence of the continuous algebra $D$ and map $j: \Nat \to D$ being derived from a suitable monad. The next result establishes general conditions under which this holds.
+\begin{proposition}
+\label{proposition:monad}
+Let $\mathbf{S}$ be a category with a faithful functor $U : \mathbf{S} \to \Set$. Suppose also that 
+$\mathbf{S}$ has an object $N$ such that $UN = \mathbb{N}$, and every hom set $\mathbf{S}(N,X)$
+is mapped bijectively by $U$ to $\Set(\Nat,UX)$. Suppose also that $(T,\eta,\mu)$ is a monad on $\mathbf{S}$
+with the following properties: there is a continuous $\Sigma$-algebra structure on $UTN$; and, for 
+every map $f \colon N \to TN$, the induced function $Uf^*$, where 
+$f^* \colon TN \to TN$ is the Kleisli lifting, is a continuous  homomorphism.
+Then defining $D$ to be the continuous $\Sigma$-algebra on $U T N$, and
+$j$ to be $U\eta \colon \mathbb{N} \to UTN$, it follows that $j$ has the factorisation property.
+\end{proposition}
+
+%\begin{proof}
+%Consider any function $f \colon \mathbb{N} \to UTN$. This is the $U$ image of a unique morphism 
+%$g : N \to TN$ in $\mathbf{S}$. Let $g^*: TN \to TN$ be the Kleisli lifting of $g$, which satisfies $g^* \circ \eta = g$. Defining $h_f = Ug^*$, we indeed have  that $h_f$ is a continuous algebra homomorphism, and
+%$h_f \circ j = f$.
+%\end{proof}
+
+
+\noindent
+We omit the easy proof. 
+Although the statement of the proposition is verbose, the result is relatively easy to apply in practice, as the examples we consider next will illustrate.
+
+%
+%\begin{lemma}
+%Let $\mathcal{A}$ be any category given together with a functor $U' \colon \mathcal{A} \to \ContAlg_\Sigma$.
+%Suppose it holds that that the
+%composite functor $UU' : \mathcal{A} \to \Set$ has a left adjoint $F$, where $U: \ContAlg_\Sigma \to \Set$ is the forgetful functor.
+%Then, defining $D$ to be the continuous $\Sigma$-algebra $U' F \, \mathbb{N}$, the unit of the adjunction defines a function
+%$j \colon \mathbb{N} \to D$ which has the factorisation property.
+%\end{lemma}
+%
+%\begin{lemma}
+%Let $T$ be a monad on the category $\wCPO$.  Suppose that for every $\omega$CPO $X$, we have a 
+%continuous $\Sigma$-algebra structure on TX. Suppose also that all Kleisli liftings of 
+%$f^* \colon TX \to TY$, of maps $f \colon X \to TY$, are  continuous  homomorphisms. Then,
+%defining $D$ to be the continuous $\Sigma$-algebra $T \mathbb{N}$, the unit of the adjunction defines a function
+%$j \colon \mathbb{N} \to D$ which has the factorisation property.
+%\end{lemma}
+
+In the remainder of the section, we return to our main example, and again define basic operational preorders for the combination of probabilistic choice and nondeterminism (both angelic and demonic), but this time we use the denotational method. Accordingly, we call the defined preorders
+$\Basicleq^\Den_\prang$ and $\Basicleq^\Den_\prdem$
+
+We use the powerdomains combining probabilistic choice and nondeterminism
+defined in~\cite[\S3.4]{KeimelP2016}, although our setting is simpler because we only need to apply them to sets.
+The basic idea of these constructions is that a computation with probabilistic and nondeterministic choice is modelled as a set of subprobability distributions, where the set collects the possible nondeterministic outcomes, each of which is probabilistic in nature. As is standard, 
+the sets relevant to angelic nondeterminism are the closed sets in the Scott topology, whereas those relevant to demonic nondeterminism are the compact upper-closed sets, see~\cite{smyth}.
+Due to the combination with probabilistic choice,  sets are further required to be convex; see, for example, the discussion in~\cite{KeimelP2016}.
+% suggested by Smyth, the sets relevant to demonic nondeterminism are the compact upper-closed sets, 
+
+
+
+Let $\mathcal{V}_{\leq 1} \,X$ be the $\omega$CPO of (discrete) subprobability distributions on a set $X$.
+We write $\mathcal{H}\mathcal{V}_{\leq 1} \,X$ for the $\omega$CPO of nonempty Scott-closed convex subsets
+of  $\mathcal{V}_{\leq 1} \,X$  ordered by subset inclusion $\subseteq$. 
+We write $\mathcal{S}\mathcal{V}_{\leq 1} \,X$ for the $\omega$CPO of nonempty Scott-compact convex upper-closed subsets
+of  $\mathcal{V}_{\leq 1} \,X$  ordered by reverse inclusion $\supseteq$.
+The $\omega$CPOs $\mathcal{H}\mathcal{V}_{\leq 1} \,X$ and $\mathcal{S}\mathcal{V}_{\leq 1} \,X$ are both continuous algebras for $\Sigma_\prnd$. In both cases, the operations are defined by:
+\begin{align*}
+\orEff(A,B) ~ = ~ & \Conv(A \cup B)  
+% & & \text{(definition for $\mathcal{H}\mathcal{V}_{\leq 1} \,X$)}
+% \\ \orEff(A,B) ~ = ~ & & & \text{(definition for $\mathcal{S}\mathcal{V}_{\leq 1} \,X$)}
+& 
+\prEff(A,B) ~ = ~ & \{\frac{1}{2}a + \frac{1}{2}b \mid a \in A, b \in B\} \enspace ,
+% & & \text{(definition for both cases)}
+\end{align*}
+where $\Conv$ is the convex closure operation. 
+We remark that these straightforward uniform definitions are possible because of the simple structure of the 
+domains  $\mathcal{H}\mathcal{V}_{\leq 1} \,X$ and $\mathcal{S}\mathcal{V}_{\leq 1} \,X$, over a set $X$. For the more general 
+lower and upper `Kegelspitze' considered in \cite{KeimelP2016}, additional order-theoretic and topological closure operations need to be applied.
+
+To apply the above in the angelic case, we use the fact that $\mathcal{H}\mathcal{V}_{\leq 1} \,X$  is the free 
+Kegelspitze join semilattice over a set $X$  \cite[Corollary 3.15]{KeimelP2016} (where the result is proved more generally for domains). It follows that $\mathcal{H}\mathcal{V}_{\leq 1} $ is
+a monad on  $\Set$ itself  satisfying the conditions
+of Proposition~\ref{proposition:monad}. Thus defining 
+$D_\prang = \mathcal{H}\mathcal{V}_{\leq 1} \,\mathbb{N}$, and
+$j(n) = \downarrow\!\delta(n)$ (where $\delta(n)$ is the Dirac probability distribution that assigns probability 1 to $n$ and $0$ to all other numbers, and $\downarrow\!x$ is the down-closure $\{y \mid y \leq x\}$), the induced $\Sem{\cdot}_\prang : \Tree(\Nat) \to  D_\prang$ defines an admissible and compositional preorder
+\[
+t \Basicleq^\Den_\prang t' ~~ \Leftrightarrow ~~ \Sem{t}_\prang  \leq \Sem{t'}_\prang \enspace .
+\]
+
+Similarly, in the demonic case, we use \cite[Corollary 3.16]{KeimelP2016}, which characterises $\mathcal{S}\mathcal{V}_{\leq 1} \,X$ as the free Kegelspitze meet semilattice over $X$. Again $\mathcal{S}\mathcal{V}_{\leq 1}$ is a monad
+on  $\Set$ to which Proposition~\ref{proposition:monad} applies. In this case, we define 
+$D_\prdem = \mathcal{S}\mathcal{V}_{\leq 1} \,\mathbb{N}$, and
+$j(n) = \{\delta(n)\}$. Then the induced $\Sem{\cdot}_\prdem : \Tree(\Nat) \to  D_\prdem$ defines an admissible and compositional preorder
+\[
+t \Basicleq^\Den_\prdem t' ~~ \Leftrightarrow ~~ \Sem{t}_\prdem  \leq \Sem{t'}_\prdem \enspace .
+\]
+
+
+\section{Axiomatically-defined preorders}
+\label{section:axiomatic}
+
+In this section, we look at the definition of basic operational preorders by axiomatising
+properties of the operations in the effect signature $\Sigma$.
+Since we are defining a preorder, it is appropriate for the axiomatisation to involve inequalities
+specifying desired properties of the operational preorder. As the technical framework for this, we allow
+axiomatisations involving infinitary Horn-clauses of inequalities between infinitary terms.  This provides a flexible general setting for
+axiomatising admissible and compositional preorders on 
+$\Trees(\mathbb{N})$. 
+
+Let $\Vars$ be a set of countably many distinct variables. By an  \emph{expression}, we mean a
+tree $e \in \Trees(\Vars)$. The use of trees incorporates infinitary non-well-founded terms alongside the usual finite
+algebraic terms. By an \emph{inequality} we mean a statement $e_1 \leq e_2$, where $e_1, e_2$ are expressions.
+By an \emph{(infinitary) Horn clause} we mean an implication of the form:
+\begin{equation}
+\label{equation:horn-clause}
+\left( \bigwedge_{i \in I} e_i \leq e'_i \right)~ \implies ~ e \leq e' \enspace ,
+\end{equation}
+An \emph{effect theory} $T$  is a set of Horn clauses.
+
+A precongruence $\Basicleq$ on $\Trees(X)$ is said to \emph{satisfy} a Horn clause (\ref{equation:horn-clause}) if,
+for every environment $\rho \colon \Vars \to \Trees(X)$, the implication below holds (recall the notation for tree substitution from Section~\ref{section:trees}).
+\[
+\left( \bigwedge_{i \in I} e_i[\rho] \Basicleq e'_i[\rho] \right) ~ \implies ~  e[\rho] \Basicleq e'[\rho] \enspace .
+\]
+We say that a precongruence $\Basicleq$ is a \emph{model} of a Horn clause theory $T$ if it satisfies every Horn clause in $T$.
+We consider models as subsets of $\Trees(X) \times \Trees(X)$, partially ordered by inclusion. Note that models are precongruences by assumption.
+\begin{proposition}
+\label{proposition:axiomatic}
+Every Horn clause theory $T$ has a smallest admissible model  
+\[{\Basicleq_T} ~\subseteq~ \Trees(X) \times \Trees(X) \enspace ,\]
+for any set $X$. The model ${\Basicleq_T}$
+is substitutive. In the case that $X = \mathbb{N}$, the smallest admissible model is thus an
+admissible compositional preorder.
+\end{proposition}
+\begin{proof}
+%The total relation $X \times X$ gives one admissible model. 
+It is easily seen that the intersection of any set of admissible models is itself an admissible model.
+Thus the
+intersection of the set of all admissible models is the required smallest admissible model $\Basicleq_T\,$. For substitutivity, 
+define 
+\begin{equation}
+\label{equation:substitutive-T}
+t \Basicleq_S t' ~ \Leftrightarrow ~ \forall \sigma : X \to \Trees(X). ~ t[\sigma] \Basicleq_T t'[\sigma] \enspace .
+\end{equation}
+Using the substitution $\sigma(x) = x$, we see that ${\Basicleq_S}\, \subseteq\, {\Basicleq_T}$.
+Conversely, it is easily shown that the relation $\Basicleq_S$ is itself an admissible model of $T$. 
+Thus ${\Basicleq_T}\, \subseteq\, {\Basicleq_S}$. Since ${\Basicleq_T}$ and ${\Basicleq_S}$ coincide,
+(\ref{equation:substitutive-T}) asserts the substitutivity of ${\Basicleq_T}$.
+The statement about compositionality now follows from Proposition~\ref{proposition:substitutive}.
+\end{proof}
+
+
+Given the proposition, we can use any effect theory to define an admissible and compositional basic operational preorder, namely the smallest admissible model over $\mathbb{N}$. We now apply this method to our running example of combined nondeterminism and probabilistic choice. The  axioms are given in
+Figure~\ref{fig:axiomsmixed}.
+\begin{figure}[t]
+\[
+\begin{array}{ll}
+\text{Bot:} & \bot \leq x
+\\
+\text{Prob:} & x \prEff x = x , ~ x \prEff y = y \prEff x , ~ 
+                                (x \prEff y) \prEff\, (z \prEff w) = (x \prEff z) \prEff\, (y \prEff w)
+\\
+\text{Appr:} & x \prEff y \leq y \implies  x \leq y
+ \\
+\text{Nondet:} & x \orEff x = x, ~ x \orEff y = y \orEff x, ~ ~ x \orEff\, (y \orEff z) = (x \orEff y) \orEff z
+\\
+\text{Ang:} & x \orEff y \geq x \\ 
+\text{Dem:} & x \orEff y \leq x \\ 
+\text{Dist:} & x \prEff\, (y \orEff z) = (x \prEff y) \orEff\, (x \prEff z)
+\end{array}
+\]
+    \caption{Horn theory for mixed probability and non determinism}
+    \label{fig:axiomsmixed}
+\end{figure}
+
+The axioms include a special axiom for $\bot$, which is legitimate since $\bot$ is a tree, hence an expression.
+The axioms  for probability include three standard equalities (each of which is given officially as two inequalities), and one Horn approximation axiom, $\text{Appr}$, which  is separated out for the sake of Proposition~\ref{proposition:horn} below.
+The axioms for nondeterminism are split into a neutral list,  followed by further axioms  for angelic and demonic nondeterminism respectively. Finally, there is a distributivity axiom that relates
+probabilstic and nondeterministic choice. 
+Our two effect theories of interest are: 
+\[
+T_\prang \!=\!  \text{Bot},  \text{Prob},  \text{Appr}, \text{Nondet}, \text{Ang},\text{Dist} \quad
+T_\prdem\! = \!\text{Bot},  \text{Prob},  \text{Appr},  \text{Nondet},  \text{Dem},\text{Dist}\,.
+\]
+We then define  $\Basicleq^\Ax_\prang$ as the smallest admissible model
+of $T_\prang$ over $\mathbb{N}$, and 
+$\Basicleq^\Ax_\prdem$ as the smallest admissible model
+of $T_\prdem$. By Proposition~\ref{proposition:axiomatic}, both these basic operational preorders are admissible and compositional.
+
+To end the section, we observe that the Horn-clause axiom in Figure~\ref{fig:axiomsmixed} can be replaced with an equational axiom, albeit one involving an infinitary expression.
+
+
+
+\begin{definition}
+    \label{def:probaApproxConstruct}
+    Let $t$ be a  tree. For each $n \in \mathbb{N} \cup \{\infty\}$, we define a tree $\Iter{t}{n}$ inductively by
+    $\Iter{t}{0} = \bot$ and $\Iter{t}{(n+1)}  = t\,  \prEff \,\Iter{t}{n}$. The
+    tree $\Iter{t}{\infty}$ is defined as $\bigsqcup_n \Iter{t}{n}$.
+\end{definition}
+
+\begin{proposition}%[Removing Horn-Clauses]
+\label{proposition:horn}
+    For any effect theory containing the Bot and Prob axioms, an admissible model satisfies the $\text{Appr}$
+     axiom if and only if it satisfies the equation 
+    $\Iterx{\infty}= x$.
+\end{proposition}
+
+\begin{proof} We first derive $\Iterx{\infty}= x$, from the axioms with $\text{Appr}$.
+    It is clear that $\Iterx{n} \leq  x$ for every $n < \infty$,
+    and therefore $\Iterx{\infty} \leq  x$ by admissibility.
+    We also have $x \prEff \Iterx{n} \leq  \Iterx{(n+1)}$,
+    and so, again by admissibility, $x \prEff \Iterx{\infty} \leq \Iterx{\infty}$.
+    Whence, by the Horn axiom, $x  \leq \Iterx{\infty}$. 
+     We have thus derived $\Iterx{\infty}= x$.
+
+    For the converse, we assume $\Iterx{\infty}= x$ and derive  $\text{Appr}$.
+    Suppose $x \prEff y \leq y$.  Then also  $x \prEff \, (x \prEff y) \leq y$, and $x \prEff \, ( x \prEff \, (x \prEff y)) \leq y$, etc. So also $x \prEff \bot \leq y$, and $x \prEff \, (x \prEff \bot) \leq y$, and $x \prEff \, ( x \prEff \, (x \prEff \bot)) \leq y$,
+ etc. That is, $\Iterx{n} \leq y$, for every $n < \infty$. By admissibility, $\Iterx{\infty} \leq y$. Whence, by the assumed axiom, $x \leq y$ as required.
+ \end{proof}
+
+
+\section{The coincidence theorem}
+\label{section:equivalence}
+
+Our main theorem is that our operational, denotational and axiomatic preorders for combined probability and nondeterminism all coincide, in both the angelic and demonic cases.
+\begin{theorem}[Coincidence theorem] \leavevmode
+\begin{enumerate} 
+\item The three preorders $\Basicleq^\Op_\prang$, $\Basicleq^\Den_\prang$ and $\Basicleq^\Ax_\prang$, for mixed probability and angelic nondeterminism, coincide.
+
+\item Similarly, the preorders $\Basicleq^\Op_\prdem$, $\Basicleq^\Den_\prdem$ and $\Basicleq^\Ax_\prdem$,
+for mixed probability and demonic nondeterminism, coincide.
+\end{enumerate}
+\end{theorem}
+
+\noindent
+We outline the proof of the theorem in the demonic case, which we split into three lemmas. The proof for the angelic case is similar. 
+\begin{lemma}
+${\Basicleq^\Ax_\prdem} \, \subseteq \, \, \Basicleq^\Op_\prdem\,$.
+\end{lemma}
+\begin{proof}
+ It is easily checked that $\Basicleq^\Op_\prdem$ satsfies the axioms
+ of $T_\prdem$.  Since $\Basicleq^\Op_\prdem$ is admissible and 
+$\Basicleq^\Ax$ is the smallest admissible model, ${\Basicleq^\Ax_\prdem} \, \subseteq \, \Basicleq^\Op_\prdem\,$.
+\end{proof}
+%
+\noindent
+We remark on the following aspect of the above result.
+The distributivity axiom Dist of Figure~\ref{fig:axiomsmixed} is sometimes discussed as expressing that  nondeterministic choices  are  resolved before probabilistic ones; see, e.g., \cite{mislove2004axioms,KeimelP2016}. Such statements need careful interpretation. 
+The definition of $\Basicleq^\Op_\prdem$, which is based on implementing nondeterministic schedulers as strategies for MDPs,
+explicitly allows the  scheduler's choices to take account of the outcomes of probabilistic choices that precede it. Nevertheless, the distributivity axiom is sound.
+
+\begin{lemma}
+${\Basicleq^\Op_\prdem} \, = \,\, \Basicleq^\Den_\prdem\,$.
+\end{lemma}
+\begin{proof}
+We make use of the functional representation of $\mathcal{S}\mathcal{V}_{\leq 1}\, \mathbb{N}$ from \cite{KeimelP2016} (see also~\cite{JGL-mscs16}). 
+For any topological space $X$, we write $\mathcal{L}(X)$ for the space of all
+\emph{lower semicontinuous} functions from $X$ to $[0,\infty]$ (i.e., functions that are continuous with respect to the Scott topology on $[0,\infty]$), and we endow $\mathcal{L}(X)$ itself with the Scott topology. The space
+$D' = \mathcal{L}(\mathcal{L}(\mathbb{N}))$ carries a continuous $\Sigma_\prnd$-algebra structure
+\[
+(F \orEff G)(f) ~ = ~ \min(F(f), G(f)) \qquad 
+(F \prEff G)(f) ~ = ~ \frac{1}{2}F(f) + \frac{1}{2}G(f) \enspace .
+\]
+(There is another $\Sigma_\prnd$-algebra structure, relevant to angelic nondeterminism, in which  $\min$ is replaced with $\max$.) Define $j' : \mathbb{N} \to D'$ by $j'(n)(f) = f(n)$. This induces $\Sem{\cdot}'_\prdem : \Tree(\mathbb{N}) \to D'$
+satisfying  $\Sem{\cdot}'_\prdem \circ i = j'$, as in Section~\ref{section:denotational}.
+We show that $\Sem{t}'_\prdem (h) = F_h (t)$, where $F_h$ is defined as in
+Lemma~\ref{lemma:F-continuous}. For this, the function $t \mapsto (h \mapsto F_h (t))$ is easily shown to be a $\Sigma_\prnd$-algebra homomorphism
+satisfying $F_h(i(n)) = j'(n)$. Moreover, it is continuous by 
+Lemma~\ref{lemma:F-continuous}. Thus it indeed coincides with 
+$\Sem{\cdot}'_\prdem$. By the definition of $F_h$, if follows that that
+$t \Basicleq^\Op_\prdem t'$ if and only if 
+$\Sem{t}'_\prdem \leq \Sem{t'}'_\prdem \,$.
+
+Corollary 4.7 of \cite{KeimelP2016} provides a functional representation of 
+$\mathcal{S}\mathcal{V}_{\leq 1}\, X$ inside $\mathcal{L}(\mathcal{L}(X))$. In the case $X = \mathbb{N}$, consider the function
+\[
+\Lambda : A \mapsto \left(f \mapsto \inf_{p \in A} 
+  \mathbf{E}_p\, f 
+% \left( \sum_{n \in \mathbb{N}} f(n)\, . \, p(n) \right)
+\right) 
+ : \; \mathcal{S}\mathcal{V}_{\leq 1}\, \mathbb{N} \;  \to \; D' \enspace .
+\]
+It is shown in  \cite{KeimelP2016} that $\Lambda$  is a continuous $\Sigma_\prnd$-algebra homomorphism, and also an order embedding (i.e., $\Lambda(A) \leq \Lambda(B)$ implies $A \supseteq B$). 
+%(Furthermore, the image of $\Lambda$ can be characterised as exactly the \emph{superlinear strongly non-expansive} functionals.) 
+By the uniqueness property of Proposition~\ref{proposition:free}, it thus holds that $\Lambda \circ \Sem{\cdot}_\prdem = \Sem{\cdot}'_\prdem$. We therefore have
+\[
+t \Basicleq^\Op_\prdem t' ~~ \Leftrightarrow ~ ~
+  \Sem{t}'_\prdem \leq \Sem{t'}'_\prdem 
+   ~~ \Leftrightarrow ~ ~
+   \Sem{t}_\prdem \leq \Sem{t'}_\prdem 
+      ~ ~\Leftrightarrow ~ ~
+  t \Basicleq^\Den_\prdem t' \enspace ,
+   \]
+where the middle equivalence holds because $\Lambda$ is an order embedding.
+\end{proof}
+
+\begin{lemma}
+\label{lemma:completeness}
+${\Basicleq^\Den_\prdem} \, \subseteq \, \, \Basicleq^\Ax_\prdem\,$.
+\end{lemma}
+\begin{proof}
+The proof proceeds in three steps.
+    \begin{enumerate}
+        \item Prove that both preorders coincide 
+            on \emph{probability trees} (i.e., trees without $\orEff$ nodes).
+        \item Prove the inclusion of preorders for
+             trees with a \emph{finite} number 
+            of $\orEff$ nodes.
+        \item Use finite approximations and admissibility
+            to conclude the general case.
+    \end{enumerate}
+
+We omit discussion of the first step, which  is comparatively straightforward, cf.~\cite{heckmann}.
+
+For step 2, suppose $t \Basicleq^\Den_\prdem t'$ where $t,t'$ are 
+trees with finitely many $\orEff$ nodes. For each of $t, t'$, we use the distributivity axiom to rewrite the tree
+          as an $\orEff$-combination of finitely many (possibly infinite) {probability trees}. We then establish the following.
+    \begin{enumerate}[(a)]
+         \item 
+            If for every 
+            probability
+            tree $t_i'$ in $t'$ there exists 
+            a corresponding tree $t_i$ in $t$ 
+            such that $t_i \Basicleq^\Den_\prdem t_i'$,
+            then we have that $t \Basicleq^\Ax_\prdem t'$, using the $\texttt{Dem}$ axiom, and  step 1 above.
+
+        \item 
+            %If $t_i$ and $t_j$ are two  of the probability trees of $t$,
+            The tree $t$ is equivalent  in both preorders  to 
+            $t \orEff k$, where $k = \lambda_1t_1+ \dots + \lambda_n t_n$
+            is any tree representing a convex combination of the probability trees of $t$.
+            The tree $k$ is defined  using infinite combinations of $\prEff$ nodes to assign the correct weight to each $t_i$.
+    
+        \item Making direct use of the definition of $\mathcal{S}\mathcal{V}_{\leq 1}\, \mathbb{N}$, it follows from $t \Basicleq^\Den_\prdem t'$ that, for every
+            probability tree   $t_i'$ of $t'$,
+            there is a convex combination
+            $k_i := \lambda_1t_1+ \dots + \lambda_n t_n$
+            of probability trees of $t$,
+                        such that $k_i \Basicleq^\Den_\prdem t_i'$.
+
+
+  
+      \end{enumerate}
+To complete the argument for step 2, the  tree $t'$ has the form $t'_1 \orEff \dots \orEff t'_m$. By (c), there exist corresponding  $k_1, \dots, k_m$. By (b), $t$ is equivalent to
+$t \orEff k_1 \orEff \dots \orEff k_m$. It now follows from (a) that $t \Basicleq^\Ax_\prdem t'$,
+by the property of the $k_j$ given by (c).
+
+
+For step 3, suppose 
+$t \Basicleq^\Den_\prdem t'$, where $t,t'$ are arbitrary.
+Take approximating sequences  $t = \bigsqcup_i t_i$ and $t' = \bigsqcup_i t_i'$,
+    where both ascending sequences are composed of {finite} trees.
+
+We use Definition~\ref{def:probaApproxConstruct} to further restrict the approximations of $t$.
+Using the finiteness of $t_i$,
+we have $\Sem{\Iter{t_i}{n}}_\prdem \ll \Sem{t_i}_\prdem$ in the way-below relation 
+on $\mathcal{S}\mathcal{V}_{\leq 1} \mathbb{N}$, via the explicit characterisation of this relation in~\cite{KeimelP2016}. Also, $(\Iter{t_i}{i})$ is an ascending sequence 
+of finite trees with $\bigsqcup_i \Iter{t_i}{i} = \Iter{t}{\infty}$
+% $ \simeq_\prdem t$.
+
+%So $(\Sem{\Iter{t_i}{i}}_\prdem)$ is an ascending sequence in 
+%$\mathcal{S}\mathcal{V}_{\leq 1} \mathbb{N}$ with 
+For every $i$, we have 
+$\Sem{\Iter{t_i}{i}}_\prdem \ll  \Sem{t_i}_\prdem \leq \Sem{t}_\prdem \leq \Sem{t'}_\prdem$. That is $\Sem{\Iter{t_i}{i}}_\prdem \ll  \Sem{t'}_\prdem$. 
+Since $\Sem{t'}_\prdem = \bigsqcup \Sem{t_i'}_\prdem$, it follows from the way-below property that, for every $i$, 
+$\Sem{\Iter{t_i}{i}}_\prdem \leq \Sem{t'_{j_i}}_\prdem$ for some $j_i$, where the sequence
+ $(j_i)$ can be assumed strictly ascending.
+So, by step 2 above, 
+$\Iter{t_i}{i} \Basicleq^\Ax_\prdem t'_{j_i}$, for every $i$.
+Whence by admissibility, 
+$\bigsqcup_i \Iter{t_i}{i} \Basicleq^\Ax_\prdem  \bigsqcup_i t'_{j_i}$; i.e.,
+$\Iter{t}{\infty}  \Basicleq^\Ax_\prdem  t'$. 
+Thus $t \Basicleq^\Ax_\prdem  t'$, by Proposition~\ref{proposition:horn}.
+ \end{proof}
+
 
 
 \section{Related and future work}
@@ -358,31 +1239,6 @@ It is an open question how to incorporate such more general preorders into our t
 %% Please use bibtex, 
 
 \bibliography{bibliographie}
-
-%\newpage
-
-%\appendix
-
-%\input{csl-parts/pcf}
-
-%\input{csl-parts/rewriting}
-
-%\input{csl-parts/contextual}
-
-%\input{csl-parts/logical}
-
-
-
-%\input{csl-parts/domains}
-
-%\input{csl-parts/free}
-
-%\input{csl-parts/mixed}
-
-%\input{csl-parts/conclusion}
-
-%\input{csl-parts/appendix}
-
 
 
 \end{document}
